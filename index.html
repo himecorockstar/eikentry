@@ -1,10 +1,10 @@
-<!-- ver00001: えーけんいっきゅーとらい -->
+<!-- ver00002: えーけんいっきゅーとらい -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>えーけんいっきゅーとらい ver00001</title>
+  <title>えーけんいっきゅーとらい ver00002</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
     body {
@@ -71,31 +71,30 @@
       align-items: center;
       justify-content: space-between;
       z-index: 100;
-      padding: 12px 14px 10px 14px;
+      padding: 10px 14px 10px 14px;
       color: #333;
       overflow: hidden;
     }
 
-    /* 背景装飾（星・英語モチーフ） */
     .bg-deco-star {
       position: absolute;
-      top: 10px;
+      top: 8px;
       left: 14px;
-      font-size: 36px;
+      font-size: 34px;
       animation: floatSlow 3s ease-in-out infinite alternate;
     }
     .bg-deco-book {
       position: absolute;
-      bottom: 72px;
+      bottom: 68px;
       left: 12px;
-      font-size: 36px;
+      font-size: 34px;
       animation: bounceSlow 2.5s ease-in-out infinite alternate;
     }
     .bg-deco-crown {
       position: absolute;
-      bottom: 72px;
+      bottom: 68px;
       right: 14px;
-      font-size: 34px;
+      font-size: 32px;
       animation: floatSlow 2.8s ease-in-out infinite alternate;
     }
     @keyframes floatSlow {
@@ -107,12 +106,11 @@
       100% { transform: scale(1.06) rotate(-4deg); }
     }
 
-    /* 虹のアーチ（SVG） */
     .rainbow-svg {
       position: absolute;
-      top: 40px;
+      top: 36px;
       width: 110%;
-      height: 120px;
+      height: 110px;
       z-index: 1;
       opacity: 0.85;
       pointer-events: none;
@@ -127,25 +125,25 @@
       margin-top: 2px;
     }
     .title-helper {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       color: #db2777;
       background: rgba(255,255,255,0.9);
-      padding: 2px 14px;
+      padding: 1px 12px;
       border-radius: 10px;
       border: 2px solid #f472b6;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .cover-title-badge {
       background: white;
       border: 4px solid #f472b6;
-      border-radius: 20px;
-      padding: 6px 20px;
-      box-shadow: 0 5px 0 #db2777, 0 8px 16px rgba(219,39,119,0.15);
+      border-radius: 18px;
+      padding: 4px 18px;
+      box-shadow: 0 4px 0 #db2777, 0 8px 16px rgba(219,39,119,0.15);
       text-align: center;
     }
     .cover-title {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 900;
       line-height: 1.2;
       letter-spacing: 1px;
@@ -160,10 +158,10 @@
       font-size: 11px;
       font-weight: bold;
       color: #9d174d;
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
-    /* 中央の女の子フレームエリア */
+    /* 中央の himekoro さんフレームエリア */
     .hero-center {
       position: relative;
       z-index: 2;
@@ -172,13 +170,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 3px;
     }
     .girl-frame {
-      width: 130px;
-      height: 130px;
+      width: 125px;
+      height: 125px;
       border-radius: 50%;
-      border: 5px solid #ffffff;
+      border: 4px solid #ffffff;
       box-shadow: 0 6px 14px rgba(219,39,119,0.2), 0 0 0 4px #f472b6;
       overflow: hidden;
       background: #fdf2f8;
@@ -195,7 +193,7 @@
       display: flex;
       justify-content: center;
       gap: 12px;
-      font-size: 22px;
+      font-size: 20px;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
     }
 
@@ -211,14 +209,14 @@
       gap: 6px;
     }
     .diff-ribbon {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       color: #9d174d;
       background: white;
-      border: 3px solid #f472b6;
-      padding: 3px 16px;
-      border-radius: 18px;
-      box-shadow: 0 3px 0 #fbcfe8;
+      border: 2px solid #f472b6;
+      padding: 2px 14px;
+      border-radius: 16px;
+      box-shadow: 0 2px 0 #fbcfe8;
     }
     .diff-grid {
       display: grid;
@@ -228,18 +226,29 @@
     }
     .diff-btn {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      height: 48px;
-      font-size: 16px;
-      font-weight: 900;
+      height: 54px;
+      padding: 4px 6px;
       border-radius: 14px;
       cursor: pointer;
       border: 3px solid #fff;
       color: white;
       transition: all 0.15s;
     }
+    .diff-btn .btn-main-txt {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .diff-btn .btn-sub-txt {
+      font-size: 11px;
+      font-weight: 800;
+      opacity: 0.95;
+      margin-top: 2px;
+    }
+
     .diff-l1 {
       background: linear-gradient(180deg, #4ade80, #16a34a);
       box-shadow: 0 4px 0 #15803d;
@@ -272,14 +281,14 @@
       z-index: 2;
       background: linear-gradient(180deg, #fb7185, #e11d48);
       color: white;
-      font-size: 42px;
+      font-size: 38px;
       font-weight: 900;
       width: 100%;
-      max-width: 270px;
-      height: 64px;
-      border-radius: 32px;
-      border: 5px solid #ffffff;
-      box-shadow: 0 7px 0 #9f1239, 0 10px 18px rgba(225,29,72,0.3);
+      max-width: 260px;
+      height: 58px;
+      border-radius: 29px;
+      border: 4px solid #ffffff;
+      box-shadow: 0 6px 0 #9f1239, 0 10px 16px rgba(225,29,72,0.3);
       cursor: pointer;
       opacity: 0.5;
       pointer-events: none;
@@ -310,10 +319,10 @@
       color: #475569;
       background: rgba(255,255,255,0.9);
       border: 1.5px solid #cbd5e1;
-      padding: 4px 12px;
+      padding: 3px 12px;
       border-radius: 12px;
       text-align: center;
-      line-height: 1.4;
+      line-height: 1.3;
     }
     .instruction .black-dots {
       color: #0f172a;
@@ -449,12 +458,12 @@
     <div class="bg-deco-book">📖</div>
     <div class="bg-deco-crown">👑</div>
 
-    <svg class="rainbow-svg" viewBox="0 0 400 120" fill="none">
-      <path d="M 20 120 A 180 100 0 0 1 380 120" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 28 120 A 172 92 0 0 1 372 120" stroke="#fb923c" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 36 120 A 164 84 0 0 1 364 120" stroke="#facc15" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 44 120 A 156 76 0 0 1 356 120" stroke="#4ade80" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 52 120 A 148 68 0 0 1 348 120" stroke="#38bdf8" stroke-width="8" stroke-linecap="round"/>
+    <svg class="rainbow-svg" viewBox="0 0 400 110" fill="none">
+      <path d="M 20 110 A 180 90 0 0 1 380 110" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 28 110 A 172 82 0 0 1 372 110" stroke="#fb923c" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 36 110 A 164 74 0 0 1 364 110" stroke="#facc15" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 44 110 A 156 66 0 0 1 356 110" stroke="#4ade80" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 52 110 A 148 58 0 0 1 348 110" stroke="#38bdf8" stroke-width="8" stroke-linecap="round"/>
     </svg>
 
     <div class="title-area">
@@ -466,29 +475,42 @@
           <span class="c5">と</span><span class="c1">ら</span><span class="c2">い</span>
         </h1>
       </div>
-      <div class="version-tag">ver00001</div>
+      <div class="version-tag">ver00002</div>
     </div>
 
-    <!-- 女の子フレーム -->
+    <!-- himekoro さん写真フレーム -->
     <div class="hero-center">
       <div class="icons-row">
         <span>🅰️</span><span>🎓</span><span>🇬🇧</span><span>🇺🇸</span><span>🅱️</span>
       </div>
       <div class="girl-frame">
-        <img src="girl.jpg" alt="キャラクター" class="girl-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'.9em\' font-size=\'90\'>👧</text></svg>'">
+        <img src="himekoro.jpg" alt="himekoro" class="girl-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'.9em\' font-size=\'90\'>👩</text></svg>'">
       </div>
       <div class="icons-row">
         <span>📚</span><span>✒️</span><span>🏆</span><span>💡</span><span>🎯</span>
       </div>
     </div>
 
+    <!-- 2行表記の4コース選択ボタン -->
     <div class="diff-box">
       <div class="diff-ribbon">コースを えらんでね</div>
       <div class="diff-grid">
-        <button class="diff-btn diff-l1" onclick="selectDifficulty('level1', this)">ランクA ☀️</button>
-        <button class="diff-btn diff-l2" onclick="selectDifficulty('level2', this)">ランクB ☁️</button>
-        <button class="diff-btn diff-l3" onclick="selectDifficulty('level3', this)">ランクC 🌋</button>
-        <button class="diff-btn diff-l4" onclick="selectDifficulty('level4', this)">じゅくご ⚡️</button>
+        <button class="diff-btn diff-l1" onclick="selectDifficulty('level1', this)">
+          <span class="btn-main-txt">ランクA ☀️</span>
+          <span class="btn-sub-txt">（最頻出）350語</span>
+        </button>
+        <button class="diff-btn diff-l2" onclick="selectDifficulty('level2', this)">
+          <span class="btn-main-txt">ランクB ☁️</span>
+          <span class="btn-sub-txt">（重要難語）350語</span>
+        </button>
+        <button class="diff-btn diff-l3" onclick="selectDifficulty('level3', this)">
+          <span class="btn-main-txt">ランクC 🌋</span>
+          <span class="btn-sub-txt">（超難関語）300語</span>
+        </button>
+        <button class="diff-btn diff-l4" onclick="selectDifficulty('level4', this)">
+          <span class="btn-main-txt">じゅくご ⚡️</span>
+          <span class="btn-sub-txt">（重要句動詞）200語</span>
+        </button>
       </div>
     </div>
 
@@ -520,7 +542,6 @@ if (navigator.userAgent.indexOf('LINE') !== -1) {
   document.getElementById('line-notice').style.display = 'block';
 }
 
-// 英検1級 サンプル単語・熟語データ
 const allWords = [
   // ランクA (最頻出)
   { word: "bolster", phonetic: "/bóʊlstɚ/", meaning: "〜を強化する・支援する", level: 1 },
@@ -529,21 +550,21 @@ const allWords = [
   { word: "lucrative", phonetic: "/ˈluː.krə.tɪv/", meaning: "利益の上がる・儲かる", level: 1 },
   { word: "mitigate", phonetic: "/ˈmɪt̬.ə.ɡeɪt/", meaning: "〜を和らげる・軽減する", level: 1 },
 
-  // ランクB (重要)
+  // ランクB (重要難語)
   { word: "ephemeral", phonetic: "/ɪˈfem.ɚ.əl/", meaning: "つかの間の・はかない", level: 2 },
   { word: "garrulous", phonetic: "/ˈɡær.əl.əs/", meaning: "おしゃべりな・多弁な", level: 2 },
   { word: "discombobulate", phonetic: "/ˌdɪs.kəmˈbɑː.bjə.leɪt/", meaning: "〜を混乱させる・当惑させる", level: 2 },
   { word: "meticulous", phonetic: "/məˈtɪk.jə.ləs/", meaning: "極めて細やかな・綿密な", level: 2 },
   { word: "ubiquitous", phonetic: "/juːˈbɪk.wə.t̬əs/", meaning: "至る所にある・遍在する", level: 2 },
 
-  // ランクC (超難関)
+  // ランクC (超難関語)
   { word: "intransigent", phonetic: "/ɪnˈtræn.sə.dʒənt/", meaning: "妥協しない・頑固な", level: 3 },
   { word: "pusillanimous", phonetic: "/ˌpjuː.səˈlæn.ə.məs/", meaning: "臆病な・小心な", level: 3 },
   { word: "quagmire", phonetic: "/ˈkwæɡ.maɪ.ɚ/", meaning: "泥沼・苦境・窮地", level: 3 },
   { word: "obsequious", phonetic: "/əbˈsiː.kwi.əs/", meaning: "こびへつらう・卑屈な", level: 3 },
   { word: "sycophant", phonetic: "/ˈsɪk.ə.fænt/", meaning: "へつらい者・おべっか使い", level: 3 },
 
-  // 熟語・句動詞
+  // じゅくご (重要句動詞)
   { word: "peter out", phonetic: "/ˈpiː.t̬ɚ aʊt/", meaning: "次第に衰退する・消滅する", level: 4 },
   { word: "chalk up to", phonetic: "/tʃɑːk ʌp tuː/", meaning: "〜のせいにする・〜の結果とみなす", level: 4 },
   { word: "gloss over", phonetic: "/ɡlɑːs ˈoʊ.vɚ/", meaning: "〜をごまかす・体裁をつくろう", level: 4 },
@@ -724,7 +745,6 @@ function nextQuestion() {
   phoneticText.innerText = targetWordObj.phonetic;
   meaningText.innerText = meaningContent.meaning;
 
-  // 英単語の発音（英語ネイティブ音声 en-US）
   speakEnglish(targetWordObj.word);
 }
 
