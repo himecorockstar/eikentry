@@ -1,10 +1,10 @@
-<!-- ver00009: えーけんいっきゅーとらい -->
+<!-- ver00010: えーけんいっきゅーとらい (2400語対応版) -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>えーけんいっきゅーとらい ver00009</title>
+  <title>えーけんいっきゅーとらい ver00010</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
     body {
@@ -476,7 +476,7 @@
           <span class="c5">と</span><span class="c1">ら</span><span class="c2">い</span>
         </h1>
       </div>
-      <div class="version-tag">ver00009</div>
+      <div class="version-tag">ver00010</div>
     </div>
 
     <!-- himekoro さん写真フレーム (hime30.jpg) -->
@@ -538,149 +538,20 @@
   </div>
 </div>
 
+<!-- 外部データファイル words.js を読み込み -->
+<script src="words.js"></script>
+
 <script>
 if (navigator.userAgent.indexOf('LINE') !== -1) {
   document.getElementById('line-notice').style.display = 'block';
 }
 
-const allWords = [
-  // ================= ランクA（最頻出） =================
-  { word: "bolster", phonetic: "/bóʊlstɚ/", meaning: "〜を強化する・支援する", level: 1 },
-  { word: "aberration", phonetic: "/ˌæb.əˈreɪ.ʃən/", meaning: "逸脱・変異・常軌を逸すること", level: 1 },
-  { word: "covert", phonetic: "/ˈkoʊ.vɚt/", meaning: "秘密の・隠された", level: 1 },
-  { word: "lucrative", phonetic: "/ˈluː.krə.tɪv/", meaning: "利益の上がる・儲かる", level: 1 },
-  { word: "mitigate", phonetic: "/ˈmɪt̬.ə.ɡeɪt/", meaning: "〜を和らげる・軽減する", level: 1 },
-  { word: "alleviate", phonetic: "/əˈliː.vi.eɪt/", meaning: "〜を軽減する・緩和する", level: 1 },
-  { word: "augment", phonetic: "/ɑːɡˈment/", meaning: "〜を増加させる・増強する", level: 1 },
-  { word: "coerce", phonetic: "/koʊˈɝːs/", meaning: "〜を強制する・強要する", level: 1 },
-  { word: "condone", phonetic: "/kənˈdoʊn/", meaning: "〜を黙認する・許す", level: 1 },
-  { word: "curtail", phonetic: "/kɚːˈteɪl/", meaning: "〜を削減する・短縮する", level: 1 },
-  { word: "debunk", phonetic: "/diːˈbʌŋk/", meaning: "〜の誤りを暴く・証明する", level: 1 },
-  { word: "dismantle", phonetic: "/dɪsˈmæn.təl/", meaning: "〜を解体する・分解する", level: 1 },
-  { word: "elicit", phonetic: "/iˈlɪs.ɪt/", meaning: "〜を引き出す・喚起する", level: 1 },
-  { word: "embellish", phonetic: "/ɪmˈbel.ɪʃ/", meaning: "〜を飾る・脚色する", level: 1 },
-  { word: "exacerbate", phonetic: "/ɪɡˈzæs.ɚ.beɪt/", meaning: "〜を悪化させる・激化させる", level: 1 },
-  { word: "exemplify", phonetic: "/ɪɡˈzem.plə.faɪ/", meaning: "〜の好例となる・例証する", level: 1 },
-  { word: "feign", phonetic: "/feɪn/", meaning: "〜のふりをする・装う", level: 1 },
-  { word: "foster", phonetic: "/ˈfɑː.stɚ/", meaning: "〜を促進する・育成する", level: 1 },
-  { word: "garner", phonetic: "/ˈɡɑːr.nɚ/", meaning: "〜を得る・集める", level: 1 },
-  { word: "impair", phonetic: "/ɪmˈper/", meaning: "〜を損なう・減退させる", level: 1 },
-  { word: "induce", phonetic: "/ɪnˈduːs/", meaning: "〜を誘発する・引き起こす", level: 1 },
-  { word: "instigate", phonetic: "/ˈɪn.stə.ɡeɪt/", meaning: "〜をそそのかす・扇動する", level: 1 },
-  { word: "jeopardize", phonetic: "/ˈdʒep.ɚ.daɪz/", meaning: "〜を危険にさらす", level: 1 },
-  { word: "mollify", phonetic: "/ˈmɑː.lə.faɪ/", meaning: "〜をなだめる・和らげる", level: 1 },
-  { word: "nullify", phonetic: "/ˈnʌl.ə.faɪ/", meaning: "〜を無効にする・破棄する", level: 1 },
-  { word: "placate", phonetic: "/ˈpleɪ.keɪt/", meaning: "〜をなだめる・懐柔する", level: 1 },
-  { word: "quell", phonetic: "/kwel/", meaning: "〜を鎮圧する・抑える", level: 1 },
-  { word: "refute", phonetic: "/rɪˈfjuːt/", meaning: "〜を論破する・反論する", level: 1 },
-  { word: "relinquish", phonetic: "/rɪˈlɪŋ.kwɪʃ/", meaning: "〜を手放す・放棄する", level: 1 },
-  { word: "repudiate", phonetic: "/rɪˈpjuː.di.eɪt/", meaning: "〜を拒絶する・否定する", level: 1 },
-  { word: "scrutinize", phonetic: "/ˈskruː.t̬ən.aɪz/", meaning: "〜を綿密に調べる・監視する", level: 1 },
-  { word: "subsidize", phonetic: "/ˈsʌb.sə.daɪz/", meaning: "〜に補助金を出す", level: 1 },
-  { word: "supplant", phonetic: "/səˈplænt/", meaning: "〜にとって代わる・取って代わる", level: 1 },
-  { word: "vindicate", phonetic: "/ˈvɪn.də.keɪt/", meaning: "〜の正当性を証明する", level: 1 },
-  { word: "waive", phonetic: "/weɪv/", meaning: "〜（権利等）を放棄する・免除する", level: 1 },
-  { word: "acquiesce", phonetic: "/ˌæk.wiˈes/", meaning: "黙認する・しぶしぶ従う", level: 1 },
-  { word: "admonish", phonetic: "/ədˈmɑː.nɪʃ/", meaning: "〜をたしなめる・警告する", level: 1 },
-  { word: "advocate", phonetic: "/ˈæd.və.keɪt/", meaning: "〜を主張する・支持する", level: 1 },
-  { word: "affiliate", phonetic: "/əˈfɪl.i.eɪt/", meaning: "〜を提携させる・加入させる", level: 1 },
-  { word: "amalgamate", phonetic: "/əˈmæl.ɡə.meɪt/", meaning: "〜を合併する・統合する", level: 1 },
-  { word: "annihilate", phonetic: "/əˈnaɪ.ə.leɪt/", meaning: "〜を全滅させる・全廃する", level: 1 },
-  { word: "apprehend", phonetic: "/ˌæp.rəˈhend/", meaning: "〜を逮捕する・理解する", level: 1 },
-  { word: "articulate", phonetic: "/ɑːrˈtɪk.jə.leɪt/", meaning: "〜を明確に表現する", level: 1 },
+// words.js が読み込まれていない場合のフォールバック初期配列
+if (typeof allWords === 'undefined') {
+  window.allWords = [];
+}
 
-  // ================= ランクB（重要難語） =================
-  { word: "ephemeral", phonetic: "/ɪˈfem.ɚ.əl/", meaning: "つかの間の・はかない", level: 2 },
-  { word: "garrulous", phonetic: "/ˈɡær.əl.əs/", meaning: "おしゃべりな・多弁な", level: 2 },
-  { word: "discombobulate", phonetic: "/ˌdɪs.kəmˈbɑː.bjə.leɪt/", meaning: "〜を混乱させる・当惑させる", level: 2 },
-  { word: "meticulous", phonetic: "/məˈtɪk.jə.ləs/", meaning: "極めて細やかな・綿密な", level: 2 },
-  { word: "ubiquitous", phonetic: "/juːˈbɪk.wə.t̬əs/", meaning: "至る所にある・遍在する", level: 2 },
-  { word: "audacious", phonetic: "/ɑːˈdeɪ.ʃəs/", meaning: "大胆不敵な・厚かましい", level: 2 },
-  { word: "capricious", phonetic: "/kəˈprɪʃ.əs/", meaning: "気まぐれな・移り気な", level: 2 },
-  { word: "cumbersome", phonetic: "/ˈkʌm.bɚ.səm/", meaning: "扱いづらい・厄介な", level: 2 },
-  { word: "deleterious", phonetic: "/ˌdel.əˈtɪr.i.əs/", meaning: "有害な・悪影響を及ぼす", level: 2 },
-  { word: "fastidious", phonetic: "/fæˈstɪd.i.əs/", meaning: "偏屈な・こだわりが強い", level: 2 },
-  { word: "gregarious", phonetic: "/ɡrɪˈɡer.i.əs/", meaning: "社交的な・群れる", level: 2 },
-  { word: "impeccable", phonetic: "/ɪmˈpek.ə.bəl/", meaning: "完璧な・非の打ち所がない", level: 2 },
-  { word: "indefatigable", phonetic: "/ˌɪn.dɪˈfæt̬.ɪ.ɡə.bəl/", meaning: "不撓不屈の・疲れを知らない", level: 2 },
-  { word: "innocuous", phonetic: "/ɪˈnɑː.kju.əs/", meaning: "無害な・障りのない", level: 2 },
-  { word: "loquacious", phonetic: "/loʊˈkweɪ.ʃəs/", meaning: "多弁な・話し好きな", level: 2 },
-  { word: "ostentatious", phonetic: "/ˌɑː.stənˈteɪ.ʃəs/", meaning: "見え張りな・派手な", level: 2 },
-  { word: "precarious", phonetic: "/prɪˈker.i.əs/", meaning: "不安定な・危険な", level: 2 },
-  { word: "redundant", phonetic: "/rɪˈdʌn.dənt/", meaning: "余分な・過剰な", level: 2 },
-  { word: "scrupulous", phonetic: "/ˈskruː.pjə.ləs/", meaning: "良心的な・きちょうめんな", level: 2 },
-  { word: "taciturn", phonetic: "/ˈtæs.ə.tɝːn/", meaning: "無口な・寡黙な", level: 2 },
-  { word: "tenacious", phonetic: "/təˈneɪ.ʃəs/", meaning: "粘り強い・執拗な", level: 2 },
-  { word: "voracious", phonetic: "/vəˈreɪ.ʃəs/", meaning: "貪欲な・大食いの", level: 2 },
-  { word: "altruistic", phonetic: "/ˌæl.truˈɪs.tɪk/", meaning: "利他的な・愛心のある", level: 2 },
-  { word: "ambiguous", phonetic: "/æmˈbɪɡ.ju.əs/", meaning: "曖昧な・多義の", level: 2 },
-  { word: "benevolent", phonetic: "/bəˈnev.əl.ənt/", meaning: "慈悲深い・善意のある", level: 2 },
-  { word: "candid", phonetic: "/ˈkæn.dɪd/", meaning: "率直な・公平な", level: 2 },
-  { word: "cogent", phonetic: "/ˈkoʊ.dʒənt/", meaning: "説得力のある・適確な", level: 2 },
-  { word: "conspicuous", phonetic: "/kənˈspɪk.ju.əs/", meaning: "目立つ・顕著な", level: 2 },
-  { word: "dubious", phonetic: "/ˈduː.bi.əs/", meaning: "疑わしい・あやふやな", level: 2 },
-  { word: "eccentric", phonetic: "/ɪkˈsen.trɪk/", meaning: "風変わりな・奇妙な", level: 2 },
-  { word: "eloquent", phonetic: "/ˈel.ə.kwənt/", meaning: "雄弁な・表現豊かな", level: 2 },
-  { word: "equivocal", phonetic: "/ɪˈkwɪv.ə.kəl/", meaning: "紛らわしい・意図が曖昧な", level: 2 },
-  { word: "frugal", phonetic: "/ˈfruː.ɡəl/", meaning: "質素な・節約する", level: 2 },
-  { word: "inadvertent", phonetic: "/ˌɪn.ədˈvɝː.t̬ənt/", meaning: "不注意な・うっかりした", level: 2 },
-
-  // ================= ランクC（超難関語） =================
-  { word: "intransigent", phonetic: "/ɪnˈtræn.sə.dʒənt/", meaning: "妥協しない・頑固な", level: 3 },
-  { word: "pusillanimous", phonetic: "/ˌpjuː.səˈlæn.ə.məs/", meaning: "臆病な・小心な", level: 3 },
-  { word: "quagmire", phonetic: "/ˈkwæɡ.maɪ.ɚ/", meaning: "泥沼・苦境・窮地", level: 3 },
-  { word: "obsequious", phonetic: "/əbˈsiː.kwi.əs/", meaning: "こびへつらう・卑屈な", level: 3 },
-  { word: "sycophant", phonetic: "/ˈsɪk.ə.fænt/", meaning: "へつらい者・おべっか使い", level: 3 },
-  { word: "anachronism", phonetic: "/əˈnæk.rə.nɪz.əm/", meaning: "時代錯誤・時代遅れのもの", level: 3 },
-  { word: "belligerent", phonetic: "/bəˈlɪdʒ.ɚ.ənt/", meaning: "好戦的な・喧嘩腰の", level: 3 },
-  { word: "cacophony", phonetic: "/kəˈkɑː.fə.ni/", meaning: "不快な音・不協和音", level: 3 },
-  { word: "enigma", phonetic: "/əˈnɪɡ.mə/", meaning: "謎・不可解な人物", level: 3 },
-  { word: "hubris", phonetic: "/ˈhjuː.brɪs/", meaning: "傲慢・過剰な自信", level: 3 },
-  { word: "iconoclast", phonetic: "/aɪˈkɑː.nə.klæst/", meaning: "伝統破壊者・異端児", level: 3 },
-  { word: "insidious", phonetic: "/ɪnˈsɪd.i.əs/", meaning: "陰険な・油断のならない", level: 3 },
-  { word: "juxtapose", phonetic: "/ˌdʒʌk.stəˈpoʊz/", meaning: "〜を並置する・対比させる", level: 3 },
-  { word: "lethargic", phonetic: "/ləˈθɑːr.dʒɪk/", meaning: "無気力な・だるい", level: 3 },
-  { word: "magnanimous", phonetic: "/mæɡˈnæn.ə.məs/", meaning: "寛大な・度量の大きい", level: 3 },
-  { word: "nefarious", phonetic: "/nəˈfer.i.əs/", meaning: "邪悪な・極悪な", level: 3 },
-  { word: "panacea", phonetic: "/ˌpæn.əˈsiː.ə/", meaning: "万能薬・万能の解決策", level: 3 },
-  { word: "recondite", phonetic: "/ˈrek.ən.daɪt/", meaning: "難解な・奥深い", level: 3 },
-  { word: "sanguine", phonetic: "/ˈsæŋ.ɡwɪn/", meaning: "楽観的な・自信に満ちた", level: 3 },
-  { word: "abstruse", phonetic: "/æbˈstruːs/", meaning: "難解な・難奥な", level: 3 },
-  { word: "acrimonious", phonetic: "/ˌæk.rəˈmoʊ.ni.əs/", meaning: "トゲトゲしい・辛辣な", level: 3 },
-  { word: "apocryphal", phonetic: "/əˈpɑː.krə.fəl/", meaning: "出所が怪しい・偽の", level: 3 },
-  { word: "burgeon", phonetic: "/ˈbɝː.dʒən/", meaning: "急成長する・芽吹く", level: 3 },
-  { word: "chicanery", phonetic: "/ʃɪˈkeɪ.nɚ.i/", meaning: "ごまかし・詭弁・詐術", level: 3 },
-  { word: "desiccate", phonetic: "/ˈdes.ə.keɪt/", meaning: "〜を乾燥させる・カラカラにする", level: 3 },
-  { word: "egregious", phonetic: "/ɪˈɡriː.dʒəs/", meaning: "とんでもない・酷い", level: 3 },
-  { word: "esoteric", phonetic: "/ˌes.əˈter.ɪk/", meaning: "秘教的な・難解な", level: 3 },
-
-  // ================= 熟語（重要句動詞） =================
-  { word: "peter out", phonetic: "/ˈpiː.t̬ɚ aʊt/", meaning: "次第に衰退する・消滅する", level: 4 },
-  { word: "chalk up to", phonetic: "/tʃɑːk ʌp tuː/", meaning: "〜のせいにする・〜の結果とみなす", level: 4 },
-  { word: "gloss over", phonetic: "/ɡlɑːs ˈoʊ.vɚ/", meaning: "〜をごまかす・体裁をつくろう", level: 4 },
-  { word: "shore up", phonetic: "/ʃɔːr ʌp/", meaning: "〜を強化する・支える", level: 4 },
-  { word: "single out", phonetic: "/ˈsɪŋ.ɡəl aʊt/", meaning: "〜を選び出す・名指しする", level: 4 },
-  { word: "bail out", phonetic: "/beɪl aʊt/", meaning: "〜（企業等）を救済する", level: 4 },
-  { word: "crack down on", phonetic: "/kræk daʊn ɑːn/", meaning: "〜を厳重に取締る", level: 4 },
-  { word: "fumble for", phonetic: "/ˈfʌm.bəl fɚ/", meaning: "〜を探り求める", level: 4 },
-  { word: "iron out", phonetic: "/ˈaɪ.ɚn aʊt/", meaning: "〜（問題等）を解決する", level: 4 },
-  { word: "muddle through", phonetic: "/ˈmʌd.əl θruː/", meaning: "なんとか切り抜ける", level: 4 },
-  { word: "phase out", phonetic: "/feɪz aʊt/", meaning: "〜を段階的に廃止する", level: 4 },
-  { word: "rule out", phonetic: "/ruːl aʊt/", meaning: "〜を除外する・排除する", level: 4 },
-  { word: "stem from", phonetic: "/stem frɑːm/", meaning: "〜に起因する・〜から生じる", level: 4 },
-  { word: "tamper with", phonetic: "/ˈtæm.pɚ wɪð/", meaning: "〜を改ざんする・いじる", level: 4 },
-  { word: "wipe out", phonetic: "/waɪp aʊt/", meaning: "〜を全滅させる・消滅させる", level: 4 },
-  { word: "brush off", phonetic: "/brʌʃ ɑːf/", meaning: "〜を退ける・無視する", level: 4 },
-  { word: "clamp down on", phonetic: "/klæmp daʊn ɑːn/", meaning: "〜を圧迫・取り締まる", level: 4 },
-  { word: "fritter away", phonetic: "/ˈfrɪt.ɚ əˈweɪ/", meaning: "〜を無駄使いする・浪費する", level: 4 },
-  { word: "mull over", phonetic: "/mʌl ˈoʊ.vɚ/", meaning: "〜熟考する・じっくり考える", level: 4 },
-  { word: "opt out of", phonetic: "/ɑːpt aʊt ʌv/", meaning: "〜から脱退する・身を引く", level: 4 },
-  { word: "rope into", phonetic: "/roʊp ˈɪn.tuː/", meaning: "〜に巻き込む・無理に誘う", level: 4 },
-  { word: "skirt around", phonetic: "/skɝːt əˈraʊnd/", meaning: "〜（問題）を回避する・避ける", level: 4 },
-  { word: "taper off", phonetic: "/ˈteɪ.pɚ ɑːf/", meaning: "次第に減少する・先細る", level: 4 }
-];
-
-window.addEventListener('DOMContentLoaded', () => {
+function updateCounters() {
   const c1 = allWords.filter(w => w.level === 1).length;
   const c2 = allWords.filter(w => w.level === 2).length;
   const c3 = allWords.filter(w => w.level === 3).length;
@@ -690,7 +561,9 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cnt-l2').innerText = `（重要難語）${c2}語`;
   document.getElementById('cnt-l3').innerText = `（超難関語）${c3}語`;
   document.getElementById('cnt-l4').innerText = `（重要句動詞）${c4}語`;
-});
+}
+
+window.addEventListener('DOMContentLoaded', updateCounters);
 
 let selectedLevel = null;
 let currentWords = [];
@@ -777,7 +650,7 @@ function playSound(type) {
 }
 
 function startGame() {
-  if (!selectedLevel) return;
+  if (!selectedLevel || currentWords.length === 0) return;
   document.getElementById('start-screen').style.display = 'none';
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
