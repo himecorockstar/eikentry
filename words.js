@@ -1,10 +1,10 @@
-<!-- ver00012: えーけんいっきゅーとらい (厳選500語 完全内蔵版) -->
+<!-- ver00013: えーけんいっきゅーとらい (厳選500語・完全内蔵版) -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>えーけんいっきゅーとらい ver00012</title>
+  <title>えーけんいっきゅーとらい ver00013</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
     body {
@@ -470,7 +470,7 @@
           <span class="c5">と</span><span class="c1">ら</span><span class="c2">い</span>
         </h1>
       </div>
-      <div class="version-tag">ver00012</div>
+      <div class="version-tag">ver00013</div>
     </div>
 
     <!-- 中央の himekoro さん写真フレーム (hime30.jpg) -->
@@ -537,7 +537,7 @@ if (navigator.userAgent.indexOf('LINE') !== -1) {
   document.getElementById('line-notice').style.display = 'block';
 }
 
-// 厳選500語 完全内蔵マスターデータベース
+// 厳選500語 完全内蔵マスターデータベース (ver00013)
 const allWords = [
   // ==================== ランクA（超頻出コア: 200語） ====================
   { word: "bolster", phonetic: "/ˈboʊl.stɚ/", meaning: "〜を強化する・支援する", level: 1 },
@@ -827,7 +827,7 @@ const allWords = [
   { word: "devious", phonetic: "/ˈdiː.vi.əs/", meaning: "策略的な・曲がりくねった", level: 2 },
   { word: "diffident", phonetic: "/ˈdɪf.ə.dənt/", meaning: "内気な・自信のない", level: 2 },
   { word: "dilatory", phonetic: "/ˈdɪl.ə.tɔːr.i/", meaning: "遅い・ぐずぐずする", level: 2 },
-  { word: "disabuse", phonetic: "/ˌdɪs.əˈbjuːz/", meaning: "〜の迷いを解く・目を覚まさせる", level: 2 },
+  { word: "disabuse", phonetic: "/ˌdɪs.əˈbjuːz/", meaning: "〜の迷いを解く・目を覚ます", level: 2 },
   { word: "disconsolate", phonetic: "/dɪsˈkɑːn.sə.lət/", meaning: "憂鬱な・慰めようのない", level: 2 },
   { word: "disingenuous", phonetic: "/ˌdɪs.ɪnˈdʒen.ju.əs/", meaning: "不誠実な・下心のある", level: 2 },
   { word: "disparage", phonetic: "/dɪˈspær.ɪdʒ/", meaning: "〜をけなす・見くびる", level: 2 },
