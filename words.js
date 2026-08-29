@@ -1,7 +1,545 @@
-// ver00011: えーけんいっきゅーとらい 厳選500語マスターデータベース
-// ランクA (超頻出コア) 200語 / ランクB (重要難語) 150語 / ランクC (頻出超難関) 80語 / 熟語 70語
+<!-- ver00012: えーけんいっきゅーとらい (厳選500語 完全内蔵版) -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>えーけんいっきゅーとらい ver00012</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    body {
+      font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+      background: #fdf2f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    #app-container {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      max-height: 850px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(244,63,94,0.15);
+      border: 8px solid #f472b6;
+    }
+    header {
+      background: #db2777;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      z-index: 10;
+      height: 48px;
+    }
+    .btn-header-back {
+      background: #ffffff;
+      color: #db2777;
+      border: 2px solid #fbcfe8;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn-header-back:active {
+      transform: translateY(2px);
+    }
+
+    #start-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #fbcfe8 0%, #fdf2f8 40%, #fff1f2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      padding: 10px 14px 10px 14px;
+      color: #333;
+      overflow: hidden;
+    }
+
+    .bg-deco-star {
+      position: absolute;
+      top: 8px;
+      left: 14px;
+      font-size: 34px;
+      animation: floatSlow 3s ease-in-out infinite alternate;
+    }
+    .bg-deco-book {
+      position: absolute;
+      bottom: 68px;
+      left: 12px;
+      font-size: 34px;
+      animation: bounceSlow 2.5s ease-in-out infinite alternate;
+    }
+    .bg-deco-crown {
+      position: absolute;
+      bottom: 68px;
+      right: 14px;
+      font-size: 32px;
+      animation: floatSlow 2.8s ease-in-out infinite alternate;
+    }
+    @keyframes floatSlow {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-6px) rotate(6deg); }
+    }
+    @keyframes bounceSlow {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.06) rotate(-4deg); }
+    }
+
+    .rainbow-svg {
+      position: absolute;
+      top: 36px;
+      width: 110%;
+      height: 110px;
+      z-index: 1;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .title-area {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2px;
+    }
+    .title-helper {
+      font-size: 13px;
+      font-weight: 900;
+      color: #db2777;
+      background: rgba(255,255,255,0.9);
+      padding: 1px 12px;
+      border-radius: 10px;
+      border: 2px solid #f472b6;
+      margin-bottom: 2px;
+    }
+    .cover-title-badge {
+      background: white;
+      border: 4px solid #f472b6;
+      border-radius: 18px;
+      padding: 4px 18px;
+      box-shadow: 0 4px 0 #db2777, 0 8px 16px rgba(219,39,119,0.15);
+      text-align: center;
+    }
+    .cover-title {
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: 1px;
+    }
+    .cover-title .c1 { color: #e11d48; }
+    .cover-title .c2 { color: #f59e0b; }
+    .cover-title .c3 { color: #10b981; }
+    .cover-title .c4 { color: #3b82f6; }
+    .cover-title .c5 { color: #8b5cf6; }
+    
+    .version-tag {
+      font-size: 11px;
+      font-weight: bold;
+      color: #9d174d;
+      margin-top: 1px;
+    }
+
+    .hero-center {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+    .girl-frame {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      box-shadow: 0 6px 14px rgba(219,39,119,0.2), 0 0 0 4px #f472b6;
+      overflow: hidden;
+      background: #fdf2f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .girl-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .icons-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      font-size: 20px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+    }
+
+    .diff-box {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .diff-ribbon {
+      font-size: 13px;
+      font-weight: 900;
+      color: #9d174d;
+      background: white;
+      border: 2px solid #f472b6;
+      padding: 2px 14px;
+      border-radius: 16px;
+      box-shadow: 0 2px 0 #fbcfe8;
+    }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+    }
+    .diff-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 54px;
+      padding: 4px 6px;
+      border-radius: 14px;
+      cursor: pointer;
+      border: 3px solid #fff;
+      color: white;
+      transition: all 0.15s;
+    }
+    .diff-btn .btn-main-txt {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .diff-btn .btn-sub-txt {
+      font-size: 11px;
+      font-weight: 800;
+      opacity: 0.95;
+      margin-top: 2px;
+    }
+
+    .diff-l1 {
+      background: linear-gradient(180deg, #4ade80, #16a34a);
+      box-shadow: 0 4px 0 #15803d;
+    }
+    .diff-l2 {
+      background: linear-gradient(180deg, #38bdf8, #0284c7);
+      box-shadow: 0 4px 0 #0369a1;
+    }
+    .diff-l3 {
+      background: linear-gradient(180deg, #f87171, #dc2626);
+      box-shadow: 0 4px 0 #991b1b;
+    }
+    .diff-l4 {
+      background: linear-gradient(180deg, #fbbf24, #d97706);
+      box-shadow: 0 4px 0 #b45309;
+    }
+    .diff-btn.active {
+      transform: translateY(3px) scale(1.02);
+      filter: brightness(1.1);
+      outline: 3px solid #fff;
+    }
+    .diff-btn:not(:disabled):active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+
+    .btn-go {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(180deg, #fb7185, #e11d48);
+      color: white;
+      font-size: 38px;
+      font-weight: 900;
+      width: 100%;
+      max-width: 260px;
+      height: 58px;
+      border-radius: 29px;
+      border: 4px solid #ffffff;
+      box-shadow: 0 6px 0 #9f1239, 0 10px 16px rgba(225,29,72,0.3);
+      cursor: pointer;
+      opacity: 0.5;
+      pointer-events: none;
+      transition: all 0.15s;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .btn-go.ready {
+      opacity: 1;
+      pointer-events: auto;
+      animation: pulseBtn 1.8s infinite;
+    }
+    @keyframes pulseBtn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .btn-go:not(:disabled):active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 #9f1239;
+    }
+
+    .instruction {
+      position: relative;
+      z-index: 2;
+      font-size: 11px;
+      font-weight: bold;
+      color: #475569;
+      background: rgba(255,255,255,0.9);
+      border: 1.5px solid #cbd5e1;
+      padding: 3px 12px;
+      border-radius: 12px;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .instruction .black-dots {
+      color: #0f172a;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    #quiz-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px;
+      gap: 12px;
+      background: #fff5f5;
+    }
+    .word-card {
+      width: 100%;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border: 4px solid #fbcfe8;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(219,39,119,0.08);
+      gap: 8px;
+    }
+    .word-main {
+      font-size: 32px;
+      font-weight: 900;
+      color: #881337;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+    .phonetic-text {
+      font-size: 16px;
+      color: #9f1239;
+      font-weight: bold;
+    }
+    .meaning-box {
+      font-size: 22px;
+      font-weight: 900;
+      color: #be123c;
+      background: #ffe4e6;
+      border: 3px solid #fecdd3;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-align: center;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .button-group {
+      width: 100%;
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+    .btn-ans {
+      flex: 1;
+      height: 120px;
+      border: none;
+      border-radius: 20px;
+      font-size: 72px;
+      font-weight: 900;
+      color: white;
+      cursor: pointer;
+    }
+    .btn-ans:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .btn-maru {
+      background: linear-gradient(180deg, #4ade80, #16a34a);
+      box-shadow: 0 9px 0 #15803d;
+    }
+    .btn-maru:not(:disabled):active {
+      transform: translateY(5px);
+      box-shadow: 0 4px 0 #15803d;
+    }
+    .btn-batsu {
+      background: linear-gradient(180deg, #f87171, #dc2626);
+      box-shadow: 0 9px 0 #991b1b;
+    }
+    .btn-batsu:not(:disabled):active {
+      transform: translateY(5px);
+      box-shadow: 0 4px 0 #991b1b;
+    }
+    .status-box {
+      font-size: 18px;
+      font-weight: 900;
+      color: #be123c;
+      height: 26px;
+    }
+    #line-notice {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      color: white;
+      z-index: 200;
+      padding: 30px;
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app-container">
+  <div id="line-notice">
+    ⚠️ 音声を鳴らすため、画面右上の「…」を押して「Safari（またはChrome）で開く」を選んでね！
+  </div>
+
+  <header>
+    <span>えーけんいっきゅーとらい</span>
+    <button class="btn-header-back" onclick="returnToStart()">🏠 もどる</button>
+  </header>
+
+  <div id="start-screen">
+    <div class="bg-deco-star">🥃</div>
+    <div class="bg-deco-book">🍾</div>
+    <div class="bg-deco-crown">🍸</div>
+
+    <svg class="rainbow-svg" viewBox="0 0 400 110" fill="none">
+      <path d="M 20 110 A 180 90 0 0 1 380 110" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 28 110 A 172 82 0 0 1 372 110" stroke="#fb923c" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 36 110 A 164 74 0 0 1 364 110" stroke="#facc15" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 44 110 A 156 66 0 0 1 356 110" stroke="#4ade80" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 52 110 A 148 58 0 0 1 348 110" stroke="#38bdf8" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+
+    <div class="title-area">
+      <div class="title-helper">英単語 & 熟語</div>
+      <div class="cover-title-badge">
+        <h1 class="cover-title">
+          <span class="c1">え</span><span class="c2">ー</span><span class="c1">け</span><span class="c2">ん</span><br>
+          <span class="c3">い</span><span class="c4">っ</span><span class="c3">き</span><span class="c4">ゅ</span><span class="c3">ー</span><br>
+          <span class="c5">と</span><span class="c1">ら</span><span class="c2">い</span>
+        </h1>
+      </div>
+      <div class="version-tag">ver00012</div>
+    </div>
+
+    <!-- 中央の himekoro さん写真フレーム (hime30.jpg) -->
+    <div class="hero-center">
+      <div class="icons-row">
+        <span>🥃</span><span>🥂</span><span>🍷</span><span>🍸</span><span>🍾</span>
+      </div>
+      <div class="girl-frame">
+        <img src="hime30.jpg" alt="himekoro" class="girl-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'.9em\' font-size=\'90\'>👩</text></svg>'">
+      </div>
+      <div class="icons-row">
+        <span>🥃</span><span>🍷</span><span>🏆</span><span>💡</span><span>🎯</span>
+      </div>
+    </div>
+
+    <!-- 2行表記の4コース選択ボタン -->
+    <div class="diff-box">
+      <div class="diff-ribbon">コースを えらんでね</div>
+      <div class="diff-grid">
+        <button class="diff-btn diff-l1" onclick="selectDifficulty('level1', this)">
+          <span class="btn-main-txt">ランクA ☀️</span>
+          <span class="btn-sub-txt" id="cnt-l1">（最頻出）200語</span>
+        </button>
+        <button class="diff-btn diff-l2" onclick="selectDifficulty('level2', this)">
+          <span class="btn-main-txt">ランクB ☁️</span>
+          <span class="btn-sub-txt" id="cnt-l2">（重要難語）150語</span>
+        </button>
+        <button class="diff-btn diff-l3" onclick="selectDifficulty('level3', this)">
+          <span class="btn-main-txt">ランクC 🌋</span>
+          <span class="btn-sub-txt" id="cnt-l3">（超難関語）80語</span>
+        </button>
+        <button class="diff-btn diff-l4" onclick="selectDifficulty('level4', this)">
+          <span class="btn-main-txt">熟語 ⚡️</span>
+          <span class="btn-sub-txt" id="cnt-l4">（重要句動詞）70語</span>
+        </button>
+      </div>
+    </div>
+
+    <button id="go-btn" class="btn-go" onclick="startGame()">GO</button>
+    
+    <div class="instruction">
+      <span class="black-dots">● ● ●</span> をタップし、デフォルトのブラウザで開いて下さい。
+    </div>
+  </div>
+
+  <div id="quiz-screen">
+    <div class="word-card">
+      <div class="word-main" id="word-text">bolster</div>
+      <div class="phonetic-text" id="phonetic-text">/bóʊlstɚ/</div>
+    </div>
+    <div class="meaning-box" id="meaning-text">〜を強化する・支援する</div>
+
+    <div class="button-group">
+      <button id="btn-maru" class="btn-ans btn-maru" onclick="checkAnswer(true)">〇</button>
+      <button id="btn-batsu" class="btn-ans btn-batsu" onclick="checkAnswer(false)">✕</button>
+    </div>
+
+    <div class="status-box" id="status-text">👉 〇 か ✕ を おしてね！</div>
+  </div>
+</div>
+
+<script>
+if (navigator.userAgent.indexOf('LINE') !== -1) {
+  document.getElementById('line-notice').style.display = 'block';
+}
+
+// 厳選500語 完全内蔵マスターデータベース
 const allWords = [
-  // ==================== ランクA（超頻出コア語: 200語） ====================
+  // ==================== ランクA（超頻出コア: 200語） ====================
   { word: "bolster", phonetic: "/ˈboʊl.stɚ/", meaning: "〜を強化する・支援する", level: 1 },
   { word: "mitigate", phonetic: "/ˈmɪt̬.ə.ɡeɪt/", meaning: "〜を和らげる・軽減する", level: 1 },
   { word: "lucrative", phonetic: "/ˈluː.krə.tɪv/", meaning: "利益の上がる・儲かる", level: 1 },
@@ -65,7 +603,7 @@ const allWords = [
   { word: "contingency", phonetic: "/kənˈtɪn.dʒən.si/", meaning: "不慮の事態・偶発事象", level: 1 },
   { word: "covenant", phonetic: "/ˈkʌv.ə.nənt/", meaning: "誓約・法的契約", level: 1 },
   { word: "deception", phonetic: "/dɪˈsep.ʃən/", meaning: "欺瞞・ごまかし・詐欺", level: 1 },
-  { word: "defection", "/dɪˈfek.ʃən/", meaning: "離脱・脱党・亡命", level: 1 },
+  { word: "defection", phonetic: "/dɪˈfek.ʃən/", meaning: "離脱・脱党・亡命", level: 1 },
   { word: "deference", phonetic: "/ˈdef.ɚ.əns/", meaning: "敬意・服従", level: 1 },
   { word: "defy", phonetic: "/dɪˈfaɪ/", meaning: "〜に反抗する・拒む", level: 1 },
   { word: "delineate", phonetic: "/dɪˈlɪn.i.eɪt/", meaning: "〜を正確に描写する", level: 1 },
@@ -339,7 +877,6 @@ const allWords = [
   { word: "inherent", phonetic: "/ɪnˈhɪr.ənt/", meaning: "生まれつきの・固有の", level: 2 },
   { word: "inundate", phonetic: "/ˈɪn.ʌn.deɪt/", meaning: "〜を氾濫させる・殺到する", level: 2 },
   { word: "irascible", phonetic: "/ɪˈræs.ə.bəl/", meaning: "怒りっぽい・短気な", level: 2 },
-  { word: "judicious", phonetic: "/dʒuːˈdɪʃ.əs/", meaning: "思慮深い・賢明な", level: 2 },
   { word: "laconic", phonetic: "/ləˈkɑː.nɪk/", meaning: "簡潔な・言葉少なの", level: 2 },
   { word: "magnanimous", phonetic: "/mæɡˈnæn.ə.məs/", meaning: "寛大な・度量の大きい", level: 2 },
   { word: "malevolent", phonetic: "/məˈlev.əl.ənt/", meaning: "悪意のある・害をなす", level: 2 },
@@ -353,7 +890,7 @@ const allWords = [
   { word: "obdurate", phonetic: "/ˈɑːb.dɚ.ət/", meaning: "頑固な・情に流されない", level: 2 },
   { word: "oblivious", phonetic: "/əˈblɪv.i.əs/", meaning: "気づいていない・忘れている", level: 2 },
 
-  // ==================== ランクC（頻出超難関語: 80語） ====================
+  // ==================== ランクC（頻出超難関: 80語） ====================
   { word: "intransigent", phonetic: "/ɪnˈtræn.sə.dʒənt/", meaning: "頑固な・妥協しない", level: 3 },
   { word: "pusillanimous", phonetic: "/ˌpjuː.səˈlæn.ə.məs/", meaning: "小心な・臆病な", level: 3 },
   { word: "quagmire", phonetic: "/ˈkwæɡ.maɪ.ɚ/", meaning: "泥沼・苦境", level: 3 },
@@ -474,7 +1011,7 @@ const allWords = [
   { word: "die down", phonetic: "/daɪ daʊn/", meaning: "（騒ぎ・風などが）静まる", level: 4 },
   { word: "dish out", phonetic: "/dɪʃ aʊt/", meaning: "〜を惜しげもなく配る・与える", level: 4 },
   { word: "drag on", phonetic: "/dræɡ ɑːn/", meaning: "（会議などが）ダラダラ長引く", level: 4 },
-  { word: "egg on", phonetic: "/eɡ ɑːn/", meaning: "〜をそそのかしてけしかける", level: 4 },
+  { word: "egg on", phonetic: "/eɡ ɑːn/", meaning: "〜をそそのかす・けしかける", level: 4 },
   { word: "eke out", phonetic: "/iːk aʊt/", meaning: "〜を何とかやりくりして生計を立てる", level: 4 },
   { word: "fall back on", phonetic: "/fɑːl bæk ɑːn/", meaning: "〜を最後の頼みとする", level: 4 },
   { word: "figure on", phonetic: "/ˈfɪɡ.jɚ ɑːn/", meaning: "〜を見込む・計算に入れる", level: 4 },
@@ -507,3 +1044,210 @@ const allWords = [
   { word: "smooth over", phonetic: "/smuːð ˈoʊ.vɚ/", meaning: "〜（争い・角）を丸く収める", level: 4 },
   { word: "zero in on", phonetic: "/ˈzɪr.oʊ ɪn ɑːn/", meaning: "〜に照準を合わせる・集中する", level: 4 }
 ];
+
+let selectedLevel = null;
+let currentWords = [];
+let questionDeck = [];
+let lastTargetWord = null;
+let lastSpokenMeaning = null;
+let consecutiveCount = 0;
+let lastTypeIsCorrect = null;
+let currentQuestion = null;
+let isAnswerable = false;
+let audioCtx = null;
+
+const mapBtns = document.querySelectorAll('.diff-btn');
+const goBtn = document.getElementById('go-btn');
+const wordText = document.getElementById('word-text');
+const phoneticText = document.getElementById('phonetic-text');
+const meaningText = document.getElementById('meaning-text');
+const statusText = document.getElementById('status-text');
+const maruBtn = document.getElementById('btn-maru');
+const batsuBtn = document.getElementById('btn-batsu');
+
+function setButtonsEnabled(enabled) {
+  isAnswerable = enabled;
+  maruBtn.disabled = !enabled;
+  batsuBtn.disabled = !enabled;
+}
+
+function shuffle(array) {
+  let arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function selectDifficulty(diff, btn) {
+  selectedLevel = diff;
+  mapBtns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  goBtn.classList.add('ready');
+
+  let lvl = 1;
+  if (diff === 'level1') lvl = 1;
+  else if (diff === 'level2') lvl = 2;
+  else if (diff === 'level3') lvl = 3;
+  else if (diff === 'level4') lvl = 4;
+
+  currentWords = allWords.filter(w => w.level === lvl);
+  questionDeck = shuffle(currentWords);
+  lastTargetWord = null;
+  lastSpokenMeaning = null;
+  consecutiveCount = 0;
+  lastTypeIsCorrect = null;
+}
+
+function playSound(type) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+
+    if (type === 'correct') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880.00, now);
+      osc.frequency.setValueAtTime(1174.66, now + 0.12);
+      gain.gain.setValueAtTime(1.0, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+      osc.start(now);
+      osc.stop(now + 0.6);
+    } else {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.setValueAtTime(140, now + 0.15);
+      gain.gain.setValueAtTime(1.0, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+      osc.start(now);
+      osc.stop(now + 0.6);
+    }
+  } catch(e) {}
+}
+
+function startGame() {
+  if (!selectedLevel || currentWords.length === 0) return;
+  document.getElementById('start-screen').style.display = 'none';
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  nextQuestion();
+}
+
+function returnToStart() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  setButtonsEnabled(false);
+  document.getElementById('start-screen').style.display = 'flex';
+}
+
+function nextQuestion() {
+  setButtonsEnabled(true); 
+  statusText.innerText = "👉 〇 か ✕ を おしてね！";
+
+  if (questionDeck.length === 0) {
+    questionDeck = shuffle(currentWords);
+  }
+
+  const mustBeTrue = (consecutiveCount >= 3 && !lastTypeIsCorrect);
+  const mustBeFalse = (consecutiveCount >= 3 && lastTypeIsCorrect);
+
+  let excluded = new Set();
+  if (lastTargetWord) excluded.add(lastTargetWord);
+  if (mustBeTrue && lastSpokenMeaning) excluded.add(lastSpokenMeaning);
+
+  let candidates = [];
+  for (let i = 0; i < questionDeck.length; i++) {
+    if (!excluded.has(questionDeck[i].word)) {
+      candidates.push(i);
+    }
+  }
+  if (candidates.length === 0) {
+    for (let i = 0; i < questionDeck.length; i++) {
+      if (questionDeck[i].word !== lastTargetWord) {
+        candidates.push(i);
+      }
+    }
+  }
+  if (candidates.length === 0) candidates = [0];
+  
+  const chosenIdx = candidates[Math.floor(Math.random() * candidates.length)];
+  const targetWordObj = questionDeck.splice(chosenIdx, 1)[0];
+
+  let isCorrectPair;
+  if (mustBeTrue) {
+    isCorrectPair = (targetWordObj.meaning !== lastSpokenMeaning);
+  } else if (mustBeFalse) {
+    isCorrectPair = false;
+  } else if (targetWordObj.meaning === lastSpokenMeaning) {
+    isCorrectPair = false;
+  } else {
+    isCorrectPair = Math.random() < 0.5;
+  }
+
+  if (lastTypeIsCorrect === isCorrectPair) {
+    consecutiveCount++;
+  } else {
+    lastTypeIsCorrect = isCorrectPair;
+    consecutiveCount = 1;
+  }
+
+  let meaningContent;
+  if (isCorrectPair) {
+    meaningContent = targetWordObj;
+  } else {
+    let available = currentWords.filter(w => w.word !== targetWordObj.word && w.meaning !== lastSpokenMeaning);
+    if (available.length === 0) {
+      available = currentWords.filter(w => w.word !== targetWordObj.word);
+    }
+    meaningContent = available[Math.floor(Math.random() * available.length)];
+  }
+
+  lastTargetWord = targetWordObj.word;
+  lastSpokenMeaning = meaningContent.meaning;
+
+  currentQuestion = {
+    target: targetWordObj,
+    isCorrect: isCorrectPair,
+    meaning: meaningContent.meaning
+  };
+
+  wordText.innerText = targetWordObj.word;
+  phoneticText.innerText = targetWordObj.phonetic;
+  meaningText.innerText = meaningContent.meaning;
+
+  speakEnglish(targetWordObj.word);
+}
+
+function speakEnglish(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel(); 
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.9;
+  window.speechSynthesis.speak(utter);
+}
+
+function checkAnswer(userChoice) {
+  if (!isAnswerable) return;
+  setButtonsEnabled(false); 
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel(); 
+  }
+
+  const isUserRight = (userChoice === currentQuestion.isCorrect);
+  if (isUserRight) {
+    statusText.innerText = "⭕ せいかい！ (Correct!)";
+    playSound('correct');
+  } else {
+    statusText.innerText = "❌ ざんねん！ (Wrong!)";
+    playSound('wrong');
+  }
+  setTimeout(nextQuestion, 800); 
+}
+</script>
+</body>
+</html>
