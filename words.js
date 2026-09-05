@@ -1,1253 +1,1003 @@
-<!-- ver00013: えーけんいっきゅーとらい (厳選500語・完全内蔵版) -->
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>えーけんいっきゅーとらい ver00013</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-    body {
-      font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
-      background: #fdf2f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-    }
-    #app-container {
-      width: 100%;
-      max-width: 480px;
-      height: 100vh;
-      max-height: 850px;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 12px 35px rgba(244,63,94,0.15);
-      border: 8px solid #f472b6;
-    }
-    header {
-      background: #db2777;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 14px;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      z-index: 10;
-      height: 48px;
-    }
-    .btn-header-back {
-      background: #ffffff;
-      color: #db2777;
-      border: 2px solid #fbcfe8;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .btn-header-back:active {
-      transform: translateY(2px);
-    }
-
-    #start-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, #fbcfe8 0%, #fdf2f8 40%, #fff1f2 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 100;
-      padding: 10px 14px 10px 14px;
-      color: #333;
-      overflow: hidden;
-    }
-
-    .bg-deco-star {
-      position: absolute;
-      top: 8px;
-      left: 14px;
-      font-size: 34px;
-      animation: floatSlow 3s ease-in-out infinite alternate;
-    }
-    .bg-deco-book {
-      position: absolute;
-      bottom: 68px;
-      left: 12px;
-      font-size: 34px;
-      animation: bounceSlow 2.5s ease-in-out infinite alternate;
-    }
-    .bg-deco-crown {
-      position: absolute;
-      bottom: 68px;
-      right: 14px;
-      font-size: 32px;
-      animation: floatSlow 2.8s ease-in-out infinite alternate;
-    }
-    @keyframes floatSlow {
-      0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-6px) rotate(6deg); }
-    }
-    @keyframes bounceSlow {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.06) rotate(-4deg); }
-    }
-
-    .rainbow-svg {
-      position: absolute;
-      top: 36px;
-      width: 110%;
-      height: 110px;
-      z-index: 1;
-      opacity: 0.85;
-      pointer-events: none;
-    }
-
-    .title-area {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 2px;
-    }
-    .title-helper {
-      font-size: 13px;
-      font-weight: 900;
-      color: #db2777;
-      background: rgba(255,255,255,0.9);
-      padding: 1px 12px;
-      border-radius: 10px;
-      border: 2px solid #f472b6;
-      margin-bottom: 2px;
-    }
-    .cover-title-badge {
-      background: white;
-      border: 4px solid #f472b6;
-      border-radius: 18px;
-      padding: 4px 18px;
-      box-shadow: 0 4px 0 #db2777, 0 8px 16px rgba(219,39,119,0.15);
-      text-align: center;
-    }
-    .cover-title {
-      font-size: 22px;
-      font-weight: 900;
-      line-height: 1.2;
-      letter-spacing: 1px;
-    }
-    .cover-title .c1 { color: #e11d48; }
-    .cover-title .c2 { color: #f59e0b; }
-    .cover-title .c3 { color: #10b981; }
-    .cover-title .c4 { color: #3b82f6; }
-    .cover-title .c5 { color: #8b5cf6; }
-    
-    .version-tag {
-      font-size: 11px;
-      font-weight: bold;
-      color: #9d174d;
-      margin-top: 1px;
-    }
-
-    .hero-center {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-    }
-    .girl-frame {
-      width: 125px;
-      height: 125px;
-      border-radius: 50%;
-      border: 4px solid #ffffff;
-      box-shadow: 0 6px 14px rgba(219,39,119,0.2), 0 0 0 4px #f472b6;
-      overflow: hidden;
-      background: #fdf2f8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .girl-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .icons-row {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      font-size: 20px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
-    }
-
-    .diff-box {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 380px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-    .diff-ribbon {
-      font-size: 13px;
-      font-weight: 900;
-      color: #9d174d;
-      background: white;
-      border: 2px solid #f472b6;
-      padding: 2px 14px;
-      border-radius: 16px;
-      box-shadow: 0 2px 0 #fbcfe8;
-    }
-    .diff-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      width: 100%;
-    }
-    .diff-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 54px;
-      padding: 4px 6px;
-      border-radius: 14px;
-      cursor: pointer;
-      border: 3px solid #fff;
-      color: white;
-      transition: all 0.15s;
-    }
-    .diff-btn .btn-main-txt {
-      font-size: 15px;
-      font-weight: 900;
-      line-height: 1.1;
-    }
-    .diff-btn .btn-sub-txt {
-      font-size: 11px;
-      font-weight: 800;
-      opacity: 0.95;
-      margin-top: 2px;
-    }
-
-    .diff-l1 {
-      background: linear-gradient(180deg, #4ade80, #16a34a);
-      box-shadow: 0 4px 0 #15803d;
-    }
-    .diff-l2 {
-      background: linear-gradient(180deg, #38bdf8, #0284c7);
-      box-shadow: 0 4px 0 #0369a1;
-    }
-    .diff-l3 {
-      background: linear-gradient(180deg, #f87171, #dc2626);
-      box-shadow: 0 4px 0 #991b1b;
-    }
-    .diff-l4 {
-      background: linear-gradient(180deg, #fbbf24, #d97706);
-      box-shadow: 0 4px 0 #b45309;
-    }
-    .diff-btn.active {
-      transform: translateY(3px) scale(1.02);
-      filter: brightness(1.1);
-      outline: 3px solid #fff;
-    }
-    .diff-btn:not(:disabled):active {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.3);
-    }
-
-    .btn-go {
-      position: relative;
-      z-index: 2;
-      background: linear-gradient(180deg, #fb7185, #e11d48);
-      color: white;
-      font-size: 38px;
-      font-weight: 900;
-      width: 100%;
-      max-width: 260px;
-      height: 58px;
-      border-radius: 29px;
-      border: 4px solid #ffffff;
-      box-shadow: 0 6px 0 #9f1239, 0 10px 16px rgba(225,29,72,0.3);
-      cursor: pointer;
-      opacity: 0.5;
-      pointer-events: none;
-      transition: all 0.15s;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    .btn-go.ready {
-      opacity: 1;
-      pointer-events: auto;
-      animation: pulseBtn 1.8s infinite;
-    }
-    @keyframes pulseBtn {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.04); }
-    }
-    .btn-go:not(:disabled):active {
-      transform: translateY(6px);
-      box-shadow: 0 2px 0 #9f1239;
-    }
-
-    .instruction {
-      position: relative;
-      z-index: 2;
-      font-size: 11px;
-      font-weight: bold;
-      color: #475569;
-      background: rgba(255,255,255,0.9);
-      border: 1.5px solid #cbd5e1;
-      padding: 3px 12px;
-      border-radius: 12px;
-      text-align: center;
-      line-height: 1.3;
-    }
-    .instruction .black-dots {
-      color: #0f172a;
-      font-size: 13px;
-      letter-spacing: 2px;
-    }
-
-    #quiz-screen {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 16px;
-      gap: 12px;
-      background: #fff5f5;
-    }
-    .word-card {
-      width: 100%;
-      min-height: 160px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      border: 4px solid #fbcfe8;
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: 0 4px 12px rgba(219,39,119,0.08);
-      gap: 8px;
-    }
-    .word-main {
-      font-size: 32px;
-      font-weight: 900;
-      color: #881337;
-      letter-spacing: 0.5px;
-      text-align: center;
-    }
-    .phonetic-text {
-      font-size: 16px;
-      color: #9f1239;
-      font-weight: bold;
-    }
-    .meaning-box {
-      font-size: 22px;
-      font-weight: 900;
-      color: #be123c;
-      background: #ffe4e6;
-      border: 3px solid #fecdd3;
-      padding: 10px 20px;
-      border-radius: 30px;
-      text-align: center;
-      min-height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
-    .button-group {
-      width: 100%;
-      display: flex;
-      gap: 16px;
-      margin-top: 8px;
-      margin-bottom: 4px;
-    }
-    .btn-ans {
-      flex: 1;
-      height: 120px;
-      border: none;
-      border-radius: 20px;
-      font-size: 72px;
-      font-weight: 900;
-      color: white;
-      cursor: pointer;
-    }
-    .btn-ans:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-    .btn-maru {
-      background: linear-gradient(180deg, #4ade80, #16a34a);
-      box-shadow: 0 9px 0 #15803d;
-    }
-    .btn-maru:not(:disabled):active {
-      transform: translateY(5px);
-      box-shadow: 0 4px 0 #15803d;
-    }
-    .btn-batsu {
-      background: linear-gradient(180deg, #f87171, #dc2626);
-      box-shadow: 0 9px 0 #991b1b;
-    }
-    .btn-batsu:not(:disabled):active {
-      transform: translateY(5px);
-      box-shadow: 0 4px 0 #991b1b;
-    }
-    .status-box {
-      font-size: 18px;
-      font-weight: 900;
-      color: #be123c;
-      height: 26px;
-    }
-    #line-notice {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      color: white;
-      z-index: 200;
-      padding: 30px;
-      text-align: center;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-  </style>
-</head>
-<body>
-
-<div id="app-container">
-  <div id="line-notice">
-    ⚠️ 音声を鳴らすため、画面右上の「…」を押して「Safari（またはChrome）で開く」を選んでね！
-  </div>
-
-  <header>
-    <span>えーけんいっきゅーとらい</span>
-    <button class="btn-header-back" onclick="returnToStart()">🏠 もどる</button>
-  </header>
-
-  <div id="start-screen">
-    <div class="bg-deco-star">🥃</div>
-    <div class="bg-deco-book">🍾</div>
-    <div class="bg-deco-crown">🍸</div>
-
-    <svg class="rainbow-svg" viewBox="0 0 400 110" fill="none">
-      <path d="M 20 110 A 180 90 0 0 1 380 110" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 28 110 A 172 82 0 0 1 372 110" stroke="#fb923c" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 36 110 A 164 74 0 0 1 364 110" stroke="#facc15" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 44 110 A 156 66 0 0 1 356 110" stroke="#4ade80" stroke-width="8" stroke-linecap="round"/>
-      <path d="M 52 110 A 148 58 0 0 1 348 110" stroke="#38bdf8" stroke-width="8" stroke-linecap="round"/>
-    </svg>
-
-    <div class="title-area">
-      <div class="title-helper">英単語 & 熟語</div>
-      <div class="cover-title-badge">
-        <h1 class="cover-title">
-          <span class="c1">え</span><span class="c2">ー</span><span class="c1">け</span><span class="c2">ん</span><br>
-          <span class="c3">い</span><span class="c4">っ</span><span class="c3">き</span><span class="c4">ゅ</span><span class="c3">ー</span><br>
-          <span class="c5">と</span><span class="c1">ら</span><span class="c2">い</span>
-        </h1>
-      </div>
-      <div class="version-tag">ver00013</div>
-    </div>
-
-    <!-- 中央の himekoro さん写真フレーム (hime30.jpg) -->
-    <div class="hero-center">
-      <div class="icons-row">
-        <span>🥃</span><span>🥂</span><span>🍷</span><span>🍸</span><span>🍾</span>
-      </div>
-      <div class="girl-frame">
-        <img src="hime30.jpg" alt="himekoro" class="girl-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'.9em\' font-size=\'90\'>👩</text></svg>'">
-      </div>
-      <div class="icons-row">
-        <span>🥃</span><span>🍷</span><span>🏆</span><span>💡</span><span>🎯</span>
-      </div>
-    </div>
-
-    <!-- 2行表記の4コース選択ボタン -->
-    <div class="diff-box">
-      <div class="diff-ribbon">コースを えらんでね</div>
-      <div class="diff-grid">
-        <button class="diff-btn diff-l1" onclick="selectDifficulty('level1', this)">
-          <span class="btn-main-txt">ランクA ☀️</span>
-          <span class="btn-sub-txt" id="cnt-l1">（最頻出）200語</span>
-        </button>
-        <button class="diff-btn diff-l2" onclick="selectDifficulty('level2', this)">
-          <span class="btn-main-txt">ランクB ☁️</span>
-          <span class="btn-sub-txt" id="cnt-l2">（重要難語）150語</span>
-        </button>
-        <button class="diff-btn diff-l3" onclick="selectDifficulty('level3', this)">
-          <span class="btn-main-txt">ランクC 🌋</span>
-          <span class="btn-sub-txt" id="cnt-l3">（超難関語）80語</span>
-        </button>
-        <button class="diff-btn diff-l4" onclick="selectDifficulty('level4', this)">
-          <span class="btn-main-txt">熟語 ⚡️</span>
-          <span class="btn-sub-txt" id="cnt-l4">（重要句動詞）70語</span>
-        </button>
-      </div>
-    </div>
-
-    <button id="go-btn" class="btn-go" onclick="startGame()">GO</button>
-    
-    <div class="instruction">
-      <span class="black-dots">● ● ●</span> をタップし、デフォルトのブラウザで開いて下さい。
-    </div>
-  </div>
-
-  <div id="quiz-screen">
-    <div class="word-card">
-      <div class="word-main" id="word-text">bolster</div>
-      <div class="phonetic-text" id="phonetic-text">/bóʊlstɚ/</div>
-    </div>
-    <div class="meaning-box" id="meaning-text">〜を強化する・支援する</div>
-
-    <div class="button-group">
-      <button id="btn-maru" class="btn-ans btn-maru" onclick="checkAnswer(true)">〇</button>
-      <button id="btn-batsu" class="btn-ans btn-batsu" onclick="checkAnswer(false)">✕</button>
-    </div>
-
-    <div class="status-box" id="status-text">👉 〇 か ✕ を おしてね！</div>
-  </div>
-</div>
-
-<script>
-if (navigator.userAgent.indexOf('LINE') !== -1) {
-  document.getElementById('line-notice').style.display = 'block';
-}
-
-// 厳選500語 完全内蔵マスターデータベース (ver00013)
-const allWords = [
-  // ==================== ランクA（超頻出コア: 200語） ====================
-  { word: "bolster", phonetic: "/ˈboʊl.stɚ/", meaning: "〜を強化する・支援する", level: 1 },
-  { word: "mitigate", phonetic: "/ˈmɪt̬.ə.ɡeɪt/", meaning: "〜を和らげる・軽減する", level: 1 },
-  { word: "lucrative", phonetic: "/ˈluː.krə.tɪv/", meaning: "利益の上がる・儲かる", level: 1 },
-  { word: "covert", phonetic: "/ˈkoʊ.vɚt/", meaning: "秘密の・隠された", level: 1 },
-  { word: "aberration", phonetic: "/ˌæb.əˈreɪ.ʃən/", meaning: "逸脱・変異・奇行", level: 1 },
-  { word: "alleviate", phonetic: "/əˈliː.vi.eɪt/", meaning: "〜を軽減する・緩和する", level: 1 },
-  { word: "augment", phonetic: "/ɑːɡˈment/", meaning: "〜を増加させる・増強する", level: 1 },
-  { word: "coerce", phonetic: "/koʊˈɝːs/", meaning: "〜を強制する・強要する", level: 1 },
-  { word: "condone", phonetic: "/kənˈdoʊn/", meaning: "〜を黙認する・容認する", level: 1 },
-  { word: "curtail", phonetic: "/kɚˈteɪl/", meaning: "〜を削減する・短縮する", level: 1 },
-  { word: "debunk", phonetic: "/diːˈbʌŋk/", meaning: "〜の誤りを暴く・正体を明かす", level: 1 },
-  { word: "dismantle", phonetic: "/dɪsˈmæn.təl/", meaning: "〜を解体する・分解する", level: 1 },
-  { word: "elicit", phonetic: "/iˈlɪs.ɪt/", meaning: "〜を引き出す・喚起する", level: 1 },
-  { word: "embellish", phonetic: "/ɪmˈbel.ɪʃ/", meaning: "〜を飾る・脚色する", level: 1 },
-  { word: "exacerbate", phonetic: "/ɪɡˈzæs.ɚ.beɪt/", meaning: "〜を悪化させる・激化させる", level: 1 },
-  { word: "exemplify", phonetic: "/ɪɡˈzem.plə.faɪ/", meaning: "〜の好例となる・例証する", level: 1 },
-  { word: "feign", phonetic: "/feɪn/", meaning: "〜のふりをする・装う", level: 1 },
-  { word: "foster", phonetic: "/ˈfɑː.stɚ/", meaning: "〜を促進する・育成する", level: 1 },
-  { word: "garner", phonetic: "/ˈɡɑːr.nɚ/", meaning: "〜を得る・集める", level: 1 },
-  { word: "impair", phonetic: "/ɪmˈper/", meaning: "〜を損なう・減退させる", level: 1 },
-  { word: "induce", phonetic: "/ɪnˈduːs/", meaning: "〜を誘発する・引き起こす", level: 1 },
-  { word: "instigate", phonetic: "/ˈɪn.stə.ɡeɪt/", meaning: "〜をそそのかす・扇動する", level: 1 },
-  { word: "jeopardize", phonetic: "/ˈdʒep.ɚ.daɪz/", meaning: "〜を危険にさらす", level: 1 },
-  { word: "mollify", phonetic: "/ˈmɑː.lə.faɪ/", meaning: "〜をなだめる・和らげる", level: 1 },
-  { word: "nullify", phonetic: "/ˈnʌl.ə.faɪ/", meaning: "〜を無効にする・破棄する", level: 1 },
-  { word: "placate", phonetic: "/ˈpleɪ.keɪt/", meaning: "〜をなだめる・懐柔する", level: 1 },
-  { word: "quell", phonetic: "/kwel/", meaning: "〜を鎮圧する・抑える", level: 1 },
-  { word: "refute", phonetic: "/rɪˈfjuːt/", meaning: "〜を論破する・反論する", level: 1 },
-  { word: "relinquish", phonetic: "/rɪˈlɪŋ.kwɪʃ/", meaning: "〜を手放す・放棄する", level: 1 },
-  { word: "repudiate", phonetic: "/rɪˈpjuː.di.eɪt/", meaning: "〜を拒絶する・否定する", level: 1 },
-  { word: "scrutinize", phonetic: "/ˈskruː.t̬ən.aɪz/", meaning: "〜を綿密に調べる・監視する", level: 1 },
-  { word: "subsidize", phonetic: "/ˈsʌb.sə.daɪz/", meaning: "〜に補助金を出す", level: 1 },
-  { word: "supplant", phonetic: "/səˈplænt/", meaning: "〜にとって代わる・排斥する", level: 1 },
-  { word: "vindicate", phonetic: "/ˈvɪn.də.keɪt/", meaning: "〜の正当性を証明する", level: 1 },
-  { word: "waive", phonetic: "/weɪv/", meaning: "〜を放棄する・免除する", level: 1 },
-  { word: "acquiesce", phonetic: "/ˌæk.wiˈes/", meaning: "黙認する・しぶしぶ従う", level: 1 },
-  { word: "admonish", phonetic: "/ədˈmɑː.nɪʃ/", meaning: "〜をたしなめる・警告する", level: 1 },
-  { word: "advocate", phonetic: "/ˈæd.və.keɪt/", meaning: "〜を主張する・支持する", level: 1 },
-  { word: "affiliate", phonetic: "/əˈfɪl.i.eɪt/", meaning: "〜を提携させる・加盟させる", level: 1 },
-  { word: "amalgamate", phonetic: "/əˈmæl.ɡə.meɪt/", meaning: "〜を合併する・統合する", level: 1 },
-  { word: "annihilate", phonetic: "/əˈnaɪ.ə.leɪt/", meaning: "〜を全滅させる・全廃する", level: 1 },
-  { word: "apprehend", phonetic: "/ˌæp.rəˈhend/", meaning: "〜を逮捕する・理解する", level: 1 },
-  { word: "articulate", phonetic: "/ɑːrˈtɪk.jə.leɪt/", meaning: "〜を明確に表現する", level: 1 },
-  { word: "assimilate", phonetic: "/əˈsɪm.ə.leɪt/", meaning: "〜を吸収する・同化させる", level: 1 },
-  { word: "benevolence", phonetic: "/bəˈnev.əl.əns/", meaning: "慈悲・善意・親切心", level: 1 },
-  { word: "breach", phonetic: "/briːtʃ/", meaning: "違反・侵害・突破口", level: 1 },
-  { word: "calamity", phonetic: "/kəˈlæm.ə.t̬i/", meaning: "大惨事・災難", level: 1 },
-  { word: "candid", phonetic: "/ˈkæn.dɪd/", meaning: "率直な・公平な", level: 1 },
-  { word: "coalesce", phonetic: "/ˌkoʊ.əˈles/", meaning: "合体する・連合する", level: 1 },
-  { word: "collusion", phonetic: "/kəˈluː.ʒən/", meaning: "共謀・結託・談合", level: 1 },
-  { word: "compliance", phonetic: "/kəmˈplaɪ.əns/", meaning: "法令遵守・応諾", level: 1 },
-  { word: "concede", phonetic: "/kənˈsiːd/", meaning: "〜を認める・譲歩する", level: 1 },
-  { word: "conciliate", phonetic: "/kənˈsɪl.i.eɪt/", meaning: "〜をなだめる・懐柔する", level: 1 },
-  { word: "concur", phonetic: "/kənˈkɝː/", meaning: "同意する・一致する", level: 1 },
-  { word: "condescend", phonetic: "/ˌkɑːn.dəˈsend/", meaning: "へりくだる・見下す", level: 1 },
-  { word: "conglomerate", phonetic: "/kənˈɡlɑː.mɚ.ət/", meaning: "巨大複合企業・集積", level: 1 },
-  { word: "conjecture", phonetic: "/kənˈdʒek.tʃɚ/", meaning: "推測・憶測", level: 1 },
-  { word: "consolidation", phonetic: "/kənˌsɑː.ləˈdeɪ.ʃən/", meaning: "統合・強化・整理", level: 1 },
-  { word: "conspicuous", phonetic: "/kənˈspɪk.ju.əs/", meaning: "目立つ・顕著な", level: 1 },
-  { word: "construe", phonetic: "/kənˈstruː/", meaning: "〜を解釈する・分析する", level: 1 },
-  { word: "contingency", phonetic: "/kənˈtɪn.dʒən.si/", meaning: "不慮の事態・偶発事象", level: 1 },
-  { word: "covenant", phonetic: "/ˈkʌv.ə.nənt/", meaning: "誓約・法的契約", level: 1 },
-  { word: "deception", phonetic: "/dɪˈsep.ʃən/", meaning: "欺瞞・ごまかし・詐欺", level: 1 },
-  { word: "defection", phonetic: "/dɪˈfek.ʃən/", meaning: "離脱・脱党・亡命", level: 1 },
-  { word: "deference", phonetic: "/ˈdef.ɚ.əns/", meaning: "敬意・服従", level: 1 },
-  { word: "defy", phonetic: "/dɪˈfaɪ/", meaning: "〜に反抗する・拒む", level: 1 },
-  { word: "delineate", phonetic: "/dɪˈlɪn.i.eɪt/", meaning: "〜を正確に描写する", level: 1 },
-  { word: "depict", phonetic: "/dɪˈpɪkt/", meaning: "〜を描写する・表現する", level: 1 },
-  { word: "deplete", phonetic: "/dɪˈpliːt/", meaning: "〜を激減させる・使い果たす", level: 1 },
-  { word: "deploy", phonetic: "/dɪˈploɪ/", meaning: "〜を配置する・展開する", level: 1 },
-  { word: "depreciate", phonetic: "/dɪˈpriː.ʃi.eɪt/", meaning: "価値が下がる・見くびる", level: 1 },
-  { word: "deride", phonetic: "/dɪˈraɪd/", meaning: "〜をあざ笑う・嘲笑する", level: 1 },
-  { word: "deteriorate", phonetic: "/dɪˈtɪr.i.ə.reɪt/", meaning: "悪化する・劣化する", level: 1 },
-  { word: "detriment", phonetic: "/ˈdet.rə.mənt/", meaning: "損害・損失・不利益", level: 1 },
-  { word: "devastate", phonetic: "/ˈdev.ə.steɪt/", meaning: "〜を壊滅させる・打ちのめす", level: 1 },
-  { word: "diligent", phonetic: "/ˈdɪl.ə.dʒənt/", meaning: "勤勉な・入念な", level: 1 },
-  { word: "discern", phonetic: "/dɪˈsɝːn/", meaning: "〜を見極める・識別する", level: 1 },
-  { word: "discrepancy", phonetic: "/dɪˈskrep.ən.si/", meaning: "相違・不一致・食い違い", level: 1 },
-  { word: "disdain", phonetic: "/dɪsˈdeɪn/", meaning: "軽蔑・見下し", level: 1 },
-  { word: "disparate", phonetic: "/ˈdɪs.pɚ.ət/", meaning: "全く異なる・異種の", level: 1 },
-  { word: "dispel", phonetic: "/dɪˈspel/", meaning: "〜（不安等）を追い払う", level: 1 },
-  { word: "disseminate", phonetic: "/dɪˈsem.ə.neɪt/", meaning: "〜（情報等）を普及させる", level: 1 },
-  { word: "dissent", phonetic: "/dɪˈsent/", meaning: "異議・反対意見", level: 1 },
-  { word: "divergence", phonetic: "/daɪˈvɝː.dʒəns/", meaning: "分岐・相違・逸脱", level: 1 },
-  { word: "dogmatic", phonetic: "/dɑːɡˈmæt̬.ɪk/", meaning: "独断的な・教条的な", level: 1 },
-  { word: "dubious", phonetic: "/ˈduː.bi.əs/", meaning: "疑わしい・不審な", level: 1 },
-  { word: "dwindle", phonetic: "/ˈdwɪn.dəl/", meaning: "徐々に減少する・衰える", level: 1 },
-  { word: "eccentric", phonetic: "/ɪkˈsen.trɪk/", meaning: "風変わりな・奇抜な", level: 1 },
-  { word: "efficacy", phonetic: "/ˈef.ə.kə.si/", meaning: "効能・有効性", level: 1 },
-  { word: "elusive", phonetic: "/iˈluː.sɪv/", meaning: "つかみどころのない・捕まえにくい", level: 1 },
-  { word: "emulate", phonetic: "/ˈem.jə.leɪt/", meaning: "〜を見習う・張り合う", level: 1 },
-  { word: "endorse", phonetic: "/ɪnˈdɔːrs/", meaning: "〜を支持する・推薦する", level: 1 },
-  { word: "engender", phonetic: "/ɪnˈdʒen.dɚ/", meaning: "〜を生み出す・引き起こす", level: 1 },
-  { word: "enhance", phonetic: "/ɪnˈhæns/", meaning: "〜を高める・強化する", level: 1 },
-  { word: "enigma", phonetic: "/əˈnɪɡ.mə/", meaning: "不可解なもの・謎", level: 1 },
-  { word: "entail", phonetic: "/ɪnˈteɪl/", meaning: "〜を必然的に伴う", level: 1 },
-  { word: "ephemeral", phonetic: "/ɪˈfem.ɚ.əl/", meaning: "つかの間の・はかない", level: 1 },
-  { word: "equanimity", phonetic: "/ˌek.wəˈnɪm.ə.t̬i/", meaning: "平静・冷静沈着", level: 1 },
-  { word: "eradicate", phonetic: "/ɪˈræd.ɪ.keɪt/", meaning: "〜を根絶する・撲滅する", level: 1 },
-  { word: "erratic", phonetic: "/ɪˈræt̬.ɪk/", meaning: "不規則な・気まぐれな", level: 1 },
-  { word: "exaggerate", phonetic: "/ɪɡˈzædʒ.ə.reɪt/", meaning: "〜を誇張する・大げさに言う", level: 1 },
-  { word: "exasperate", phonetic: "/ɪɡˈzæs.pə.reɪt/", meaning: "〜を激怒させる・いらだたせる", level: 1 },
-  { word: "exempt", phonetic: "/ɪɡˈzempt/", meaning: "免除された", level: 1 },
-  { word: "exert", phonetic: "/ɪɡˈzɝːt/", meaning: "〜（力等）を行使する・発揮する", level: 1 },
-  { word: "exhilarating", phonetic: "/ɪɡˈzɪl.ə.reɪ.t̬ɪŋ/", meaning: "爽快な・胸躍る", level: 1 },
-  { word: "exonerate", phonetic: "/ɪɡˈzɑː.nə.reɪt/", meaning: "〜の無実を証明する・免除する", level: 1 },
-  { word: "expedite", phonetic: "/ˈek.spə.daɪt/", meaning: "〜を促進する・早める", level: 1 },
-  { word: "exploit", phonetic: "/ɪkˈsplɔɪt/", meaning: "〜を利用する・開発する", level: 1 },
-  { word: "fallacy", phonetic: "/ˈfæl.ə.si/", meaning: "誤った考え・虚偽", level: 1 },
-  { word: "feasible", phonetic: "/ˈfiː.zə.bəl/", meaning: "実行可能な", level: 1 },
-  { word: "flagrant", phonetic: "/ˈfleɪ.ɡrənt/", meaning: "甚だしい・目に余る", level: 1 },
-  { word: "flourish", phonetic: "/ˈflɝː.ɪʃ/", meaning: "繁栄する・栄える", level: 1 },
-  { word: "fluctuate", phonetic: "/ˈflʌk.tʃu.eɪt/", meaning: "変動する・上下する", level: 1 },
-  { word: "fortify", phonetic: "/ˈfɔːr.t̬ə.faɪ/", meaning: "〜を強化する・防備を固める", level: 1 },
-  { word: "frivolous", phonetic: "/ˈfrɪv.əl.əs/", meaning: "浅はかな・くだらない", level: 1 },
-  { word: "futile", phonetic: "/ˈfjuː.t̬əl/", meaning: "無駄な・無益な", level: 1 },
-  { word: "gainsay", phonetic: "/ɡeɪnˈseɪ/", meaning: "〜を否定する・反論する", level: 1 },
-  { word: "galvanize", phonetic: "/ˈɡæl.və.naɪz/", meaning: "〜を刺激する・活気づける", level: 1 },
-  { word: "generate", phonetic: "/ˈdʒen.ə.reɪt/", meaning: "〜を生み出す・発生させる", level: 1 },
-  { word: "genuine", phonetic: "/ˈdʒen.ju.ɪn/", meaning: "本物の・心からの", level: 1 },
-  { word: "gratify", phonetic: "/ˈɡræt̬.ə.faɪ/", meaning: "〜を喜ばせる・満足させる", level: 1 },
-  { word: "grievance", phonetic: "/ˈɡriː.vəns/", meaning: "苦情・不平", level: 1 },
-  { word: "haphazard", phonetic: "/ˌhæpˈhæz.ɚd/", meaning: "でたらめな・無計画な", level: 1 },
-  { word: "harmonious", phonetic: "/hɑːrˈmoʊ.ni.əs/", meaning: "調和のとれた", level: 1 },
-  { word: "heed", phonetic: "/hiːd/", meaning: "〜に注意を払う・留意する", level: 1 },
-  { word: "hegemony", phonetic: "/hɪˈdʒem.ə.ni/", meaning: "覇権・主導権", level: 1 },
-  { word: "hindrance", phonetic: "/ˈhɪn.drəns/", meaning: "障害・邪魔立て", level: 1 },
-  { word: "hostile", phonetic: "/ˈhɑː.stəl/", meaning: "敵意のある・反抗的な", level: 1 },
-  { word: "hyperbole", phonetic: "/haɪˈpɝː.bəl.i/", meaning: "誇張表現", level: 1 },
-  { word: "hypocrisy", phonetic: "/hɪˈpɑː.krə.si/", meaning: "偽善・見せかけ", level: 1 },
-  { word: "illuminate", phonetic: "/ɪˈluː.mə.neɪt/", meaning: "〜を照らす・解明する", level: 1 },
-  { word: "illustrious", phonetic: "/ɪˈlʌs.tri.əs/", meaning: "名高い・輝かしい", level: 1 },
-  { word: "immunity", phonetic: "/ɪˈmjuː.nə.t̬i/", meaning: "免疫・免除", level: 1 },
-  { word: "imperative", phonetic: "/ɪmˈper.ə.t̬ɪv/", meaning: "緊急の・必須の", level: 1 },
-  { word: "impetus", phonetic: "/ˈɪm.pə.t̬əs/", meaning: "推進力・刺激・契機", level: 1 },
-  { word: "implement", phonetic: "/ˈɪm.plə.ment/", meaning: "〜を実行する・施行する", level: 1 },
-  { word: "implicit", phonetic: "/ɪmˈplɪs.ɪt/", meaning: "暗黙の・絶対的な", level: 1 },
-  { word: "impose", phonetic: "/ɪmˈpoʊz/", meaning: "〜を課す・押し付ける", level: 1 },
-  { word: "impromptu", phonetic: "/ɪmˈprɑːmp.tuː/", meaning: "即興の・準備なしの", level: 1 },
-  { word: "impunity", phonetic: "/ɪmˈpjuː.nə.t̬i/", meaning: "刑罰を免れること", level: 1 },
-  { word: "inaugurate", phonetic: "/ɪˈnɑː.ɡjə.reɪt/", meaning: "〜を就任させる・開始する", level: 1 },
-  { word: "incentive", phonetic: "/ɪnˈsen.t̬ɪv/", meaning: "動機・報奨金", level: 1 },
-  { word: "incline", phonetic: "/ɪnˈklaɪn/", meaning: "〜したい気にさせる・傾く", level: 1 },
-  { word: "incumbent", phonetic: "/ɪnˈkʌm.bənt/", meaning: "現職の・義務である", level: 1 },
-  { word: "indifferent", phonetic: "/ɪnˈdɪf.ɚ.ənt/", meaning: "無関心な・並みの", level: 1 },
-  { word: "indispensable", phonetic: "/ˌɪn.dɪˈspen.sə.bəl/", meaning: "不可欠な・絶対必要な", level: 1 },
-  { word: "indulge", phonetic: "/ɪnˈdʌldʒ/", meaning: "〜にふける・甘やかす", level: 1 },
-  { word: "inevitable", phonetic: "/ˌɪnˈev.ə.t̬ə.bəl/", meaning: "避けられない・必然の", level: 1 },
-  { word: "infringe", phonetic: "/ɪnˈfrɪndʒ/", meaning: "〜（権利等）を侵害する", level: 1 },
-  { word: "ingenious", phonetic: "/ɪnˈdʒiː.ni.əs/", meaning: "独創的な・巧妙な", level: 1 },
-  { word: "inhibit", phonetic: "/ɪnˈhɪb.ɪt/", meaning: "〜を抑制する・妨げる", level: 1 },
-  { word: "initiate", phonetic: "/ɪˈnɪʃ.i.eɪt/", meaning: "〜を開始する・創始する", level: 1 },
-  { word: "innovative", phonetic: "/ˈɪn.ə.veɪ.t̬ɪv/", meaning: "革新的な・画期的な", level: 1 },
-  { word: "inquire", phonetic: "/ɪnˈkwaɪr/", meaning: "〜を尋ねる・問い合わせる", level: 1 },
-  { word: "insolvent", phonetic: "/ɪnˈsɑːl.vənt/", meaning: "破産した・支払不能の", level: 1 },
-  { word: "integrate", phonetic: "/ˈɪn.t̬ə.ɡreɪt/", meaning: "〜を統合する・一本化する", level: 1 },
-  { word: "integrity", phonetic: "/ɪnˈteɡ.rə.t̬i/", meaning: "誠実さ・完全性", level: 1 },
-  { word: "intricate", phonetic: "/ˈɪn.trə.kət/", meaning: "複雑な・入り組んだ", level: 1 },
-  { word: "intrigue", phonetic: "/ɪnˈtriːɡ/", meaning: "〜の興味をそそる・陰謀", level: 1 },
-  { word: "invoke", phonetic: "/ɪnˈvoʊk/", meaning: "〜（法・条項等）を発動する", level: 1 },
-  { word: "irrigate", phonetic: "/ˈɪr.ə.ɡeɪt/", meaning: "〜（土地）に水を引く・灌漑する", level: 1 },
-  { word: "jubilant", phonetic: "/ˈdʒuː.bəl.ənt/", meaning: "歓喜に沸く・大喜びの", level: 1 },
-  { word: "judicious", phonetic: "/dʒuːˈdɪʃ.əs/", meaning: "思慮分別のある・賢明な", level: 1 },
-  { word: "lament", phonetic: "/ləˈment/", meaning: "〜を嘆き悲しむ・後悔する", level: 1 },
-  { word: "lavish", phonetic: "/ˈlæv.ɪʃ/", meaning: "贅沢な・気前の良い", level: 1 },
-  { word: "legitimate", phonetic: "/ləˈdʒɪt̬.ə.mət/", meaning: "合法的な・正当な", level: 1 },
-  { word: "lenient", phonetic: "/ˈliː.ni.ənt/", meaning: "寛大な・情け深い", level: 1 },
-  { word: "liability", phonetic: "/ˌlaɪ.əˈbɪl.ə.t̬i/", meaning: "法的責任・負債・不利な点", level: 1 },
-  { word: "libel", phonetic: "/ˈlaɪ.bəl/", meaning: "文書による名誉毀損", level: 1 },
-  { word: "linger", phonetic: "/ˈlɪŋ.ɡɚ/", meaning: "居残る・長引く", level: 1 },
-  { word: "lucid", phonetic: "/ˈluː.sɪd/", meaning: "明快な・頭が冴えた", level: 1 },
-  { word: "magnitude", phonetic: "/ˈmæɡ.nə.tuːd/", meaning: "大きさ・重大さ", level: 1 },
-  { word: "mandatory", phonetic: "/ˈmæn.də.tɔːr.i/", meaning: "義務的な・強制の", level: 1 },
-  { word: "manifest", phonetic: "/ˈmæn.ə.fest/", meaning: "〜を明らかに示す・明白な", level: 1 },
-  { word: "manipulate", phonetic: "/məˈnɪp.jə.leɪt/", meaning: "〜を巧みに操る・改ざんする", level: 1 },
-  { word: "mediate", phonetic: "/ˈmiː.di.eɪt/", meaning: "調停する・仲介する", level: 1 },
-  { word: "medieval", phonetic: "/ˌmed.iˈiː.vəl/", meaning: "中世の", level: 1 },
-  { word: "menace", phonetic: "/ˈmen.ɪs/", meaning: "脅威・危険な存在", level: 1 },
-  { word: "monopoly", phonetic: "/məˈnɑː.pəl.i/", meaning: "独占・専売", level: 1 },
-  { word: "monotonous", phonetic: "/məˈnɑː.tən.əs/", meaning: "単調な・退屈な", level: 1 },
-  { word: "mortality", phonetic: "/mɔːrˈtæl.ə.t̬i/", meaning: "死亡率・死すべき運命", level: 1 },
-  { word: "mundane", phonetic: "/mʌnˈdeɪn/", meaning: "ありふれた・日常の", level: 1 },
-  { word: "negligent", phonetic: "/ˈneɡ.lə.dʒənt/", meaning: "怠慢な・不注意な", level: 1 },
-  { word: "negotiate", phonetic: "/nəˈɡoʊ.ʃi.eɪt/", meaning: "交渉する・取り決める", level: 1 },
-  { word: "nominal", phonetic: "/ˈnɑː.mə.nəl/", meaning: "名ばかりの・ごくわずかな", level: 1 },
-  { word: "notorious", phonetic: "/noʊˈtɔːr.i.əs/", meaning: "悪名高い", level: 1 },
-  { word: "novelty", phonetic: "/ˈnɑː.vəl.ti/", meaning: "目新しさ・斬新さ", level: 1 },
-  { word: "nurture", phonetic: "/ˈnɝː.tʃɚ/", meaning: "〜を育てる・育成する", level: 1 },
-  { word: "oblige", phonetic: "/əˈblaɪdʒ/", meaning: "〜に義務づける・恩恵を施す", level: 1 },
-  { word: "obsolete", phonetic: "/ˌɑːb.səˈliːt/", meaning: "時代遅れの・廃れた", level: 1 },
-  { word: "obstacle", phonetic: "/ˈɑːb.stə.kəl/", meaning: "障害・邪魔物", level: 1 },
-  { word: "ominous", phonetic: "/ˈɑː.mə.nəs/", meaning: "不吉な・不気味な", level: 1 },
-  { word: "opponent", phonetic: "/əˈpoʊ.nənt/", meaning: "対戦相手・反対者", level: 1 },
-  { word: "oppress", phonetic: "/əˈpres/", meaning: "〜を抑圧する・虐げる", level: 1 },
-  { word: "optimistic", phonetic: "/ˌɑːp.təˈmɪs.tɪk/", meaning: "楽観的な", level: 1 },
-  { word: "orthodox", phonetic: "/ˈɔːr.θə.dɑːks/", meaning: "正統派の・伝統的な", level: 1 },
-
-  // ==================== ランクB（重要難語: 150語） ====================
-  { word: "garrulous", phonetic: "/ˈɡær.əl.əs/", meaning: "おしゃべりな・多弁な", level: 2 },
-  { word: "discombobulate", phonetic: "/ˌdɪs.kəmˈbɑː.bjə.leɪt/", meaning: "〜を激しく混乱させる", level: 2 },
-  { word: "meticulous", phonetic: "/məˈtɪk.jə.ləs/", meaning: "極めて綿密な・細心の", level: 2 },
-  { word: "ubiquitous", phonetic: "/juːˈbɪk.wə.t̬əs/", meaning: "至る所にある・遍在する", level: 2 },
-  { word: "audacious", phonetic: "/ɑːˈdeɪ.ʃəs/", meaning: "大胆不敵な・向こう見ずな", level: 2 },
-  { word: "capricious", phonetic: "/kəˈprɪʃ.əs/", meaning: "気まぐれな・移り気な", level: 2 },
-  { word: "cumbersome", phonetic: "/ˈkʌm.bɚ.səm/", meaning: "扱いにくい・厄介な", level: 2 },
-  { word: "deleterious", phonetic: "/ˌdel.əˈtɪr.i.əs/", meaning: "有害な・悪影響を及ぼす", level: 2 },
-  { word: "fastidious", phonetic: "/fæˈstɪd.i.əs/", meaning: "細部にこだわりすぎる・潔癖な", level: 2 },
-  { word: "gregarious", phonetic: "/ɡrɪˈɡer.i.əs/", meaning: "社交的な・群生する", level: 2 },
-  { word: "impeccable", phonetic: "/ɪmˈpek.ə.bəl/", meaning: "完璧な・非の打ち所がない", level: 2 },
-  { word: "indefatigable", phonetic: "/ˌɪn.dɪˈfæt̬.ɪ.ɡə.bəl/", meaning: "疲れを知らない・不屈の", level: 2 },
-  { word: "innocuous", phonetic: "/ɪˈnɑː.kju.əs/", meaning: "無害な・毒気のない", level: 2 },
-  { word: "loquacious", phonetic: "/loʊˈkweɪ.ʃəs/", meaning: "多弁な・話し好きな", level: 2 },
-  { word: "ostentatious", phonetic: "/ˌɑː.stənˈteɪ.ʃəs/", meaning: "見栄を張る・派手な", level: 2 },
-  { word: "precarious", phonetic: "/prɪˈker.i.əs/", meaning: "不安定な・危険な", level: 2 },
-  { word: "redundant", phonetic: "/rɪˈdʌn.dənt/", meaning: "余分な・重複した", level: 2 },
-  { word: "scrupulous", phonetic: "/ˈskruː.pjə.ləs/", meaning: "良心的な・几帳面な", level: 2 },
-  { word: "taciturn", phonetic: "/ˈtæs.ə.tɝːn/", meaning: "無口な・寡黙な", level: 2 },
-  { word: "tenacious", phonetic: "/təˈneɪ.ʃəs/", meaning: "粘り強い・不屈の", level: 2 },
-  { word: "voracious", phonetic: "/vəˈreɪ.ʃəs/", meaning: "貪欲な・旺盛な", level: 2 },
-  { word: "altruistic", phonetic: "/ˌæl.truˈɪs.tɪk/", meaning: "利他的な・愛他心の", level: 2 },
-  { word: "ambiguous", phonetic: "/æmˈbɪɡ.ju.əs/", meaning: "曖昧な・多義にとれる", level: 2 },
-  { word: "benevolent", phonetic: "/bəˈnev.əl.ənt/", meaning: "慈悲深い・親切な", level: 2 },
-  { word: "cogent", phonetic: "/ˈkoʊ.dʒənt/", meaning: "説得力のある・的確な", level: 2 },
-  { word: "eloquent", phonetic: "/ˈel.ə.kwənt/", meaning: "雄弁な・説得力のある", level: 2 },
-  { word: "equivocal", phonetic: "/ɪˈkwɪv.ə.kəl/", meaning: "意味が紛らわしい・曖昧な", level: 2 },
-  { word: "inadvertent", phonetic: "/ˌɪn.ədˈvɝː.t̬ənt/", meaning: "不注意な・何気ない", level: 2 },
-  { word: "anomaly", phonetic: "/əˈnɑː.mə.li/", meaning: "変則・異例・例外", level: 2 },
-  { word: "antipathy", phonetic: "/ænˈtɪp.ə.θi/", meaning: "反感・強い嫌悪", level: 2 },
-  { word: "apathy", phonetic: "/ˈæp.ə.θi/", meaning: "無関心・冷淡", level: 2 },
-  { word: "arbitrary", phonetic: "/ˈɑːr.bə.trer.i/", meaning: "独断的な・恣意的な", level: 2 },
-  { word: "arcane", phonetic: "/ɑːrˈkeɪn/", meaning: "難解な・神秘的な", level: 2 },
-  { word: "arduous", phonetic: "/ˈɑːr.dʒu.əs/", meaning: "多大な労力を要する・過酷な", level: 2 },
-  { word: "artifice", phonetic: "/ˈɑːr.t̬ə.fɪs/", meaning: "策略・巧妙な細工", level: 2 },
-  { word: "ascetic", phonetic: "/əˈset̬.ɪk/", meaning: "禁欲的な・苦行の", level: 2 },
-  { word: "assiduous", phonetic: "/əˈsɪd.ju.əs/", meaning: "根気強い・勤勉な", level: 2 },
-  { word: "astute", phonetic: "/əˈstuːt/", meaning: "抜け目のない・機敏な", level: 2 },
-  { word: "audacity", phonetic: "/ɑːˈdæs.ə.t̬i/", meaning: "図々しさ・大胆さ", level: 2 },
-  { word: "austere", phonetic: "/ɑːˈstɪr/", meaning: "簡素な・厳格な", level: 2 },
-  { word: "autonomy", phonetic: "/ɑːˈtɑː.nə.mi/", meaning: "自治・自主権", level: 2 },
-  { word: "avarice", phonetic: "/ˈæv.ɚ.ɪs/", meaning: "強欲・貪欲", level: 2 },
-  { word: "aversion", phonetic: "/əˈvɝː.ʒən/", meaning: "嫌悪・避けたい気持ち", level: 2 },
-  { word: "beguile", phonetic: "/bɪˈɡaɪl/", meaning: "〜をだます・魅了する", level: 2 },
-  { word: "belligerent", phonetic: "/bəˈlɪdʒ.ɚ.ənt/", meaning: "好戦的な・喧嘩腰の", level: 2 },
-  { word: "benign", phonetic: "/bɪˈnaɪn/", meaning: "良性の・穏やかな", level: 2 },
-  { word: "blatant", phonetic: "/ˈbleɪ.tənt/", meaning: "あからさまな・露骨な", level: 2 },
-  { word: "boisterous", phonetic: "/ˈbɔɪ.stɚ.əs/", meaning: "騒々しい・活気あふれる", level: 2 },
-  { word: "brevity", phonetic: "/ˈbrev.ə.t̬i/", meaning: "簡潔さ・短さ", level: 2 },
-  { word: "cajole", phonetic: "/kəˈdʒoʊl/", meaning: "〜をおだてて〜させる", level: 2 },
-  { word: "callous", phonetic: "/ˈkæl.əs/", meaning: "無感覚な・冷酷な", level: 2 },
-  { word: "candor", phonetic: "/ˈkæn.dɚ/", meaning: "率直さ・公平さ", level: 2 },
-  { word: "castigate", phonetic: "/ˈkæs.tə.ɡeɪt/", meaning: "〜を厳しく懲戒する・非難する", level: 2 },
-  { word: "catalyst", phonetic: "/ˈkæt̬.əl.ɪst/", meaning: "触媒・引き金となるもの", level: 2 },
-  { word: "censure", phonetic: "/ˈsen.ʃɚ/", meaning: "非難・厳しい問責", level: 2 },
-  { word: "chagrin", phonetic: "/ʃəˈɡrɪn/", meaning: "無念・悔しさ", level: 2 },
-  { word: "clamor", phonetic: "/ˈklæm.ɚ/", meaning: "激しい叫び・叫び声", level: 2 },
-  { word: "clandestine", phonetic: "/klænˈdes.tɪn/", meaning: "秘密の・内々の", level: 2 },
-  { word: "clement", phonetic: "/ˈklem.ənt/", meaning: "（気候が）温和な・寛大な", level: 2 },
-  { word: "coercion", phonetic: "/koʊˈɝː.ʃən/", meaning: "強要・弾圧", level: 2 },
-  { word: "commensurate", phonetic: "/kəˈmen.sjɚ.ət/", meaning: "釣り合った・相応の", level: 2 },
-  { word: "compelling", phonetic: "/kəmˈpel.ɪŋ/", meaning: "説得力のある・魅力的な", level: 2 },
-  { word: "complacent", phonetic: "/kəmˈpleɪ.sənt/", meaning: "自己満足した・油断した", level: 2 },
-  { word: "concurrence", phonetic: "/kənˈkɝː.əns/", meaning: "同意・同時発生", level: 2 },
-  { word: "condone", phonetic: "/kənˈdoʊn/", meaning: "〜を容認する・見逃す", level: 2 },
-  { word: "connoisseur", phonetic: "/ˌkɑː.nəˈsɝː/", meaning: "鑑定家・目利き", level: 2 },
-  { word: "consecrate", phonetic: "/ˈkɑːn.sə.kreɪt/", meaning: "〜を神聖にする・捧げる", level: 2 },
-  { word: "contentious", phonetic: "/kənˈten.ʃəs/", meaning: "論争好きな・異論の多い", level: 2 },
-  { word: "convoluted", phonetic: "/ˈkɑːn.və.luː.t̬ɪd/", meaning: "入り組んだ・複雑怪奇な", level: 2 },
-  { word: "copious", phonetic: "/ˈkoʊ.pi.əs/", meaning: "豊富な・おびただしい", level: 2 },
-  { word: "corroborate", phonetic: "/kəˈrɑː.bə.reɪt/", meaning: "〜を裏付ける・確証する", level: 2 },
-  { word: "culpable", phonetic: "/ˈkʌl.pə.bəl/", meaning: "有罪の・非難に値する", level: 2 },
-  { word: "cursory", phonetic: "/ˈkɝː.sɚ.i/", meaning: "大雑把な・ぞんざいな", level: 2 },
-  { word: "dauntless", phonetic: "/ˈdɑːnt.ləs/", meaning: "不屈の・恐れを知らない", level: 2 },
-  { word: "dearth", phonetic: "/dɝːθ/", meaning: "不足・欠乏", level: 2 },
-  { word: "debilitate", phonetic: "/dɪˈbɪl.ə.teɪt/", meaning: "〜を衰弱させる・弱体化させる", level: 2 },
-  { word: "decorum", phonetic: "/dɪˈkɔːr.əm/", meaning: "礼儀作法・端正さ", level: 2 },
-  { word: "deferential", phonetic: "/ˌdef.əˈren.ʃəl/", meaning: "敬意を込めた・謙虚な", level: 2 },
-  { word: "defunct", phonetic: "/dɪˈfʌŋkt/", meaning: "消滅した・現存しない", level: 2 },
-  { word: "demur", phonetic: "/dɪˈmɝː/", meaning: "異議を唱える・難色を示す", level: 2 },
-  { word: "denounce", phonetic: "/dɪˈnaʊns/", meaning: "〜を公然と非難する", level: 2 },
-  { word: "depravity", phonetic: "/dɪˈpræv.ə.t̬i/", meaning: "堕落・腐敗・邪悪", level: 2 },
-  { word: "derisive", phonetic: "/dɪˈraɪ.sɪv/", meaning: "嘲笑的な・小馬鹿にした", level: 2 },
-  { word: "despondent", phonetic: "/dɪˈspɑːn.dənt/", meaning: "落胆した・失望した", level: 2 },
-  { word: "destitute", phonetic: "/ˈdes.tə.tuːt/", meaning: "極貧の・困窮した", level: 2 },
-  { word: "deterrent", phonetic: "/dɪˈter.ənt/", meaning: "抑止力・制止するもの", level: 2 },
-  { word: "devious", phonetic: "/ˈdiː.vi.əs/", meaning: "策略的な・曲がりくねった", level: 2 },
-  { word: "diffident", phonetic: "/ˈdɪf.ə.dənt/", meaning: "内気な・自信のない", level: 2 },
-  { word: "dilatory", phonetic: "/ˈdɪl.ə.tɔːr.i/", meaning: "遅い・ぐずぐずする", level: 2 },
-  { word: "disabuse", phonetic: "/ˌdɪs.əˈbjuːz/", meaning: "〜の迷いを解く・目を覚ます", level: 2 },
-  { word: "disconsolate", phonetic: "/dɪsˈkɑːn.sə.lət/", meaning: "憂鬱な・慰めようのない", level: 2 },
-  { word: "disingenuous", phonetic: "/ˌdɪs.ɪnˈdʒen.ju.əs/", meaning: "不誠実な・下心のある", level: 2 },
-  { word: "disparage", phonetic: "/dɪˈspær.ɪdʒ/", meaning: "〜をけなす・見くびる", level: 2 },
-  { word: "dispassionate", phonetic: "/dɪsˈpæʃ.ən.ət/", meaning: "冷静な・公平無私な", level: 2 },
-  { word: "divisive", phonetic: "/dɪˈvaɪ.sɪv/", meaning: "分裂を招く・不和を生む", level: 2 },
-  { word: "docile", phonetic: "/ˈdoʊ.səl/", meaning: "素直な・従順な", level: 2 },
-  { word: "draconian", phonetic: "/drəˈkoʊ.ni.ən/", meaning: "極めて厳格な・過酷な", level: 2 },
-  { word: "eclectic", phonetic: "/ekˈlek.tɪk/", meaning: "多岐にわたる・折衷的な", level: 2 },
-  { word: "effervescent", phonetic: "/ˌef.ɚˈves.ənt/", meaning: "活気に満ちた・泡立つ", level: 2 },
-  { word: "egotistical", phonetic: "/ˌiː.ɡoʊˈtɪs.tɪ.kəl/", meaning: "自己中心的な・傲慢な", level: 2 },
-  { word: "encroach", phonetic: "/ɪnˈkroʊtʃ/", meaning: "侵入する・侵害する", level: 2 },
-  { word: "enervate", phonetic: "/ˈen.ɚ.veɪt/", meaning: "〜の気力を奪う・弱める", level: 2 },
-  { word: "enigmatic", phonetic: "/ˌen.ɪɡˈmæt̬.ɪk/", meaning: "謎めいた・不可解な", level: 2 },
-  { word: "enmity", phonetic: "/ˈen.mə.t̬i/", meaning: "敵意・強い憎しみ", level: 2 },
-  { word: "epiphany", phonetic: "/ɪˈpɪf.ən.i/", meaning: "突然のひらめき・悟り", level: 2 },
-  { word: "equivocate", phonetic: "/ɪˈkwɪv.ə.keɪt/", meaning: "言葉を濁す・あいまいな事を言う", level: 2 },
-  { word: "eschew", phonetic: "/ɪsˈtʃuː/", meaning: "〜を避ける・控える", level: 2 },
-  { word: "eulogy", phonetic: "/ˈjuː.lə.dʒi/", meaning: "追悼の辞・称賛", level: 2 },
-  { word: "evanescent", phonetic: "/ˌev.əˈnes.ənt/", meaning: "束の間の・消えやすい", level: 2 },
-  { word: "exorbitant", phonetic: "/ɪɡˈzɔːr.bə.t̬ənt/", meaning: "（値段等が）法外な・途方もない", level: 2 },
-  { word: "expedient", phonetic: "/ɪkˈspiː.di.ənt/", meaning: "得策な・都合のよい", level: 2 },
-  { word: "explicit", phonetic: "/ɪkˈsplɪs.ɪt/", meaning: "明白な・率直な", level: 2 },
-  { word: "extol", phonetic: "/ɪkˈstoʊl/", meaning: "〜を大いに褒めそやす", level: 2 },
-  { word: "extraneous", phonetic: "/ɪkˈstreɪ.ni.əs/", meaning: "無関係な・外部からの", level: 2 },
-  { word: "fabricate", phonetic: "/ˈfæb.rɪ.keɪt/", meaning: "〜をでっち上げる・偽造する", level: 2 },
-  { word: "facetious", phonetic: "/fəˈsiː.ʃəs/", meaning: "おどけた・不真面目な", level: 2 },
-  { word: "fallacious", phonetic: "/fəˈleɪ.ʃəs/", meaning: "誤った・当てにならない", level: 2 },
-  { word: "fawning", phonetic: "/ˈfɑː.nɪŋ/", meaning: "へつらう・媚びを売る", level: 2 },
-  { word: "fervent", phonetic: "/ˈfɝː.vənt/", meaning: "熱烈な・情熱的な", level: 2 },
-  { word: "fickle", phonetic: "/ˈfɪk.əl/", meaning: "気まぐれな・変わりやすい", level: 2 },
-  { word: "flabbergasted", phonetic: "/ˈflæb.ɚ.ɡæs.tɪd/", meaning: "仰天した・呆然とした", level: 2 },
-  { word: "fortuitous", phonetic: "/fɔːrˈtuː.ə.t̬əs/", meaning: "偶然の・幸運な", level: 2 },
-  { word: "fraudulent", phonetic: "/ˈfrɑː.dʒə.lənt/", meaning: "詐欺的な・不正な", level: 2 },
-  { word: "frugal", phonetic: "/ˈfruː.ɡəl/", meaning: "質素な・倹約な", level: 2 },
-  { word: "furtive", phonetic: "/ˈfɝː.t̬ɪv/", meaning: "こそこそした・内密の", level: 2 },
-  { word: "gullible", phonetic: "/ˈɡʌl.ə.bəl/", meaning: "騙されやすい・お人好しの", level: 2 },
-  { word: "hackneyed", phonetic: "/ˈhæk.nid/", meaning: "陳腐な・使い古された", level: 2 },
-  { word: "haughty", phonetic: "/ˈhɑː.t̬i/", meaning: "傲慢な・高飛車な", level: 2 },
-  { word: "hedonism", phonetic: "/ˈhiː.dən.ɪz.əm/", meaning: "快楽主義", level: 2 },
-  { word: "homogeneous", phonetic: "/ˌhoʊ.moʊˈdʒiː.ni.əs/", meaning: "均質の・同種の", level: 2 },
-  { word: "immutable", phonetic: "/ɪˈmjuː.t̬ə.bəl/", meaning: "不変の・変わらない", level: 2 },
-  { word: "impetuous", phonetic: "/ɪmˈpetʃ.u.əs/", meaning: "衝動的な・性急な", level: 2 },
-  { word: "implacable", phonetic: "/ɪmˈplæk.ə.bəl/", meaning: "情け容赦ない・和解できない", level: 2 },
-  { word: "inchoate", phonetic: "/ɪnˈkoʊ.eɪt/", meaning: "始まったばかりの・未完成の", level: 2 },
-  { word: "indolent", phonetic: "/ˈɪn.dəl.ənt/", meaning: "怠惰な・無精な", level: 2 },
-  { word: "infamous", phonetic: "/ˈɪn.fə.məs/", meaning: "悪名高い・不名誉な", level: 2 },
-  { word: "inherent", phonetic: "/ɪnˈhɪr.ənt/", meaning: "生まれつきの・固有の", level: 2 },
-  { word: "inundate", phonetic: "/ˈɪn.ʌn.deɪt/", meaning: "〜を氾濫させる・殺到する", level: 2 },
-  { word: "irascible", phonetic: "/ɪˈræs.ə.bəl/", meaning: "怒りっぽい・短気な", level: 2 },
-  { word: "laconic", phonetic: "/ləˈkɑː.nɪk/", meaning: "簡潔な・言葉少なの", level: 2 },
-  { word: "magnanimous", phonetic: "/mæɡˈnæn.ə.məs/", meaning: "寛大な・度量の大きい", level: 2 },
-  { word: "malevolent", phonetic: "/məˈlev.əl.ənt/", meaning: "悪意のある・害をなす", level: 2 },
-  { word: "malleable", phonetic: "/ˈmæl.i.ə.bəl/", meaning: "適応性のある・鍛造できる", level: 2 },
-  { word: "maverick", phonetic: "/ˈmæv.ɚ.ɪk/", meaning: "異端児・独自路線の人", level: 2 },
-  { word: "mendacious", phonetic: "/menˈdeɪ.ʃəs/", meaning: "虚偽の・嘘つきの", level: 2 },
-  { word: "morose", phonetic: "/məˈroʊs/", meaning: "不機嫌な・気難しい", level: 2 },
-  { word: "myriad", phonetic: "/ˈmɪr.i.əd/", meaning: "無数の・無数", level: 2 },
-  { word: "nefarious", phonetic: "/nəˈfer.i.əs/", meaning: "極悪な・邪悪な", level: 2 },
-  { word: "nonchalant", phonetic: "/ˌnɑːn.ʃəˈlɑːnt/", meaning: "平然とした・無関心な", level: 2 },
-  { word: "obdurate", phonetic: "/ˈɑːb.dɚ.ət/", meaning: "頑固な・情に流されない", level: 2 },
-  { word: "oblivious", phonetic: "/əˈblɪv.i.əs/", meaning: "気づいていない・忘れている", level: 2 },
-
-  // ==================== ランクC（頻出超難関: 80語） ====================
-  { word: "intransigent", phonetic: "/ɪnˈtræn.sə.dʒənt/", meaning: "頑固な・妥協しない", level: 3 },
-  { word: "pusillanimous", phonetic: "/ˌpjuː.səˈlæn.ə.məs/", meaning: "小心な・臆病な", level: 3 },
-  { word: "quagmire", phonetic: "/ˈkwæɡ.maɪ.ɚ/", meaning: "泥沼・苦境", level: 3 },
-  { word: "obsequious", phonetic: "/əbˈsiː.kwi.əs/", meaning: "媚びへつらう・追従的な", level: 3 },
-  { word: "sycophant", phonetic: "/ˈsɪk.ə.fænt/", meaning: "おべっか使い・へつらい屋", level: 3 },
-  { word: "anachronism", phonetic: "/əˈnæk.rə.nɪz.əm/", meaning: "時代錯誤・時代遅れ", level: 3 },
-  { word: "cacophony", phonetic: "/kəˈkɑː.fə.ni/", meaning: "不協和音・雑音", level: 3 },
-  { word: "hubris", phonetic: "/ˈhjuː.brɪs/", meaning: "傲慢・過信", level: 3 },
-  { word: "iconoclast", phonetic: "/aɪˈkɑː.nə.klæst/", meaning: "偶像破壊者・異端児", level: 3 },
-  { word: "insidious", phonetic: "/ɪnˈsɪd.i.əs/", meaning: "陰険な・潜行性の", level: 3 },
-  { word: "juxtapose", phonetic: "/ˌdʒʌk.stəˈpoʊz/", meaning: "〜を並置して対比させる", level: 3 },
-  { word: "lethargic", phonetic: "/ləˈθɑːr.dʒɪk/", meaning: "無気力な・昏睡の", level: 3 },
-  { word: "panacea", phonetic: "/ˌpæn.əˈsiː.ə/", meaning: "万能薬・解決策", level: 3 },
-  { word: "recondite", phonetic: "/ˈrek.ən.daɪt/", meaning: "難解な・深遠な", level: 3 },
-  { word: "sanguine", phonetic: "/ˈsæŋ.ɡwɪn/", meaning: "自信に満ちた・陽気な", level: 3 },
-  { word: "abstruse", phonetic: "/æbˈstruːs/", meaning: "難解で分かりにくい", level: 3 },
-  { word: "acrimonious", phonetic: "/ˌæk.rəˈmoʊ.ni.əs/", meaning: "刺々しい・辛辣な", level: 3 },
-  { word: "apocryphal", phonetic: "/əˈpɑː.krə.fəl/", meaning: "信憑性に欠ける・偽りの", level: 3 },
-  { word: "burgeon", phonetic: "/ˈbɝː.dʒən/", meaning: "急成長する・芽吹く", level: 3 },
-  { word: "chicanery", phonetic: "/ʃɪˈkeɪ.nɚ.i/", meaning: "ごまかし・ペテン", level: 3 },
-  { word: "desiccate", phonetic: "/ˈdes.ə.keɪt/", meaning: "〜を完全に乾燥させる", level: 3 },
-  { word: "egregious", phonetic: "/ɪˈɡriː.dʒəs/", meaning: "実に酷い・言語道断の", level: 3 },
-  { word: "esoteric", phonetic: "/ˌes.əˈter.ɪk/", meaning: "秘儀的な・難解な", level: 3 },
-  { word: "abscond", phonetic: "/æbˈskɑːnd/", meaning: "高飛びする・持ち逃げする", level: 3 },
-  { word: "accretion", phonetic: "/əˈkriː.ʃən/", meaning: "増大・蓄積", level: 3 },
-  { word: "adumbrate", phonetic: "/ˈæd.əm.breɪt/", meaning: "〜を予示する・概説する", level: 3 },
-  { word: "aggrandize", phonetic: "/əˈɡræn.daɪz/", meaning: "〜を拡大・強化する", level: 3 },
-  { word: "alacrity", phonetic: "/əˈlæk.rə.t̬i/", meaning: "機敏・快活な敏速さ", level: 3 },
-  { word: "anathema", phonetic: "/əˈnæθ.ə.mə/", meaning: "大嫌いなもの・呪い", level: 3 },
-  { word: "antediluvian", phonetic: "/ˌæn.ti.dɪˈluː.vi.ən/", meaning: "大昔の・時代遅れの", level: 3 },
-  { word: "apotheosis", phonetic: "/əˌpɑː.θiˈoʊ.sɪs/", meaning: "神格化・絶頂期", level: 3 },
-  { word: "assuage", phonetic: "/əˈsweɪdʒ/", meaning: "〜を和らげる・なだめる", level: 3 },
-  { word: "atrophy", phonetic: "/ˈæt.rə.fi/", meaning: "萎縮・衰退", level: 3 },
-  { word: "baleful", phonetic: "/ˈbeɪl.fəl/", meaning: "有害な・不吉な", level: 3 },
-  { word: "banal", phonetic: "/bəˈnɑːl/", meaning: "陳腐な・平凡な", level: 3 },
-  { word: "beleaguer", phonetic: "/bɪˈliː.ɡɚ/", meaning: "〜を取り囲んで苦しめる", level: 3 },
-  { word: "bilious", phonetic: "/ˈbɪl.i.əs/", meaning: "怒りっぽい・不機嫌な", level: 3 },
-  { word: "blandishment", phonetic: "/ˈblæn.dɪʃ.mənt/", meaning: "お世辞・へつらい", level: 3 },
-  { word: "bombastic", phonetic: "/bɑːmˈbæs.tɪk/", meaning: "大言壮語の・誇大な", level: 3 },
-  { word: "calumny", phonetic: "/ˈkæl.əm.ni/", meaning: "中傷・名誉毀損", level: 3 },
-  { word: "canard", phonetic: "/kəˈnɑːrd/", meaning: "デマ・虚報", level: 3 },
-  { word: "churlish", phonetic: "/ˈtʃɝː.lɪʃ/", meaning: "無礼な・不作法な", level: 3 },
-  { word: "circumlocution", phonetic: "/ˌsɝː.kəm.loʊˈkjuː.ʃən/", meaning: "遠回しな言い方", level: 3 },
-  { word: "commensurate", phonetic: "/kəˈmen.sjɚ.ət/", meaning: "相応の・見合った", level: 3 },
-  { word: "compunction", phonetic: "/kəmˈpʌŋk.ʃən/", meaning: "良心の呵責・悔恨", level: 3 },
-  { word: "concomitant", phonetic: "/kənˈkɑː.mə.t̬ənt/", meaning: "付随する・付随物", level: 3 },
-  { word: "contumacious", phonetic: "/ˌkɑːn.tuːˈmeɪ.ʃəs/", meaning: "反抗的な・頑迷な", level: 3 },
-  { word: "coruscate", phonetic: "/ˈkɔːr.ə.skeɪt/", meaning: "きらめく・才気煥発である", level: 3 },
-  { word: "coterie", phonetic: "/ˈkoʊ.t̬ɚ.i/", meaning: "仲間・同人", level: 3 },
-  { word: "crepuscular", phonetic: "/krɪˈpʌs.kjə.lɚ/", meaning: "薄暗い・夕暮れの", level: 3 },
-  { word: "cupidity", phonetic: "/kjuːˈpɪd.ə.t̬i/", meaning: "強欲・貪欲", level: 3 },
-  { word: "deleterious", phonetic: "/ˌdel.əˈtɪr.i.əs/", meaning: "有害な・害を及ぼす", level: 3 },
-  { word: "demagogue", phonetic: "/ˈdem.ə.ɡɑːɡ/", meaning: "扇動政治家", level: 3 },
-  { word: "desuetude", phonetic: "/ˈdes.wə.tuːd/", meaning: "廃止・不使用状態", level: 3 },
-  { word: "diatribe", phonetic: "/ˈdaɪ.ə.traɪb/", meaning: "痛烈な非難・酷評", level: 3 },
-  { word: "diffident", phonetic: "/ˈdɪf.ə.dənt/", meaning: "自信のない・内気な", level: 3 },
-  { word: "disabuse", phonetic: "/ˌdɪs.əˈbjuːz/", meaning: "〜の迷いを解く", level: 3 },
-  { word: "ebullient", phonetic: "/ɪbˈʊl.i.ənt/", meaning: "熱狂的な・溢れる", level: 3 },
-  { word: "effrontery", phonetic: "/ɪˈfrʌn.t̬ɚ.i/", meaning: "厚かましさ・不敵さ", level: 3 },
-  { word: "elegy", phonetic: "/ˈel.ə.dʒi/", meaning: "哀歌・挽歌", level: 3 },
-  { word: "encomium", phonetic: "/enˈkoʊ.mi.əm/", meaning: "賛辞・称賛", level: 3 },
-  { word: "epistolary", phonetic: "/ɪˈpɪs.tə.ler.i/", meaning: "書簡の・書簡体の", level: 3 },
-  { word: "equanimity", phonetic: "/ˌek.wəˈnɪm.ə.t̬i/", meaning: "平静・沈着", level: 3 },
-  { word: "ersatz", phonetic: "/ˈer.zɑːts/", meaning: "代用の・偽の", level: 3 },
-  { word: "eschew", phonetic: "/ɪsˈtʃuː/", meaning: "〜を避ける・慎む", level: 3 },
-  { word: "evanescent", phonetic: "/ˌev.əˈnes.ənt/", meaning: "消えやすい・束の間の", level: 3 },
-  { word: "execrable", phonetic: "/ˈek.sə.krə.bəl/", meaning: "実に不快な・悪質な", level: 3 },
-  { word: "exigent", phonetic: "/ˈek.sə.dʒənt/", meaning: "緊急の・急を要する", level: 3 },
-  { word: "expatiate", phonetic: "/ɪkˈspeɪ.ʃi.eɪt/", meaning: "長々と論じる", level: 3 },
-  { word: "expurgate", phonetic: "/ˈek.spɚ.ɡeɪt/", meaning: "〜の不穏当箇所を削除する", level: 3 },
-  { word: "extirpate", phonetic: "/ˈek.stɚ.peɪt/", meaning: "〜を根絶する・全滅させる", level: 3 },
-  { word: "fatuous", phonetic: "/ˈfætʃ.u.əs/", meaning: "愚かな・ぼんやりした", level: 3 },
-  { word: "feckless", phonetic: "/ˈfek.ləs/", meaning: "無責任な・役に立たない", level: 3 },
-  { word: "fractious", phonetic: "/ˈfræk.ʃəs/", meaning: "怒りっぽい・手に負えない", level: 3 },
-  { word: "gainsay", phonetic: "/ɡeɪnˈseɪ/", meaning: "〜を否定する", level: 3 },
-  { word: "grandiloquent", phonetic: "/ɡrænˈdɪl.ə.kwənt/", meaning: "大言壮語の・誇大な", level: 3 },
-  { word: "harangue", phonetic: "/həˈræŋ/", meaning: "長演説・熱弁", level: 3 },
-  { word: "hegemony", phonetic: "/hɪˈdʒem.ə.ni/", meaning: "覇権・主導権", level: 3 },
-  { word: "hermetic", phonetic: "/hɝːˈmet̬.ɪk/", meaning: "密閉された・難解な", level: 3 },
-  { word: "ignominious", phonetic: "/ˌɪɡ.nəˈmɪn.i.əs/", meaning: "不名誉な・恥ずべき", level: 3 },
-
-  // ==================== 熟語（重要句動詞: 70語） ====================
-  { word: "peter out", phonetic: "/ˈpiː.t̬ɚ aʊt/", meaning: "次第に衰退する・消滅する", level: 4 },
-  { word: "chalk up to", phonetic: "/tʃɑːk ʌp tuː/", meaning: "〜のせいにする・〜の結果とみなす", level: 4 },
-  { word: "gloss over", phonetic: "/ɡlɑːs ˈoʊ.vɚ/", meaning: "〜をごまかす・体裁をつくろう", level: 4 },
-  { word: "shore up", phonetic: "/ʃɔːr ʌp/", meaning: "〜を強化する・支える", level: 4 },
-  { word: "single out", phonetic: "/ˈsɪŋ.ɡəl aʊt/", meaning: "〜を選び出す・名指しする", level: 4 },
-  { word: "bail out", phonetic: "/beɪl aʊt/", meaning: "〜（企業等）を財政救済する", level: 4 },
-  { word: "crack down on", phonetic: "/kræk daʊn ɑːn/", meaning: "〜を厳重に取り締まる", level: 4 },
-  { word: "fumble for", phonetic: "/ˈfʌm.bəl fɚ/", meaning: "〜を探り求める・言葉を探す", level: 4 },
-  { word: "iron out", phonetic: "/ˈaɪ.ɚn aʊt/", meaning: "〜（問題や差異）を円満解決する", level: 4 },
-  { word: "muddle through", phonetic: "/ˈmʌd.əl θruː/", meaning: "なんとか切り抜ける・やり遂げる", level: 4 },
-  { word: "phase out", phonetic: "/feɪz aʊt/", meaning: "〜を段階的に廃止する", level: 4 },
-  { word: "rule out", phonetic: "/ruːl aʊt/", meaning: "〜を除外する・排除する", level: 4 },
-  { word: "stem from", phonetic: "/stem frɑːm/", meaning: "〜に起因する・由来する", level: 4 },
-  { word: "tamper with", phonetic: "/ˈtæm.pɚ wɪð/", meaning: "〜を不正に改ざんする・いじる", level: 4 },
-  { word: "wipe out", phonetic: "/waɪp aʊt/", meaning: "〜を全滅させる・帳消しにする", level: 4 },
-  { word: "brush off", phonetic: "/brʌʃ ɑːf/", meaning: "〜を軽くあしらう・無視する", level: 4 },
-  { word: "clamp down on", phonetic: "/klæmp daʊn ɑːn/", meaning: "〜を取り締まる・弾圧する", level: 4 },
-  { word: "fritter away", phonetic: "/ˈfrɪt.ɚ əˈweɪ/", meaning: "〜を無駄遣いする・浪費する", level: 4 },
-  { word: "mull over", phonetic: "/mʌl ˈoʊ.vɚ/", meaning: "〜をじっくり熟考する", level: 4 },
-  { word: "opt out of", phonetic: "/ɑːpt aʊt ʌv/", meaning: "〜から身を引く・脱退する", level: 4 },
-  { word: "rope into", phonetic: "/roʊp ˈɪn.tuː/", meaning: "〜に無理やり巻き込む・誘い込む", level: 4 },
-  { word: "skirt around", phonetic: "/skɝːt əˈraʊnd/", meaning: "〜（難題）を巧妙に回避する", level: 4 },
-  { word: "taper off", phonetic: "/ˈteɪ.pɚ ɑːf/", meaning: "次第に先細る・減少する", level: 4 },
-  { word: "bank on", phonetic: "/bæŋk ɑːn/", meaning: "〜を当てにする・頼りにする", level: 4 },
-  { word: "bear out", phonetic: "/ber aʊt/", meaning: "〜（理論・証言）を裏付ける", level: 4 },
-  { word: "blurt out", phonetic: "/blɝːt aʊt/", meaning: "〜をうっかり口走る", level: 4 },
-  { word: "botch up", phonetic: "/bɑːtʃ ʌp/", meaning: "〜をしそこなう・ヘボる", level: 4 },
-  { word: "cash in on", phonetic: "/kæʃ ɪn ɑːn/", meaning: "〜に乗じて大儲けする", level: 4 },
-  { word: "cater to", phonetic: "/ˈkeɪ.t̬ɚ tuː/", meaning: "〜の好みに合わせる・迎合する", level: 4 },
-  { word: "chime in", phonetic: "/tʃaɪm ɪn/", meaning: "会話に口を挟む・同調する", level: 4 },
-  { word: "chip in", phonetic: "/tʃɪp ɪn/", meaning: "お金を出し合う・寄付する", level: 4 },
-  { word: "clog up", phonetic: "/klɑːɡ ʌp/", meaning: "〜を完全に詰まらせる", level: 4 },
-  { word: "conjure up", phonetic: "/ˈkɑːn.dʒɚ ʌp/", meaning: "〜を心に思い浮かべさせる", level: 4 },
-  { word: "crop up", phonetic: "/krɑːp ʌp/", meaning: "（不意に問題が）持ち上がる", level: 4 },
-  { word: "dash off", phonetic: "/dæʃ ɑːf/", meaning: "〜を手早く一気に書き上げる", level: 4 },
-  { word: "die down", phonetic: "/daɪ daʊn/", meaning: "（騒ぎ・風などが）静まる", level: 4 },
-  { word: "dish out", phonetic: "/dɪʃ aʊt/", meaning: "〜を惜しげもなく配る・与える", level: 4 },
-  { word: "drag on", phonetic: "/dræɡ ɑːn/", meaning: "（会議などが）ダラダラ長引く", level: 4 },
-  { word: "egg on", phonetic: "/eɡ ɑːn/", meaning: "〜をそそのかす・けしかける", level: 4 },
-  { word: "eke out", phonetic: "/iːk aʊt/", meaning: "〜を何とかやりくりして生計を立てる", level: 4 },
-  { word: "fall back on", phonetic: "/fɑːl bæk ɑːn/", meaning: "〜を最後の頼みとする", level: 4 },
-  { word: "figure on", phonetic: "/ˈfɪɡ.jɚ ɑːn/", meaning: "〜を見込む・計算に入れる", level: 4 },
-  { word: "flare up", phonetic: "/fler ʌp/", meaning: "（病気や争いが）急に再発・激化する", level: 4 },
-  { word: "gear up for", phonetic: "/ɡɪr ʌp fɚ/", meaning: "〜に向けて準備を整える", level: 4 },
-  { word: "hammer out", phonetic: "/ˈhæm.ɚ aʊt/", meaning: "〜（合意・協定）を苦心してまとめる", level: 4 },
-  { word: "hinge on", phonetic: "/hɪndʒ ɑːn/", meaning: "〜次第である・〜にかかっている", level: 4 },
-  { word: "hush up", phonetic: "/hʌʃ ʌp/", meaning: "〜をもみ消す・隠蔽する", level: 4 },
-  { word: "jack up", phonetic: "/dʒæk ʌp/", meaning: "〜（価格など）を大幅に引き上げる", level: 4 },
-  { word: "jot down", phonetic: "/dʒɑːt daʊn/", meaning: "〜を手早く書き留める・メモする", level: 4 },
-  { word: "kick in", phonetic: "/kɪk ɪn/", meaning: "（薬効や制度などが）効き始める", level: 4 },
-  { word: "knuckle down", phonetic: "/ˈnʌk.əl daʊn/", meaning: "真剣に本腰を入れて取り組む", level: 4 },
-  { word: "lay off", phonetic: "/leɪ ɑːf/", meaning: "〜を一時解雇する・〜をやめる", level: 4 },
-  { word: "level with", phonetic: "/ˈlev.əl wɪð/", meaning: "〜に正直に本当のことを話す", level: 4 },
-  { word: "look down on", phonetic: "/lʊk daʊn ɑːn/", meaning: "〜を見下す・軽蔑する", level: 4 },
-  { word: "make do with", phonetic: "/meɪk duː wɪð/", meaning: "〜でなんとか間に合わせる", level: 4 },
-  { word: "mark down", phonetic: "/mɑːrk daʊn/", meaning: "〜を値下げする", level: 4 },
-  { word: "nod off", phonetic: "/nɑːd ɑːf/", meaning: "うとうと眠り込む・居眠りする", level: 4 },
-  { word: "palm off", phonetic: "/pɑːm ɑːf/", meaning: "〜（不要品）を騙してつかませる", level: 4 },
-  { word: "pan out", phonetic: "/pæn aʊt/", meaning: "（事態が）期待通りにうまくいく", level: 4 },
-  { word: "pass off as", phonetic: "/pæs ɑːf æz/", meaning: "〜を…と偽って通用させる", level: 4 },
-  { word: "patch up", phonetic: "/pætʃ ʌp/", meaning: "〜（不仲・怪我など）を修復・手当てする", level: 4 },
-  { word: "play down", phonetic: "/pleɪ daʊn/", meaning: "〜を控えめに見せる・軽視する", level: 4 },
-  { word: "pull off", phonetic: "/pʊl ɑːf/", meaning: "〜（困難なこと）を見事にやってのける", level: 4 },
-  { word: "rake in", phonetic: "/reɪk ɪn/", meaning: "〜（大金）をがっぽり稼ぎ集める", level: 4 },
-  { word: "run down", phonetic: "/rʌn daʊn/", meaning: "〜をけなす・〜（原因）を突き止める", level: 4 },
-  { word: "shrug off", phonetic: "/ʃrʌɡ ɑːf/", meaning: "〜を平然と受け流す・気にしない", level: 4 },
-  { word: "siphon off", phonetic: "/ˈsaɪ.fən ɑːf/", meaning: "〜（資金など）を不正に流用する", level: 4 },
-  { word: "size up", phonetic: "/saɪz ʌp/", meaning: "〜（状況・相手）を評価・見極める", level: 4 },
-  { word: "smooth over", phonetic: "/smuːð ˈoʊ.vɚ/", meaning: "〜（争い・角）を丸く収める", level: 4 },
-  { word: "zero in on", phonetic: "/ˈzɪr.oʊ ɪn ɑːn/", meaning: "〜に照準を合わせる・集中する", level: 4 }
+const himekorock1000 = [
+  { id: 1, word: "abate", meaning: "(勢い・苦痛などが)和らぐ、衰える" },
+  { id: 2, word: "abdicate", meaning: "退位する、(権利・責任を)放棄する" },
+  { id: 3, word: "aberrant", meaning: "異常な、常軌を逸した" },
+  { id: 4, word: "abet", meaning: "（悪事などを）教唆する、そそのかす" },
+  { id: 5, word: "abhor", meaning: "痛嫌う、毛嫌いする" },
+  { id: 6, word: "abject", meaning: "絶望的な、みじめな、卑屈な" },
+  { id: 7, word: "ablution", meaning: "沐浴、身体を洗うこと" },
+  { id: 8, word: "abnegate", meaning: "（権利・快楽などを）放棄する、断念する" },
+  { id: 9, word: "abolish", meaning: "（法律・制度などを）廃止する" },
+  { id: 10, word: "abominate", meaning: "ひどく嫌う、憎悪する" },
+  { id: 11, word: "aboriginal", meaning: "先住の、土着の" },
+  { id: 12, word: "abortive", meaning: "不成功の、失敗に終わった" },
+  { id: 13, word: "abrasive", meaning: "研磨用の、人を苛立たせる" },
+  { id: 14, word: "abscond", meaning: "（金銭を持って）持ち逃げする、失踪する" },
+  { id: 15, word: "absolve", meaning: "（罪・責任などから）解放する、免除する" },
+  { id: 16, word: "abstain", meaning: "（投票などを）棄権する、慎む" },
+  { id: 17, word: "abstemious", meaning: "（食事・酒などに）節制した、控えめな" },
+  { id: 18, word: "abstract", meaning: "抽象的な、要約する" },
+  { id: 19, word: "abstruse", meaning: "難解な、深遠な" },
+  { id: 20, word: "abut", meaning: "（土地などが）隣接する、接する" },
+  { id: 21, word: "abyss", meaning: "底知れぬ深淵、地獄" },
+  { id: 22, word: "accede", meaning: "（要求・地位に）応じる、就任する" },
+  { id: 23, word: "accelerate", meaning: "加速する、促進する" },
+  { id: 24, word: "acclivity", meaning: "上り坂" },
+  { id: 25, word: "accolade", meaning: "賞賛、栄誉" },
+  { id: 26, word: "accretion", meaning: "（自然な）付加、成長、堆積" },
+  { id: 27, word: "acerbic", meaning: "（言葉・態度が）辛辣な、すっぱい" },
+  { id: 28, word: "acidulous", meaning: "酸味のある、皮肉な" },
+  { id: 29, word: "acme", meaning: "絶頂、最高潮" },
+  { id: 30, word: "acolyte", meaning: "聖職者の補佐、側近" },
+  { id: 31, word: "acquiesce", meaning: "黙認する、いやいや従う" },
+  { id: 32, word: "acrid", meaning: "（匂い・味が）辛くて刺激的な、刺すような" },
+  { id: 33, word: "acrimonious", meaning: "（言葉・議論が）険悪な、辛辣な" },
+  { id: 34, word: "acumen", meaning: "鋭い洞察力、敏腕" },
+  { id: 35, word: "acute", meaning: "鋭い、深刻な、急性の" },
+  { id: 36, word: "adamant", meaning: "断固とした、譲らない" },
+  { id: 37, word: "adapt", meaning: "適合させる、順応する" },
+  { id: 38, word: "addict", meaning: "中毒者、熱中する人" },
+  { id: 39, word: "addle", meaning: "混乱させる、頭を働かなくさせる" },
+  { id: 40, word: "adduce", meaning: "（証拠・理由を）挙げる、引き合いに出す" },
+  { id: 41, word: "adept", meaning: "熟達した、達人" },
+  { id: 42, word: "adherent", meaning: "支持者、信奉者" },
+  { id: 43, word: "adipose", meaning: "脂肪の、脂肪質の" },
+  { id: 44, word: "adjunct", meaning: "助手、付属物" },
+  { id: 45, word: "adjure", meaning: "厳命する、誓って懇願する" },
+  { id: 46, word: "admonish", meaning: "忠告する、厳しく叱る" },
+  { id: 47, word: "adroit", meaning: "巧妙な、器用な" },
+  { id: 48, word: "adulation", meaning: "過度のお世辞、追従" },
+  { id: 49, word: "adulterate", meaning: "（品質を）改ざんする、薄める" },
+  { id: 50, word: "adumbrate", meaning: "ぼんやりと予示する、概略を示す" },
+  { id: 51, word: "advent", meaning: "到来、出現" },
+  { id: 52, word: "adverse", meaning: "逆の、不利な、敵意を持った" },
+  { id: 53, word: "advert", meaning: "言及する、注意を向ける" },
+  { id: 54, word: "advocate", meaning: "提唱する、支持者" },
+  { id: 55, word: "aegis", meaning: "保護、後援、庇護" },
+  { id: 56, word: "aesthetic", meaning: "審美的な、美学の" },
+  { id: 57, word: "affable", meaning: "愛想の良い、気さくな" },
+  { id: 58, word: "affectation", meaning: "気取り、見栄、偽り" },
+  { id: 59, word: "affidavit", meaning: "宣誓供述書" },
+  { id: 60, word: "affiliation", meaning: "加入、提携、所属" },
+  { id: 61, word: "affinity", meaning: "親近感、類似性" },
+  { id: 62, word: "affluent", meaning: "裕福な、豊かな" },
+  { id: 63, word: "aggrandize", meaning: "（権力・財産を）増大させる、誇張する" },
+  { id: 64, word: "aggregate", meaning: "総計の、集める" },
+  { id: 65, word: "aghast", meaning: "がく然とした、恐れ入った" },
+  { id: 66, word: "agility", meaning: "敏捷さ、機敏さ" },
+  { id: 67, word: "agitate", meaning: "扇動する、かき乱す" },
+  { id: 68, word: "agnostic", meaning: "不可知論者" },
+  { id: 69, word: "agrarian", meaning: "農業の、土地の" },
+  { id: 70, word: "alacrity", meaning: "敏速、快諾" },
+  { id: 71, word: "alchemy", meaning: "錬金術、魔術的な力" },
+  { id: 72, word: "alias", meaning: "偽名、別名" },
+  { id: 73, word: "alienate", meaning: "遠ざける、疎遠にする" },
+  { id: 74, word: "alimentary", meaning: "栄養の、消化管の" },
+  { id: 75, word: "allay", meaning: "（恐怖・苦痛を）和らげる、静める" },
+  { id: 76, word: "allege", meaning: "（証拠なく）断言する、主張する" },
+  { id: 77, word: "allegiance", meaning: "忠誠、忠実" },
+  { id: 78, word: "allocate", meaning: "割り当てる、配分する" },
+  { id: 79, word: "alloy", meaning: "合金、質を落とす" },
+  { id: 80, word: "allude", meaning: "ほのめかす、それとなく触れる" },
+  { id: 81, word: "allure", meaning: "魅惑する、魅力" },
+  { id: 82, word: "alluvial", meaning: "沖積世の、土砂堆積の" },
+  { id: 83, word: "alms", meaning: "施し、寄付金" },
+  { id: 84, word: "aloof", meaning: "冷淡な、超越した、よそよそしい" },
+  { id: 85, word: "altercation", meaning: "激しい口論、言い争い" },
+  { id: 86, word: "altruistic", meaning: "利他主義の、献身的な" },
+  { id: 87, word: "amalgamate", meaning: "合併する、融合する" },
+  { id: 88, word: "ambiguous", meaning: "曖昧な、多義的な" },
+  { id: 89, word: "ambivalent", meaning: "相矛盾する感情を持つ、揺れ動く" },
+  { id: 90, word: "amble", meaning: "のんびり歩く、散歩" },
+  { id: 91, word: "ambush", meaning: "待ち伏せ、奇襲する" },
+  { id: 92, word: "ameliorate", meaning: "改善する、改良する" },
+  { id: 93, word: "amenable", meaning: "従順な、聞き分けの良い" },
+  { id: 94, word: "amenity", meaning: "快適さ、娯楽施設" },
+  { id: 95, word: "amiable", meaning: "愛想の良い、親しみやすい" },
+  { id: 96, word: "amicable", meaning: "友好的な、平和的な" },
+  { id: 97, word: "amorphous", meaning: "無定形の、まとまりのない" },
+  { id: 98, word: "amortize", meaning: "（借金を）段階的に返済する" },
+  { id: 99, word: "phibian", meaning: "両生類の、水陸両用の" },
+  { id: 100, word: "ample", meaning: "十分な、広大な" },
+  { id: 101, word: "amplify", meaning: "拡大する、増幅する" },
+  { id: 102, word: "amplitude", meaning: "広範囲、振幅、豊かさ" },
+  { id: 103, word: "anachronism", meaning: "時代錯誤、時代遅れのもの" },
+  { id: 104, word: "analgesic", meaning: "鎮痛剤、痛みを和らげる" },
+  { id: 105, word: "analogy", meaning: "類推、類似" },
+  { id: 106, word: "anarchy", meaning: "無政府状態、無秩序" },
+  { id: 107, word: "anathema", meaning: "毛嫌いされるもの、破門" },
+  { id: 108, word: "ancillary", meaning: "補助的な、付随する" },
+  { id: 109, word: "anecdote", meaning: "逸話、秘史" },
+  { id: 110, word: "anemic", meaning: "貧血の、活気のない" },
+  { id: 111, word: "anguish", meaning: "苦悶、激しい苦痛" },
+  { id: 112, word: "animosity", meaning: "強い敵意、恨み" },
+  { id: 113, word: "annals", meaning: "年史、記録" },
+  { id: 114, word: "anneal", meaning: "（金属・ガラスを）焼きなす、鍛錬する" },
+  { id: 115, word: "annex", meaning: "併合する、付属家" },
+  { id: 116, word: "annihilate", meaning: "全滅させる、消滅させる" },
+  { id: 117, word: "annotate", meaning: "注釈をつける" },
+  { id: 118, word: "annuity", meaning: "年金、年金受取権" },
+  { id: 119, word: "anodized", meaning: "陽極酸化処理された" },
+  { id: 120, word: "anonymous", meaning: "匿名の、作者不詳の" },
+  { id: 121, word: "antagonize", meaning: "敵に回す、反感を買う" },
+  { id: 122, word: "antecedent", meaning: "先行するもの、経歴" },
+  { id: 123, word: "antediluvian", meaning: "大洪水前の、時代遅れの" },
+  { id: 124, word: "anthem", meaning: "聖歌、賛歌" },
+  { id: 125, word: "anthology", meaning: "アンソロジー、名詩集" },
+  { id: 126, word: "anthropoid", meaning: "類人猿の、ヒトに似た" },
+  { id: 127, word: "antibiotic", meaning: "抗生物質" },
+  { id: 128, word: "antipathy", meaning: "反感、嫌悪" },
+  { id: 129, word: "antiquated", meaning: "古めかしい、時代遅れの" },
+  { id: 130, word: "antiseptic", meaning: "消毒剤、防腐の" },
+  { id: 131, word: "antithesis", meaning: "正反対、対立" },
+  { id: 132, word: "apathy", meaning: "無関心、冷淡" },
+  { id: 133, word: "apex", meaning: "頂点、先端" },
+  { id: 134, word: "aphorism", meaning: "金言、格言" },
+  { id: 135, word: "apiary", meaning: "養蜂場" },
+  { id: 136, word: "aplomb", meaning: "落ち着き、沈着" },
+  { id: 137, word: "apocalyptic", meaning: "世の終わりのような、啓示的な" },
+  { id: 138, word: "apocryphal", meaning: "怪しげな、真偽不明の" },
+  { id: 139, word: "apology", meaning: "謝罪、弁明" },
+  { id: 140, word: "apoplexy", meaning: "脳卒中、激怒" },
+  { id: 141, word: "apostate", meaning: "背教者、変節者" },
+  { id: 142, word: "apotheosis", meaning: "神格化、理想像、最高潮" },
+  { id: 143, word: "appalling", meaning: "ゾッとするような、ひどい" },
+  { id: 144, word: "apparatus", meaning: "装置、器具、機構" },
+  { id: 145, word: "appellation", meaning: "名称、呼称" },
+  { id: 146, word: "append", meaning: "付け加える、添付する" },
+  { id: 147, word: "apposite", meaning: "適切な、ぴったりの" },
+  { id: 148, word: "appraise", meaning: "査定する、評価する" },
+  { id: 149, word: "apprehend", meaning: "逮捕する、懸念する、理解する" },
+  { id: 150, word: "apprise", meaning: "知らせる、通知する" },
+  { id: 151, word: "approbation", meaning: "賞賛、承認" },
+  { id: 152, word: "appropriate", meaning: "充当する、適切な、横領する" },
+  { id: 153, word: "appurtenances", meaning: "付属品、従属物" },
+  { id: 154, word: "apropos", meaning: "〜に関して、適切な" },
+  { id: 155, word: "aptitude", meaning: "適性、才能" },
+  { id: 156, word: "aquatic", meaning: "水生の、水上の" },
+  { id: 157, word: "aqueduct", meaning: "水道橋、導水管" },
+  { id: 158, word: "arabesque", meaning: "アラベスク模様、唐草模様" },
+  { id: 159, word: "arbiter", meaning: "裁定者、権威者" },
+  { id: 160, word: "arbitrary", meaning: "独断的な、任意の" },
+  { id: 161, word: "arbitrate", meaning: "仲裁する、調停する" },
+  { id: 162, word: "arboreal", meaning: "樹木の、樹上生活の" },
+  { id: 163, word: "arcane", meaning: "不可解な、秘密の" },
+  { id: 164, word: "archaeology", meaning: "考古学" },
+  { id: 165, word: "archaic", meaning: "古風な、古来の" },
+  { id: 166, word: "archetype", meaning: "原型、典型" },
+  { id: 167, word: "archipelago", meaning: "群島、多島海" },
+  { id: 168, word: "archives", meaning: "公文書館、記録保管所" },
+  { id: 169, word: "ardent", meaning: "熱烈な、情熱的な" },
+  { id: 170, word: "arduous", meaning: "過酷な、骨の折れる" },
+  { id: 171, word: "aria", meaning: "アリア、独唱曲" },
+  { id: 172, word: "id", meaning: "乾燥した、不毛の" },
+  { id: 173, word: "armada", meaning: "艦隊" },
+  { id: 174, word: "aromatic", meaning: "芳香のある" },
+  { id: 175, word: "arraign", meaning: "罪状認諾を求める、告発する" },
+  { id: 176, word: "array", meaning: "整列させる、一連の配置" },
+  { id: 177, word: "arrogant", meaning: "傲慢な、横柄な" },
+  { id: 178, word: "arroyo", meaning: "小川、涸れ谷" },
+  { id: 179, word: "arsenal", meaning: "兵器庫、武器庫" },
+  { id: 180, word: "artery", meaning: "動脈、主要道路" },
+  { id: 181, word: "artful", meaning: "巧妙な、ずる賢い" },
+  { id: 182, word: "arthritic", meaning: "関節炎の" },
+  { id: 183, word: "artifice", meaning: "策略、巧みな工夫" },
+  { id: 184, word: "artisan", meaning: "職人、工芸家" },
+  { id: 185, word: "ascendancy", meaning: "優勢、支配権" },
+  { id: 186, word: "ascetic", meaning: "苦行の、禁欲的な" },
+  { id: 187, word: "ascribe", meaning: "（原因を）〜のせいにする" },
+  { id: 188, word: "aseptic", meaning: "無菌の、防腐の" },
+  { id: 189, word: "ashen", meaning: "灰色の、顔色の悪い" },
+  { id: 190, word: "asinine", meaning: "愚かな、間抜けな" },
+  { id: 191, word: "askance", meaning: "疑わしげに、斜めに" },
+  { id: 192, word: "askew", meaning: "曲がって、ゆがんで" },
+  { id: 193, word: "asperity", meaning: "（気性・気候の）厳しさ、荒々しさ" },
+  { id: 194, word: "aspersion", meaning: "中傷、悪口" },
+  { id: 195, word: "aspirant", meaning: "志望者、野心家" },
+  { id: 196, word: "aspire", meaning: "熱望する、大望を抱く" },
+  { id: 197, word: "assail", meaning: "激しく攻撃する、悩ませる" },
+  { id: 198, word: "assay", meaning: "（鉱石の）分析、試練" },
+  { id: 199, word: "assent", meaning: "同意、賛成する" },
+  { id: 200, word: "assert", meaning: "主張する、断言する" }
+  { id: 201, word: "assess", meaning: "評価する、査定する" },
+  { id: 202, word: "asseverate", meaning: "断言する、きっぱり言う" },
+  { id: 203, word: "assiduous", meaning: "勤勉な、地道な" },
+  { id: 204, word: "assimilate", meaning: "同化する、消化吸収する" },
+  { id: 205, word: "assuage", meaning: "（苦痛・怒りを）和らげる、静める" },
+  { id: 206, word: "astral", meaning: "星の、星に関する" },
+  { id: 207, word: "astringent", meaning: "収れん性の、厳格な、辛辣な" },
+  { id: 208, word: "astute", meaning: "抜け目のない、鋭い" },
+  { id: 209, word: "asunder", meaning: "バラバラに、離れて" },
+  { id: 210, word: "asylum", meaning: "亡命、精神病院、保護施設" },
+  { id: 211, word: "asymmetric", meaning: "非対称の" },
+  { id: 212, word: "atavism", meaning: "先祖返り、回帰" },
+  { id: 213, word: "atheist", meaning: "無神論者" },
+  { id: 214, word: "atone", meaning: "罪滅ぼしをする、償う" },
+  { id: 215, word: "atrocious", meaning: "残虐な、ひどく劣った" },
+  { id: 216, word: "atrophy", meaning: "萎縮、退化する" },
+  { id: 217, word: "attenuate", meaning: "細らせる、弱める、希釈する" },
+  { id: 218, word: "attest", meaning: "証明する、証拠となる" },
+  { id: 219, word: "attributable", meaning: "起因する、〜のせいとされる" },
+  { id: 220, word: "attrition", meaning: "（人員などの）自然減、摩耗" },
+  { id: 221, word: "atypical", meaning: "非典型的な、異常な" },
+  { id: 222, word: "audacious", meaning: "大胆な、向こう見ずな" },
+  { id: 223, word: "auditory", meaning: "聴覚の" },
+  { id: 224, word: "augment", meaning: "増大させる、増加させる" },
+  { id: 225, word: "augur", meaning: "前兆となる、占い師" },
+  { id: 226, word: "august", meaning: "威厳のある、高貴な" },
+  { id: 227, word: "Aura", meaning: "オーラ、霊気、独特の雰囲気" },
+  { id: 228, word: "auspices", meaning: "後援、保護、吉兆" },
+  { id: 229, word: "auspicious", meaning: "吉兆の、幸先の良い" },
+  { id: 230, word: "austere", meaning: "質素な、厳格な、簡素な" },
+  { id: 231, word: "authentic", meaning: "本物の、確実な" },
+  { id: 232, word: "authoritarian", meaning: "権威主義的な、独裁的な" },
+  { id: 233, word: "autocratic", meaning: "独裁的な、横暴な" },
+  { id: 234, word: "automaton", meaning: "自動人形、ロボットのように働く人" },
+  { id: 235, word: "autonomous", meaning: "自治権のある、自律的な" },
+  { id: 236, word: "auxiliary", meaning: "補助的な、予備の" },
+  { id: 237, word: "avant-garde", meaning: "前衛的な、アヴァンギャルド" },
+  { id: 238, word: "avarice", meaning: "強欲、どん欲" },
+  { id: 239, word: "aver", meaning: "断言する、主張する" },
+  { id: 240, word: "averse", meaning: "嫌って、反対して" },
+  { id: 241, word: "aversion", meaning: "嫌悪、天敵" },
+  { id: 242, word: "avert", meaning: "（危険などを）避ける、目をそらす" },
+  { id: 243, word: "avian", meaning: "鳥類の" },
+  { id: 244, word: "avid", meaning: "熱望している、熱心な" },
+  { id: 245, word: "avocation", meaning: "副業、趣味" },
+  { id: 246, word: "avow", meaning: "公言する、認める" },
+  { id: 247, word: "avuncular", meaning: "おじのような、親切な" },
+  { id: 248, word: "awry", meaning: "曲がって、期待外れに、狂って" },
+  { id: 249, word: "axiom", meaning: "自明の理、公理" },
+  { id: 250, word: "azure", meaning: "青空色、群青色" },
+  { id: 251, word: "babble", meaning: "たわごとを言う、せせらぐ" },
+  { id: 252, word: "bacchanal", meaning: "乱交騒ぎ、酔っ払い" },
+  { id: 253, word: "backfire", meaning: "（計画などが）裏目に出る" },
+  { id: 254, word: "badger", meaning: "しつこく悩ます、アナグマ" },
+  { id: 255, word: "badinage", meaning: "軽口、悪ふざけの会話" },
+  { id: 256, word: "baffle", meaning: "当惑させる、挫折させる" },
+  { id: 257, word: "bail", meaning: "保釈金、保釈する" },
+  { id: 258, word: "baleful", meaning: "悪意のある、不吉な" },
+  { id: 259, word: "balk", meaning: "躊躇する、妨げる" },
+  { id: 260, word: "ballyhoo", meaning: "大騒ぎ、過度な宣伝" },
+  { id: 261, word: "balm", meaning: "香油、慰め、軟膏" },
+  { id: 262, word: "banal", meaning: "陳腐な、ありふれた" },
+  { id: 263, word: "bandy", meaning: "（言葉などを）交わす、言い合う" },
+  { id: 264, word: "bane", meaning: "悩みの種、破滅のもと" },
+  { id: 265, word: "barb", meaning: "（言葉の）トゲ、痛烈な批判" },
+  { id: 266, word: "baroque", meaning: "バロック様式の、装飾過剰な" },
+  { id: 267, word: "barrage", meaning: "弾幕、矢継ぎ早の攻撃" },
+  { id: 268, word: "barrister", meaning: "法廷弁護士" },
+  { id: 269, word: "bask", meaning: "日なたぼっこをする、恩恵に浴する" },
+  { id: 270, word: "bastion", meaning: "要塞、砦、本拠地" },
+  { id: 271, word: "bate", meaning: "（勢いを）和らげる、抑える" },
+  { id: 272, word: "baton", meaning: "指揮棒、バトン" },
+  { id: 273, word: "bauble", meaning: "安物の飾り、くだらないもの" },
+  { id: 274, word: "bawdy", meaning: "下品な、みだらな" },
+  { id: 275, word: "beatific", meaning: "至福に満ちた、祝福された" },
+  { id: 276, word: "bedizen", meaning: "派手に飾り立てる" },
+  { id: 277, word: "bedlam", meaning: "大混乱、修羅場" },
+  { id: 278, word: "befuddle", meaning: "頭を混乱させる、酔わせる" },
+  { id: 279, word: "beget", meaning: "生み出す、引き起こす" },
+  { id: 280, word: "begrudge", meaning: "惜しむ、ねたむ" },
+  { id: 281, word: "behemoth", meaning: "巨大なもの、巨獣" },
+  { id: 282, word: "behoove", meaning: "〜の義務である、〜するのが当然である" },
+  { id: 283, word: "belabor", meaning: "くどくど論じる、攻撃する" },
+  { id: 284, word: "belated", meaning: "手遅れの、期限後れた" },
+  { id: 285, word: "beleaguer", meaning: "包囲する、悩ます" },
+  { id: 286, word: "belie", meaning: "偽って伝える、裏切る、隠す" },
+  { id: 287, word: "belittle", meaning: "見くびる、けなす" },
+  { id: 288, word: "bellicose", meaning: "好戦的な、けんか腰の" },
+  { id: 289, word: "belligerent", meaning: "交戦中の、好戦的な" },
+  { id: 290, word: "bemoan", meaning: "嘆く、悲しむ" },
+  { id: 291, word: "bemused", meaning: "当惑した、ぼんやりした" },
+  { id: 292, word: "factor", meaning: "恩恵、利益" },
+  { id: 293, word: "benighted", meaning: "無知な、暗黒の" },
+  { id: 294, word: "benign", meaning: "良性の、慈悲深い" },
+  { id: 295, word: "bequeath", meaning: "遺贈する、後世に残す" },
+  { id: 296, word: "berate", meaning: "厳しく叱責する" },
+  { id: 297, word: "bereave", meaning: "（肉親などを）奪う、死別させる" },
+  { id: 298, word: "beseech", meaning: "懇願する、哀願する" },
+  { id: 299, word: "beset", meaning: "悩ませる、包囲する" },
+  { id: 300, word: "besmirch", meaning: "（名誉を）汚す、傷つける" },
+  { id: 301, word: "bestial", meaning: "獣のような、残忍な" },
+  { id: 302, word: "bestow", meaning: "贈る、授ける" },
+  { id: 303, word: "bete noire", meaning: "大嫌いなもの、天敵" },
+  { id: 304, word: "bethink", meaning: "思い出す、よく考える" },
+  { id: 305, word: "betoken", meaning: "の前兆となる、示す" },
+  { id: 306, word: "bevy", meaning: "（鳥や女性の）一団、群れ" },
+  { id: 307, word: "bicameral", meaning: "二院制の" },
+  { id: 308, word: "bicker", meaning: "口論する、言い争う" },
+  { id: 309, word: "bifurcate", meaning: "二つに分岐する" },
+  { id: 310, word: "bigot", meaning: "頑固者、偏屈者" },
+  { id: 311, word: "bilateral", meaning: "二国間の、双務的な" },
+  { id: 312, word: "bilge", meaning: "船底の汚水、くだらない話" },
+  { id: 313, word: "bilingual", meaning: "二言語を話す" },
+  { id: 314, word: "bilious", meaning: "不機嫌な、胆汁質の" },
+  { id: 315, word: "bilk", meaning: "だまし取る、金をまきあげる" },
+  { id: 316, word: "bivouac", meaning: "野営、露営する" },
+  { id: 317, word: "bizarre", meaning: "奇妙な、風変わりな" },
+  { id: 318, word: "blanch", meaning: "青ざめる、漂白する" },
+  { id: 319, word: "bland", meaning: "穏やかな、味気ない、当たり障りのない" },
+  { id: 320, word: "blandishment", meaning: "お世辞、甘言" },
+  { id: 321, word: "blasphemy", meaning: "神聖冒瀆、不敬" },
+  { id: 322, word: "blatant", meaning: "露骨な、赤裸々な、騒々しい" },
+  { id: 323, word: "bleak", meaning: "荒涼とした、絶望的な、寒々とした" },
+  { id: 324, word: "blemish", meaning: "欠点、傷、汚す" },
+  { id: 325, word: "blight", meaning: "枯らすもの、台無しにするもの" },
+  { id: 326, word: "bliss", meaning: "至福、無上の喜び" },
+  { id: 327, word: "blither", meaning: "たわごとを言う、しゃべり散らす" },
+  { id: 328, word: "bloated", meaning: "膨れ上がった、傲慢な" },
+  { id: 329, word: "blockade", meaning: "封鎖、海上封鎖" },
+  { id: 330, word: "blueprint", meaning: "青写真、計画案" },
+  { id: 331, word: "bludgeon", meaning: "こん棒、脅迫する" },
+  { id: 332, word: "blunder", meaning: "大失敗、でくのぼる" },
+  { id: 333, word: "blunt", meaning: "率直な、鈍い、鋭さのない" },
+  { id: 334, word: "blur", meaning: "ぼやけさせる、かすみ" },
+  { id: 335, word: "blurt", meaning: "うっかり口走る" },
+  { id: 336, word: "blush", meaning: "赤面する" },
+  { id: 337, word: "bode", meaning: "前兆となる、予感させる" },
+  { id: 338, word: "bog", meaning: "沼地、泥炭地" },
+  { id: 339, word: "bogus", meaning: "偽の、インチキな" },
+  { id: 340, word: "boisterous", meaning: "荒々しい、騒がしい" },
+  { id: 341, word: "bolster", meaning: "強化する、支援する、枕" },
+  { id: 342, word: "bolt", meaning: "ボルト、急に逃げ出す、急進する" },
+  { id: 343, word: "bombastic", meaning: "大言壮語の、誇大な" },
+  { id: 344, word: "bonanza", meaning: "大繁盛、山分け、思わぬ幸運" },
+  { id: 345, word: "bondage", meaning: "束縛、奴隷の身分" },
+  { id: 346, word: "boorish", meaning: "野暮な、無作法な" },
+  { id: 347, word: "boost", meaning: "押し上げる、活気づける" },
+  { id: 348, word: "botanical", meaning: "植物学的の" },
+  { id: 349, word: "botch", meaning: "やり損なう、ヘマをする" },
+  { id: 350, word: "bottleneck", meaning: "ボトルネック、渋滞箇所" },
+  { id: 351, word: "bouillon", meaning: "ブイヨン、肉汁スープ" },
+  { id: 352, word: "bourgeois", meaning: "ブルジョワの、中産階級の" },
+  { id: 353, word: "boutique", meaning: "ブティック、専門店" },
+  { id: 354, word: "boycott", meaning: "ボイコット、不買運動" },
+  { id: 355, word: "brace", meaning: "身構える、支え" },
+  { id: 356, word: "brackish", meaning: "塩気のある、まずい" },
+  { id: 357, word: "braggart", meaning: "自慢屋、大ぼらふき" },
+  { id: 358, word: "brandish", meaning: "（武器などを）振り回す" },
+  { id: 359, word: "brash", meaning: "厚かましい、生意気な" },
+  { id: 360, word: "bravado", meaning: "から威張り、強がり" },
+  { id: 361, word: "brazen", meaning: "厚かましい、鉄面皮な" },
+  { id: 362, word: "breach", meaning: "違反、不履行、破る" },
+  { id: 363, word: "breadth", meaning: "幅、広さ、度量" },
+  { id: 364, word: "bribe", meaning: "賄賂、買収する" },
+  { id: 365, word: "bridle", meaning: "手綱、抑える、反発する" },
+  { id: 366, word: "brink", meaning: "（崖などの）縁、瀬戸際" },
+  { id: 367, word: "bristle", meaning: "（毛が）逆立つ、怒る" },
+  { id: 368, word: "broach", meaning: "（話題を）切り出す、口火を切る" },
+  { id: 369, word: "bromide", meaning: "臭化物、退屈な決まり文句" },
+  { id: 370, word: "bronchial", meaning: "気管支の" },
+  { id: 371, word: "brood", meaning: "思い悩む、ひなの一腹" },
+  { id: 372, word: "browbeat", meaning: "威圧する、脅す" },
+  { id: 373, word: "browse", meaning: "拾い読みする、閲覧する" },
+  { id: 374, word: "bruit", meaning: "言いふらす、噂する" },
+  { id: 375, word: "brunet", meaning: "黒髪の、色黒の" },
+  { id: 376, word: "bucolic", meaning: "田園の、牧歌的な" },
+  { id: 377, word: "buffoon", meaning: "道化師、おどけ者" },
+  { id: 378, word: "bugbear", meaning: "悩みの種、毛嫌いするもの" },
+  { id: 379, word: "bulbous", meaning: "球根状の、膨らんだ" },
+  { id: 380, word: "bullion", meaning: "金塊、銀塊" },
+  { id: 381, word: "bulwark", meaning: "防壁、砦、支え" },
+  { id: 382, word: "bumptious", meaning: "傲慢な、尊大な" },
+  { id: 383, word: "bureaucracy", meaning: "官僚制度、官僚主義" },
+  { id: 384, word: "burgeon", meaning: "急成長する、芽生える" },
+  { id: 385, word: "burlesque", meaning: "滑稽な模倣、パロディ" },
+  { id: 386, word: "burnish", meaning: "磨き上げる、光沢を出す" },
+  { id: 387, word: "bursar", meaning: "会計係、財政担当者" },
+  { id: 388, word: "bustle", meaning: "慌ただしく動き回る、活気" },
+  { id: 389, word: "buttress", meaning: "補強する、控え壁" },
+  { id: 390, word: "buxom", meaning: "豊満な、健康美の" },
+  { id: 391, word: "cabal", meaning: "秘密結社、陰謀団" },
+  { id: 392, word: "cache", meaning: "隠し場所、隠匿物" },
+  { id: 393, word: "cacophony", meaning: "不協和音、耳障りな雑音" },
+  { id: 394, word: "cadaver", meaning: "死体、死骸" },
+  { id: 395, word: "cadence", meaning: "リズム、抑揚、調子" },
+  { id: 396, word: "cajole", meaning: "おだてて〜させる、甘言で誘う" },
+  { id: 397, word: "calamity", meaning: "大災害、災難" },
+  { id: 398, word: "calculated", meaning: "計算された、計画的な" },
+  { id: 399, word: "caldron", meaning: "大鍋" },
+  { id: 400, word: "caliber", meaning: "力量、器量、口径" },
+  { id: 401, word: "calligraphy", meaning: "書道、美しい文字" },
+  { id: 402, word: "callous", meaning: "冷酷な、無神経な" },
+  { id: 403, word: "callow", meaning: "経験の浅い、未熟な" },
+  { id: 404, word: "calumny", meaning: "中傷、悪口" },
+  { id: 405, word: "camaraderie", meaning: "仲間意識、友情" },
+  { id: 406, word: "cameo", meaning: "カメオ、名場面、ちょい役" },
+  { id: 407, word: "camouflage", meaning: "カモフラージュ、偽装する" },
+  { id: 408, word: "canard", meaning: "デマ、作り話" },
+  { id: 409, word: "candor", meaning: "率直、正直" },
+  { id: 410, word: "canine", meaning: "イヌの、犬科の" },
+  { id: 411, word: "cannibal", meaning: "人食い、共食いする動物" },
+  { id: 412, word: "canon", meaning: "規範、聖典、基準" },
+  { id: 413, word: "cant", meaning: "偽善的な言葉、隠語" },
+  { id: 414, word: "cantankerous", meaning: "気難しい、怒りっぽい" },
+  { id: 415, word: "canvass", meaning: "（投票などを）勧誘する、調査する" },
+  { id: 416, word: "capacious", meaning: "広々とした、大容量の" },
+  { id: 417, word: "capillary", meaning: "毛細血管の" },
+  { id: 418, word: "capitulate", meaning: "降伏する、屈服する" },
+  { id: 419, word: "caprice", meaning: "気まぐれ、予測できない変化" },
+  { id: 420, word: "caption", meaning: "見出し、説明文" },
+  { id: 421, word: "captious", meaning: "あら捜しをする、意地悪な" },
+  { id: 422, word: "captivate", meaning: "魅了する、うっとりさせる" },
+  { id: 423, word: "carapace", meaning: "甲羅、甲殻" },
+  { id: 424, word: "carcinogen", meaning: "発がん性物質" },
+  { id: 425, word: "cardinal", meaning: "主要な、極めて重要な" },
+  { id: 426, word: "cardiologist", meaning: "心臓病学者" },
+  { id: 427, word: "caretaker", meaning: "管理人、世話人" },
+  { id: 428, word: "icature", meaning: "風刺画、似顔絵" },
+  { id: 429, word: "carnage", meaning: "大虐殺、大流血" },
+  { id: 430, word: "carnivorous", meaning: "肉食の" },
+  { id: 431, word: "carol", meaning: "賛美歌、歓喜の歌" },
+  { id: 432, word: "carouse", meaning: "大酒を飲んで騒ぐ" },
+  { id: 433, word: "carp", meaning: "あら捜しをして小言を言う、コイ" },
+  { id: 434, word: "carrion", meaning: "腐肉、死肉" },
+  { id: 435, word: "cartographer", meaning: "地図製作者" },
+  { id: 436, word: "cascade", meaning: "小さな滝、連鎖的落下" },
+  { id: 437, word: "caste", meaning: "カースト、社会的階級" },
+  { id: 438, word: "castigate", meaning: "厳しく批判する、懲らしめる" },
+  { id: 439, word: "casualty", meaning: "死傷者、被害者" },
+  { id: 440, word: "cataclysm", meaning: "大災害、激変" },
+  { id: 441, word: "catalyst", meaning: "触媒、起爆剤" },
+  { id: 442, word: "catapult", meaning: "カタパルト、射出する" },
+  { id: 443, word: "cataract", meaning: "白内障、大滝" },
+  { id: 444, word: "catastrophe", meaning: "大災害、大惨事" },
+  { id: 445, word: "catechism", meaning: "教理問答、質疑応答" },
+  { id: 446, word: "categorical", meaning: "断言的な、無条件の" },
+  { id: 447, word: "cater", meaning: "要求を満たす、仕出しをする" },
+  { id: 448, word: "catharsis", meaning: "カタルシス、精神の浄化" },
+  { id: 449, word: "catholic", meaning: "普遍的な、多方面にわたる" },
+  { id: 450, word: "caucus", meaning: "党員集会、幹部会" },
+  { id: 451, word: "caustic", meaning: "腐食性の、辛辣な" },
+  { id: 452, word: "cauterize", meaning: "（傷口を）焼灼する、焼き締める" },
+  { id: 453, word: "cavalier", meaning: "無頓着な、傲慢な" },
+  { id: 454, word: "cavalcade", meaning: "騎馬行列、一連の出来事" },
+  { id: 455, word: "caveat", meaning: "警告、注意書き" },
+  { id: 456, word: "cavil", meaning: "くだらない不満を言う、あら捜しする" },
+  { id: 457, word: "cavort", meaning: "はしゃぎ回る、跳ね回る" },
+  { id: 458, word: "cede", meaning: "譲歩する、割譲する" },
+  { id: 459, word: "celebrated", meaning: "著名な、名高い" },
+  { id: 460, word: "celestial", meaning: "天体の、神聖な" },
+  { id: 461, word: "celibacy", meaning: "独身制、禁欲" },
+  { id: 462, word: "cemetery", meaning: "墓地、霊園" },
+  { id: 463, word: "censor", meaning: "検閲する、検閲官" },
+  { id: 464, word: "censorious", meaning: "批判的な、小言の多い" },
+  { id: 465, word: "censure", meaning: "非難する、不信任" },
+  { id: 466, word: "centrifugal", meaning: "遠心性の" },
+  { id: 467, word: "centripetal", meaning: "向心性の" },
+  { id: 468, word: "centurion", meaning: "百人隊長" },
+  { id: 469, word: "cephalic", meaning: "頭部の" },
+  { id: 470, word: "ceramic", meaning: "陶磁器の、セラミック" },
+  { id: 471, word: "cereal", meaning: "穀物、シリアル" },
+  { id: 472, word: "cerebral", meaning: "脳の、知的な" },
+  { id: 473, word: "ceremonious", meaning: "形式ばった、礼儀正しい" },
+  { id: 474, word: "certitude", meaning: "確実さ、確信" },
+  { id: 475, word: "cessation", meaning: "休止、中断" },
+  { id: 476, word: "cession", meaning: "譲歩、割譲" },
+  { id: 477, word: "chafe", meaning: "擦れて痛む、いらだつ" },
+  { id: 478, word: "chagrin", meaning: "悔しさ、失望" },
+  { id: 479, word: "chalice", meaning: "聖杯、杯" },
+  { id: 480, word: "chameleon", meaning: "カメレオン、気まぐれな人" },
+  { id: 481, word: "champion", meaning: "擁護する、支持する" },
+  { id: 482, word: "chancery", meaning: "公文書館、 chancery裁判所" },
+  { id: 483, word: "chaos", meaning: "大混乱、カオス" },
+  { id: 484, word: "ismatic", meaning: "カリスマ的な" },
+  { id: 485, word: "charlatan", meaning: "ペテン師、山師" },
+  { id: 486, word: "chary", meaning: "用心深い、慎重な" },
+  { id: 487, word: "chassis", meaning: "車台、シャーシ" },
+  { id: 488, word: "chaste", meaning: "貞節な、純潔な" },
+  { id: 489, word: "chastise", meaning: "厳しく罰する、懲らしめる" },
+  { id: 490, word: "chauvinism", meaning: "極端な愛国主義、盲目的優越感" },
+  { id: 491, word: "check", meaning: "抑える、阻止する" },
+  { id: 492, word: "cherubic", meaning: "天使のような、無邪気な" },
+  { id: 493, word: "chicanery", meaning: "ごまかし、ずる賢いやり方" },
+  { id: 494, word: "chide", meaning: "叱る、小言を言う" },
+  { id: 495, word: "chimera", meaning: "幻影、キメラ" },
+  { id: 496, word: "choleric", meaning: "短気な、怒りっぽい" },
+  { id: 497, word: "choreography", meaning: "振り付け、構成" },
+  { id: 498, word: "chronic", meaning: "慢性の、常習的な" },
+  { id: 499, word: "chronicle", meaning: "年代記、記録する" },
+  { id: 500, word: "chronological", meaning: "年代順の、時系列の" }
+  { id: 501, word: "chrysalis", meaning: "サナギ、準備段階" },
+  { id: 502, word: "chutzpah", meaning: "厚かましさ、図々しさ、大胆さ" },
+  { id: 503, word: "cinder", meaning: "灰、残り火" },
+  { id: 504, word: "cipher", meaning: "暗号、暗号文、無名の人" },
+  { id: 505, word: "circa", meaning: "（ラテン語）〜頃におよそ" },
+  { id: 506, word: "circuitous", meaning: "遠回りの、回りくどい" },
+  { id: 507, word: "circumlocution", meaning: "回りくどい表現、言い回し" },
+  { id: 508, word: "circumscribe", meaning: "制限する、囲む" },
+  { id: 509, word: "circumspect", meaning: "慎重な、用心深い" },
+  { id: 510, word: "circumvent", meaning: "回避する、出し抜く" },
+  { id: 511, word: "cistern", meaning: "貯水槽、タンク" },
+  { id: 512, word: "citadel", meaning: "城塞、要塞" },
+  { id: 513, word: "cite", meaning: "引用する、引き合いに出す" },
+  { id: 514, word: "clairvoyant", meaning: "透視能力のある、千里眼の" },
+  { id: 515, word: "clamber", meaning: "よじ登る、這い上がる" },
+  { id: 516, word: "clamor", meaning: "叫び声、大騒ぎ、要求する" },
+  { id: 517, word: "clandestine", meaning: "秘密の、隠密の" },
+  { id: 518, word: "clarion", meaning: "（音などが）澄んで鳴り響く、鋭い" },
+  { id: 519, word: "claustrophobia", meaning: "閉所恐怖症" },
+  { id: 520, word: "cleave", meaning: "裂く、切り開く、固執する" },
+  { id: 521, word: "clement", meaning: "（気候・処罰などが）温暖な、寛大な" },
+  { id: 522, word: "cliche", meaning: "決まり文句、陳腐な表現" },
+  { id: 523, word: "clientele", meaning: "顧客層、常連客" },
+  { id: 524, word: "climax", meaning: "絶頂、クライマックス" },
+  { id: 525, word: "clinch", meaning: "（勝利・契約を）ものにする、決着をつける" },
+  { id: 526, word: "clique", meaning: "派閥、徒党" },
+  { id: 527, word: "clog", meaning: "詰まらせる、木靴" },
+  { id: 528, word: "cloister", meaning: "回廊、修道院、隔離する" },
+  { id: 529, word: "clone", meaning: "クローン、複製" },
+  { id: 530, word: "clout", meaning: "影響力、殴打" },
+  { id: 531, word: "cloying", meaning: "（甘さや愛情が）うんざりするほどの、胸が焼けるような" },
+  { id: 532, word: "coagulate", meaning: "凝固する、固まる" },
+  { id: 533, word: "coalesce", meaning: "合体する、融合する" },
+  { id: 534, word: "coalition", meaning: "連立、提携、連合" },
+  { id: 535, word: "coarse", meaning: "粗い、下品な" },
+  { id: 536, word: "coax", meaning: "なだめて〜させる、甘言で導く" },
+  { id: 537, word: "coddle", meaning: "甘やかす、大切に扱う" },
+  { id: 538, word: "codecision", meaning: "共同決定" },
+  { id: 539, word: "coerce", meaning: "強要する、強制する" },
+  { id: 540, word: "coeval", meaning: "同時代の、同年齢の" },
+  { id: 541, word: "cogent", meaning: "（論拠などが）説得力のある、的確な" },
+  { id: 542, word: "cogitate", meaning: "熟考する、思案する" },
+  { id: 543, word: "cognate", meaning: "同血統の、類似した" },
+  { id: 544, word: "cognizant", meaning: "認識している、知っている" },
+  { id: 545, word: "coherent", meaning: "一貫した、筋の通った" },
+  { id: 546, word: "cohort", meaning: "一団、仲間、コホート" },
+  { id: 547, word: "coincide", meaning: "一致する、同時に起きる" },
+  { id: 548, word: "collaborate", meaning: "共同で作業する、協力する" },
+  { id: 549, word: "collage", meaning: "コラージュ、貼り絵" },
+  { id: 550, word: "collapse", meaning: "崩壊する、倒れる" },
+  { id: 551, word: "collate", meaning: "照合する、校正する" },
+  { id: 552, word: "ilateral", meaning: "横の、傍系の" },
+  { id: 553, word: "colloquial", meaning: "口語の、話し言葉の" },
+  { id: 554, word: "collusion", meaning: "共謀、癒着" },
+  { id: 555, word: "colonize", meaning: "植民地化する、移住させる" },
+  { id: 556, word: "colossal", meaning: "巨大な、ものすごい" },
+  { id: 557, word: "coma", meaning: "昏睡状態" },
+  { id: 558, word: "comatose", meaning: "昏睡状態の、ぐったりした" },
+  { id: 559, word: "combustible", meaning: "燃えやすい、可燃性の" },
+  { id: 560, word: "comely", meaning: "顔立ちの整った、美しい" },
+  { id: 561, word: "commiserate", meaning: "同情する、哀れむ" },
+  { id: 562, word: "commodious", meaning: "広々とした、ゆったりした" },
+  { id: 563, word: "commonplace", meaning: "ありふれたこと、決まり文句" },
+  { id: 564, word: "communal", meaning: "共同の、共有の" },
+  { id: 565, word: "compact", meaning: "コンパクトな、契約、小型の" },
+  { id: 566, word: "compatible", meaning: "互換性のある、気が合う" },
+  { id: 567, word: "compelling", meaning: "説得力のある、目が離せない" },
+  { id: 568, word: "compensate", meaning: "補償する、埋め合わせる" },
+  { id: 569, word: "competent", meaning: "有能な、適格な" },
+  { id: 570, word: "compile", meaning: "編集する、まとめる" },
+  { id: 571, word: "complacent", meaning: "自己満足した、現状に甘んじる" },
+  { id: 572, word: "complement", meaning: "補うもの、補足" },
+  { id: 573, word: "compliant", meaning: "従順な、言いなりになる" },
+  { id: 574, word: "complicity", meaning: "共犯、共謀" },
+  { id: 575, word: "compliment", meaning: "賛辞、お世辞を言う" },
+  { id: 576, word: "comply", meaning: "（規則などに）従う、応じる" },
+  { id: 577, word: "complicity", meaning: "共犯、共謀" },
+  { id: 578, word: "component", meaning: "構成部品、要素" },
+  { id: 579, word: "comport", meaning: "振る舞う、つり合う" },
+  { id: 580, word: "compose", meaning: "構成する、落ち着かせる" },
+  { id: 581, word: "comprehensive", meaning: "包括的な、総合的な" },
+  { id: 582, word: "compress", meaning: "圧縮する" },
+  { id: 583, word: "comprise", meaning: "構成されている、含む" },
+  { id: 584, word: "compromise", meaning: "妥協する、危うくする" },
+  { id: 585, word: "compunction", meaning: "良心の呵責、悔悟" },
+  { id: 586, word: "compute", meaning: "計算する、算出する" },
+  { id: 587, word: "concatenate", meaning: "連結する、連鎖させる" },
+  { id: 588, word: "concave", meaning: "凹面の、窪んだ" },
+  { id: 589, word: "concede", meaning: "（しぶしぶ）認める、譲歩する" },
+  { id: 590, word: "conceit", meaning: "うぬぼれ、自負" },
+  { id: 591, word: "concentrate", meaning: "集中する、濃縮する" },
+  { id: 592, word: "concentric", meaning: "同心円の" },
+  { id: 593, word: "conception", meaning: "概念、妊娠、考案" },
+  { id: 594, word: "concerted", meaning: "協調した、一致した" },
+  { id: 595, word: "conciliate", meaning: "なだめる、懐柔する" },
+  { id: 596, word: "concise", meaning: "簡潔な、簡明な" },
+  { id: 597, word: "conclave", meaning: "秘密会議、コンクラーベ" },
+  { id: 598, word: "concoct", meaning: "（話などを）でっち上げる、調合する" },
+  { id: 599, word: "concomitant", meaning: "付随する、随伴するもの" },
+  { id: 600, word: "concord", meaning: "調和、一致、協定" },
+  { id: 601, word: "concur", meaning: "同意する、同時に起きる" },
+  { id: 602, word: "condemn", meaning: "非難する、有罪判決を下す" },
+  { id: 603, word: "condense", meaning: "凝縮する、要約する" },
+  { id: 604, word: "condescend", meaning: "見下すような態度をとる、気を使う" },
+  { id: 605, word: "condign", meaning: "（罰などが）当然の、相応の" },
+  { id: 606, word: "condolence", meaning: "哀悼、お悔やみ" },
+  { id: 607, word: "condone", meaning: "大目に見る、許す" },
+  { id: 608, word: "conducive", meaning: "資する、貢献する" },
+  { id: 609, word: "conduit", meaning: "導管、水道管、伝達経路" },
+  { id: 610, word: "confederacy", meaning: "同盟、連邦" },
+  { id: 611, word: "confer", meaning: "協議する、授与する" },
+  { id: 612, word: "confidant", meaning: "親友、秘密を打ち明ける相手" },
+  { id: 613, word: "configuration", meaning: "配置、形状、構成" },
+  { id: 614, word: "confine", meaning: "限定する、閉じ込める" },
+  { id: 615, word: "confiscate", meaning: "没収する、押収する" },
+  { id: 616, word: "conflagration", meaning: "大火災" },
+  { id: 617, word: "confluence", meaning: "合流、合流点" },
+  { id: 618, word: "conform", meaning: "順応する、一致する" },
+  { id: 619, word: "confound", meaning: "当惑させる、打ち負かす" },
+  { id: 620, word: "congeal", meaning: "凍結する、凝固する" },
+  { id: 621, word: "congenial", meaning: "気心が知れた、相性の良い" },
+  { id: 622, word: "congenital", meaning: "先天的な、生まれつきの" },
+  { id: 623, word: "congested", meaning: "混雑した、鬱血した" },
+  { id: 624, word: "glomerate", meaning: "球状にまとまる、集塊" },
+  { id: 625, word: "congruent", meaning: "一致する、合同の" },
+  { id: 626, word: "conifers", meaning: "針葉樹" },
+  { id: 627, word: "conjecture", meaning: "推測、憶測する" },
+  { id: 628, word: "conjugal", meaning: "夫婦の、婚姻の" },
+  { id: 629, word: "conjure", meaning: "魔法で呼び起こす、祈願する" },
+  { id: 630, word: "connive", meaning: "黙認する、共謀する" },
+  { id: 631, word: "connoisseur", meaning: "鑑定家、目利き" },
+  { id: 632, word: "connotation", meaning: "言外の意味、含意" },
+  { id: 633, word: "connubial", meaning: "結婚の、夫婦の" },
+  { id: 634, word: "consanguinity", meaning: "血縁、血族関係" },
+  { id: 635, word: "consecrate", meaning: "神に捧げる、聖別する" },
+  { id: 636, word: "consensus", meaning: "合意、総意" },
+  { id: 637, word: "consent", meaning: "同意、承諾する" },
+  { id: 638, word: "consequential", meaning: "重大な、結果として起こる" },
+  { id: 639, word: "conservatory", meaning: "音楽学校、温室" },
+  { id: 640, word: "consign", meaning: "委託する、送る" },
+  { id: 641, word: "consistency", meaning: "一貫性、粘り気" },
+  { id: 642, word: "console", meaning: "慰める、操作盤" },
+  { id: 643, word: "consolidate", meaning: "統合する、強化する" },
+  { id: 644, word: "consort", meaning: "配偶者、交際する" },
+  { id: 645, word: "conspicuous", meaning: "人目を引く、顕著な" },
+  { id: 646, word: "conspiracy", meaning: "陰謀、密議" },
+  { id: 647, word: "constinate", meaning: "構成する、制定する" },
+  { id: 648, word: "constrain", meaning: "強いる、抑えつける" },
+  { id: 649, word: "constrict", meaning: "締めつける、収縮させる" },
+  { id: 650, word: "construe", meaning: "解釈する、説明する" },
+  { id: 651, word: "consummate", meaning: "完璧な、極める" },
+  { id: 652, word: "contagious", meaning: "伝染性の、感染しやすい" },
+  { id: 653, word: "contaminate", meaning: "汚染する、不純物を混ぜる" },
+  { id: 654, word: "contemn", meaning: "軽蔑する、侮る" },
+  { id: 655, word: "contend", meaning: "戦う、主張する" },
+  { id: 656, word: "contentious", meaning: "議論を呼ぶ、争いを好む" },
+  { id: 657, word: "contest", meaning: "異議を唱える、争う" },
+  { id: 658, word: "contingent", meaning: "不確定な、〜次第で、代表団" },
+  { id: 659, word: "contort", meaning: "ゆがめる、ねじ曲げる" },
+  { id: 660, word: "contraband", meaning: "密輸品、禁制品" },
+  { id: 661, word: "contraception", meaning: "避妊" },
+  { id: 662, word: "contract", meaning: "収縮する、契約する" },
+  { id: 663, word: "contravene", meaning: "違反する、反する" },
+  { id: 664, word: "contrite", meaning: "悔恨の情に満ちた、後悔している" },
+  { id: 665, word: "contrive", meaning: "考案する、巧みに企てる" },
+  { id: 666, word: "controvert", meaning: "異議を唱える、反論する" },
+  { id: 667, word: "contumacious", meaning: "反抗的な、いばった" },
+  { id: 668, word: "contumely", meaning: "侮辱、傲慢な扱い" },
+  { id: 669, word: "conundrum", meaning: "難問、なぞなぞ" },
+  { id: 670, word: "convene", meaning: "召集する、集合する" },
+  { id: 671, word: "converge", meaning: "一点に集まる、収束する" },
+  { id: 672, word: "conversant", meaning: "精通している、熟知している" },
+  { id: 673, word: "convex", meaning: "凸面の、膨らんだ" },
+  { id: 674, word: "convey", meaning: "運ぶ、伝える" },
+  { id: 675, word: "conviction", meaning: "確信、有罪判決" },
+  { id: 676, word: "convivial", meaning: "宴会好きな、陽気な" },
+  { id: 677, word: "convoke", meaning: "召集する" },
+  { id: 678, word: "convoluted", meaning: "複雑な、入り組んだ" },
+  { id: 679, word: "copious", meaning: "豊富な、多量の" },
+  { id: 680, word: "coquette", meaning: "男心を惹く女性、媚びる人" },
+  { id: 681, word: "cordial", meaning: "心からの、愛想の良い" },
+  { id: 682, word: "cordon", meaning: "警戒線、包囲網" },
+  { id: 683, word: "cornucopia", meaning: "豊穣の角、豊富な供給" },
+  { id: 684, word: "corollary", meaning: "当然の結果、必然的帰結" },
+  { id: 685, word: "corporeal", meaning: "肉体の、物質的な" },
+  { id: 686, word: "corpulent", meaning: "太った、肥満した" },
+  { id: 687, word: "correlate", meaning: "相関関係にある、関連付ける" },
+  { id: 688, word: "corroborate", meaning: "確証する、裏付ける" },
+  { id: 689, word: "corrode", meaning: "腐食させる、むしばむ" },
+  { id: 690, word: "corrugate", meaning: "波状にする、しわをつける" },
+  { id: 691, word: "cosmic", meaning: "宇宙の、広大な" },
+  { id: 692, word: "cosmopolitan", meaning: "国際的な、世界主義の" },
+  { id: 693, word: "coterie", meaning: "同人仲間、少数の親しい仲間" },
+  { id: 694, word: "countenance", meaning: "表情、顔立ち、容認する" },
+  { id: 695, word: "counteract", meaning: "相殺する、打ち消す" },
+  { id: 696, word: "counterfeit", meaning: "偽造の、偽物" },
+  { id: 697, word: "countermand", meaning: "（命令などを）取り消す、撤回する" },
+  { id: 698, word: "counterpart", meaning: "相当する人、写し" },
+  { id: 699, word: "coup", meaning: "クーデター、大成功" },
+  { id: 700, word: "courier", meaning: "飛脚、配達員、クーリエ" },
+  { id: 701, word: "covert", meaning: "隠された、内密の" },
+  { id: 702, word: "covet", meaning: "むやみに欲しがる、羨む" },
+  { id: 703, word: "cower", meaning: "（恐怖で）縮こまる、すくむ" },
+  { id: 704, word: "coy", meaning: "内気な、はにかんだ、気取る" },
+  { id: 705, word: "crass", meaning: "愚劣な、露骨な、粗野な" },
+  { id: 706, word: "craven", meaning: "臆病な、卑怯な" },
+  { id: 707, word: "creance", meaning: "信用、信頼" },
+  { id: 708, word: "credence", meaning: "信用、信認" },
+  { id: 709, word: "credential", meaning: "信任状、資格証明書" },
+  { id: 710, word: "credulous", meaning: "だまされやすい、信じ込みやすい" },
+  { id: 711, word: "creed", meaning: "信条、教義" },
+  { id: 712, word: "crepuscular", meaning: "薄明の、薄暗い" },
+  { id: 713, word: "criterium", meaning: "判定基準、評価基準" },
+  { id: 714, word: "crique", meaning: "小さな湾、入江" },
+  { id: 715, word: "criterion", meaning: "基準、尺度" },
+  { id: 716, word: "critique", meaning: "批評、評論" },
+  { id: 717, word: "crochet", meaning: "かぎ針編み" },
+  { id: 718, word: "crooked", meaning: "曲がった、不正な" },
+  { id: 719, word: "crotchety", meaning: "気難しい、不機嫌な" },
+  { id: 720, word: "crucial", meaning: "決定的な、極めて重要な" },
+  { id: 721, word: "crucible", meaning: "るつぼ、過酷な試練" },
+  { id: 722, word: "cryptic", meaning: "隠された、謎めいた" },
+  { id: 723, word: "crystallize", meaning: "具体化する、結晶化する" },
+  { id: 724, word: "cubicle", meaning: "小部屋、仕切り部屋" },
+  { id: 725, word: "cul-de-sac", meaning: "袋小路行き止まり" },
+  { id: 726, word: "culinary", meaning: "料理の、厨房の" },
+  { id: 727, word: "culminate", meaning: "最高潮に達する、終わる" },
+  { id: 728, word: "culpable", meaning: "とがめられるべき、非難されるべき" },
+  { id: 729, word: "culprit", meaning: "犯人、原因" },
+  { id: 730, word: "cultivate", meaning: "耕す、栽培する、培う" },
+  { id: 731, word: "cumbersome", meaning: "面倒な、厄介な、かさばる" },
+  { id: 732, word: "cumulative", meaning: "累積的な、重なる" },
+  { id: 733, word: "cunning", meaning: "ずる賢い、悪知恵の働く" },
+  { id: 734, word: "cupidity", meaning: "強欲、物欲" },
+  { id: 735, word: "curator", meaning: "（博物館などの）館長、学芸員" },
+  { id: 736, word: "curb", meaning: "抑制する、縁石" },
+  { id: 737, word: "curmudgeon", meaning: "頑固者、けち" },
+  { id: 738, word: "cursive", meaning: "筆記体の" },
+  { id: 739, word: "cursory", meaning: "粗い、ぞんざいな、形だけの" },
+  { id: 740, word: "curtail", meaning: "短縮する、削減する" },
+  { id: 741, word: "cusec", meaning: "立法フィート毎秒" },
+  { id: 742, word: "custody", meaning: "管理、保護、拘留" },
+  { id: 743, word: "cutlery", meaning: "刃物、ナイフ・フォーク類" },
+  { id: 744, word: "cyanide", meaning: "シアン化物、青酸カリ" },
+  { id: 745, word: "cycle", meaning: "循環、周期" },
+  { id: 746, word: "cynic", meaning: "冷笑家、ひねくれ者" },
+  { id: 747, word: "cynical", meaning: "冷笑的な、シニカルな" },
+  { id: 748, word: "cyst", meaning: "嚢胞、シスト" },
+  { id: 749, word: "czar", meaning: "皇帝、ツァーリ、大物権力者" },
+  { id: 750, word: "dabble", meaning: "かじる、手出しする、水遊びする" },
+  { id: 751, word: "daemonic", meaning: "鬼神のような、圧倒的な" },
+  { id: 752, word: "daffodil", meaning: "スイセン" },
+  { id: 753, word: "dagger", meaning: "短剣、あいがた" },
+  { id: 754, word: "dagnabbit", meaning: "ちくしょう、くそ" },
+  { id: 755, word: "dainty", meaning: "上品な、手ぎりぎりの、美味しい" },
+  { id: 756, word: "dally", meaning: "時間を無駄にする、もたもたする" },
+  { id: 757, word: "damnation", meaning: "地獄行き、破滅" },
+  { id: 758, word: "damp", meaning: "湿った、意気阻喪させる" },
+  { id: 759, word: "dampen", meaning: "湿らせる、意欲を削ぐ" },
+  { id: 760, word: "dander", meaning: "怒り、かんしゃく" },
+  { id: 761, word: "dandified", meaning: "めかし込んだ、伊達男風の" },
+  { id: 762, word: "dank", meaning: "じめじめした、不快な湿り気のある" },
+  { id: 763, word: "dapper", meaning: "きちんとした、小粋な" },
+  { id: 764, word: "appable", meaning: "おとなしい、従順な" },
+  { id: 765, word: "daredevil", meaning: "無謀な人、命知らず" },
+  { id: 766, word: "dark horse", meaning: "ダークホース、予想外の有力者" },
+  { id: 767, word: "darling", meaning: "ダーリン、愛しい人" },
+  { id: 768, word: "dart", meaning: "矢、急走する" },
+  { id: 769, word: "daunt", meaning: "気後れさせる、怯ませる" },
+  { id: 770, word: "dauntless", meaning: "不屈の、大胆不敵な" },
+  { id: 771, word: "dawdle", meaning: "ぐずぐずする、時間を浪費する" },
+  { id: 772, word: "daze", meaning: "ボーッとさせる、眩暈" },
+  { id: 773, word: "dazzle", meaning: "目をくらませる、圧倒する" },
+  { id: 774, word: "deacon", meaning: "執事、ディアコン" },
+  { id: 775, word: "deadlock", meaning: "行き詰まり、膠着状態" },
+  { id: 776, word: "dearth", meaning: "不足、欠乏" },
+  { id: 777, word: "debacle", meaning: "大失敗、大崩壊" },
+  { id: 778, word: "debase", meaning: "（品質・価値を）落とす、卑しめる" },
+  { id: 779, word: "debatable", meaning: "議論の余地がある" },
+  { id: 780, word: "debauch", meaning: "堕落させる、遊びほうける" },
+  { id: 781, word: "debilitate", meaning: "（体力を）衰弱させる" },
+  { id: 782, word: "debonair", meaning: "気さくな、礼儀正しい、軽快な" },
+  { id: 783, word: "debris", meaning: "がれき、破片" },
+  { id: 784, word: "bunk", meaning: "借金、負債" },
+  { id: 785, word: "debunk", meaning: "（神話や説を）誤りと暴く、覆す" },
+  { id: 786, word: "debut", meaning: "デビュー、初舞台" },
+  { id: 787, word: "decadence", meaning: "退廃、衰微" },
+  { id: 788, word: "decamp", meaning: "夜逃げする、姿を消す" },
+  { id: 789, word: "decant", meaning: "（液体を静かに別の容器に）移し替える" },
+  { id: 790, word: "decapitate", meaning: "首を斬る、斬首する" },
+  { id: 791, word: "decelerate", meaning: "減速する" },
+  { id: 792, word: "deciduous", meaning: "落葉性の" },
+  { id: 793, word: "decimate", meaning: "多数を殺害する、激減させる" },
+  { id: 794, word: "decipher", meaning: "解読する、読み解く" },
+  { id: 795, word: "claim", meaning: "宣言する、断言する" },
+  { id: 796, word: "declivity", meaning: "下り坂" },
+  { id: 797, word: "collet", meaning: "崩壊する、零落する" },
+  { id: 798, word: "decorum", meaning: "礼儀正しさ、品位" },
+  { id: 799, word: "decoy", meaning: "囮、誘い込む" },
+  { id: 800, word: "decrepit", meaning: "老朽化した、ボロボロの" }
+  { id: 801, word: "decry", meaning: "公然と非難する、けなす" },
+  { id: 802, word: "deduce", meaning: "推論する、導き出す" },
+  { id: 803, word: "defamation", meaning: "中傷、名誉毀損" },
+  { id: 804, word: "default", meaning: "債務不履行、怠る、初期設定" },
+  { id: 805, word: "defeatist", meaning: "敗北主義者" },
+  { id: 806, word: "defection", meaning: "離反、亡命、脱党" },
+  { id: 807, word: "defer", meaning: "延期する、敬意を表して従う" },
+  { id: 808, word: "defiance", meaning: "反抗、挑戦、無視" },
+  { id: 809, word: "deficient", meaning: "不足している、欠陥のある" },
+  { id: 810, word: "defile", meaning: "汚す、冒す、狭い道" },
+  { id: 811, word: "definitive", meaning: "決定的な、最終的な" },
+  { id: 812, word: "deflect", meaning: "方向をそらす、かわす" },
+  { id: 813, word: "defray", meaning: "（費用を）支払う、負担する" },
+  { id: 814, word: "defunct", meaning: "消滅した、現存しない" },
+  { id: 815, word: "degasify", meaning: "脱ガスする、ガス抜きする" },
+  { id: 816, word: "degenerate", meaning: "退化する、堕落した" },
+  { id: 817, word: "degrade", meaning: "格下げする、品位を落とす" },
+  { id: 818, word: "dehydrate", meaning: "脱水する、乾燥させる" },
+  { id: 819, word: "deify", meaning: "神格化する、崇拝する" },
+  { id: 820, word: "deign", meaning: "もったいなくも〜してくださる、見下して〜する" },
+  { id: 821, word: "deject", meaning: "落胆させる、意気消沈させる" },
+  { id: 822, word: "deleterious", meaning: "有害な、有毒な" },
+  { id: 823, word: "deliberate", meaning: "意図的な、熟考する" },
+  { id: 824, word: "delineate", meaning: "描写する、輪郭を描く" },
+  { id: 825, word: "delinquent", meaning: "非行の、怠慢な、滞納した" },
+  { id: 826, word: "delirium", meaning: "せん妄、狂乱、大興奮" },
+  { id: 827, word: "delta", meaning: "デルタ、三角州" },
+  { id: 828, word: "delude", meaning: "だます、思い込ませる" },
+  { id: 829, word: "demagogue", meaning: "扇動政治家、大衆煽動者" },
+  { id: 830, word: "demean", meaning: "品位を落とする、けなす" },
+  { id: 831, word: "demented", meaning: "狂気じみた、錯乱した" },
+  { id: 832, word: "demise", meaning: "崩御、消滅、死亡" },
+  { id: 833, word: "demographic", meaning: "人口統計の、層" },
+  { id: 834, word: "demolish", meaning: "取り壊す、破壊する" },
+  { id: 835, word: "demonstrative", meaning: "感情を露わにする、証明する" },
+  { id: 836, word: "demote", meaning: "降格させる" },
+  { id: 837, word: "demur", meaning: "異議を唱える、難色を示す" },
+  { id: 838, word: "denigrate", meaning: "中傷する、名誉を傷つける" },
+  { id: 839, word: "denizen", meaning: "居住者、生息生物" },
+  { id: 840, word: "denounce", meaning: "公然と非難する、告発する" },
+  { id: 841, word: "dent", meaning: "凹み、損害を与える" },
+  { id: 842, word: "denude", meaning: "裸にする、剥ぎ取る" },
+  { id: 843, word: "depict", meaning: "描く、描写する" },
+  { id: 844, word: "deplete", meaning: "激減させる、使い果たす" },
+  { id: 845, word: "deplore", meaning: "嘆く、深く遺憾に思う" },
+  { id: 846, word: "deploy", meaning: "展開する、配備する" },
+  { id: 847, word: "deponent", meaning: "証言者、宣誓証言者" },
+  { id: 848, word: "depose", meaning: "（王などを）退位させる、証言する" },
+  { id: 849, word: "depravity", meaning: "堕落、悪徳、腐敗" },
+  { id: 850, word: "deprecate", meaning: "非難する、軽視する" },
+  { id: 851, word: "depreciate", meaning: "価値が下がる、軽視する" },
+  { id: 852, word: "depredation", meaning: "略奪、荒廃" },
+  { id: 853, word: "derelict", meaning: "見捨てられた、怠慢な、廃人" },
+  { id: 854, word: "deride", meaning: "あざ笑う、冷笑する" },
+  { id: 855, word: "derivative", meaning: "派生物、模倣の、派生的な" },
+  { id: 856, word: "dermatology", meaning: "皮膚科学" },
+  { id: 857, word: "derogatory", meaning: "蔑むような、批判的な" },
+  { id: 858, word: "descry", meaning: "遠くに見つける、認める" },
+  { id: 859, word: "desecrate", meaning: "（神聖なものを）冒涜する、汚す" },
+  { id: 860, word: "desiccate", meaning: "乾燥させる、脱水する" },
+  { id: 861, word: "designate", meaning: "指定する、指名する" },
+  { id: 862, word: "despicable", meaning: "卑劣な、軽蔑すべき" },
+  { id: 863, word: "despise", meaning: "軽蔑する、嫌う" },
+  { id: 864, word: "despondent", meaning: "意気消沈した、絶望した" },
+  { id: 865, word: "destitute", meaning: "極貧の、〜を持たない" },
+  { id: 866, word: "desultory", meaning: "とりとめのない、場当たり的な" },
+  { id: 867, word: "detach", meaning: "切り離す、取り外す" },
+  { id: 868, word: "detain", meaning: "引き止める、勾留する" },
+  { id: 869, word: "detect", meaning: "検知する、見つけ出す" },
+  { id: 870, word: "deter", meaning: "思いとどまらせる、抑止する" },
+  { id: 871, word: "deteriorate", meaning: "悪化する、低下する" },
+  { id: 872, word: "determinant", meaning: "決定要因" },
+  { id: 873, word: "detest", meaning: "激しく嫌う、毛嫌いする" },
+  { id: 874, word: "detonate", meaning: "爆発する、爆発させる" },
+  { id: 875, word: "detour", meaning: "回り道、迂回路" },
+  { id: 876, word: "detrimental", meaning: "有害な、不利益な" },
+  { id: 877, word: "devastate", meaning: "荒廃させる、打ちのめす" },
+  { id: 878, word: "deviate", meaning: "逸脱する、それる" },
+  { id: 879, word: "devious", meaning: "遠回りの、ずる賢い、裏表のある" },
+  { id: 880, word: "devoid", meaning: "欠けている、〜のない" },
+  { id: 881, word: "devolve", meaning: "（権限などを）譲渡する、委譲する" },
+  { id: 882, word: "devote", meaning: "捧げる、専念する" },
+  { id: 883, word: "dexterous", meaning: "器用な、機敏な" },
+  { id: 884, word: "diabolic", meaning: "悪魔のような、残虐な" },
+  { id: 885, word: "diagnose", meaning: "診断する" },
+  { id: 886, word: "dialect", meaning: "方言、弁護" },
+  { id: 887, word: "diaphanous", meaning: "透き通るような、薄手の" },
+  { id: 888, word: "diatribe", meaning: "痛烈な批判、非難演説" },
+  { id: 889, word: "dichotomy", meaning: "二分法、分裂" },
+  { id: 890, word: "dictum", meaning: "格言、金言、断言" },
+  { id: 891, word: "didactic", meaning: "教訓的な、説教臭い" },
+  { id: 892, word: "diehard", meaning: "頑固な抵抗者、保守派" },
+  { id: 893, word: "diffident", meaning: "自信のない、内気な" },
+  { id: 894, word: "diffuse", meaning: "拡散する、散漫な" },
+  { id: 895, word: "digress", meaning: "（話などが）脱線する、脇道に逸れる" },
+  { id: 896, word: "dilapidated", meaning: "荒廃した、ボロボロの" },
+  { id: 897, word: "dilate", meaning: "広げる、膨らませる" },
+  { id: 898, word: "dilatory", meaning: "のろまな、時間稼ぎの" },
+  { id: 899, word: "dilemma", meaning: "ジレンマ、板挟み" },
+  { id: 900, word: "dilettante", meaning: "趣味人、素人愛好家" },
+  // 【ここから英検1級難関熟語 100選】
+  { id: 901, word: "abide by", meaning: "（規則・約束などに）従う、固執する" },
+  { id: 902, word: "account for", meaning: "の割合を占める、説明する、原因となる" },
+  { id: 903, word: "add fuel to the fire", meaning: "火に油を注ぐ、事態を悪化させる" },
+  { id: 904, word: "all at once", meaning: "突然に、一斉に" },
+  { id: 905, word: "amount to", meaning: "結局〜になる、等しい" },
+  { id: 906, word: "apple of one's eye", meaning: "目の中に入れても痛くないほど可愛いもの、大事な人" },
+  { id: 907, word: "as a matter of fact", meaning: "実のところ、実際のところ" },
+  { id: 908, word: "at a loss", meaning: "途方に暮れて、戸惑って" },
+  { id: 909, word: "at all costs", meaning: "どんな犠牲を払っても、ぜひとも" },
+  { id: 910, word: "at the expense of", meaning: "〜を犠牲にして" },
+  { id: 911, word: "back down", meaning: "（要求や主張を）引っ込める、折れる" },
+  { id: 912, word: "bear in mind", meaning: "心に留める、覚えておく" },
+  { id: 913, word: "blow over", meaning: "（嵐や問題などが）過ぎ去る、治まる" },
+  { id: 914, word: "break ground", meaning: "着工する、新境地を開く" },
+  { id: 915, word: "bring about", meaning: "引き起こす、もたらす" },
+  { id: 916, word: "brush aside", meaning: "（忠告や意見などを）無視する、排斥する" },
+  { id: 917, word: "burn the midnight oil", meaning: "夜遅くまで勉強する、夜なべする" },
+  { id: 918, word: "by and large", meaning: "大体において、概して" },
+  { id: 919, word: "call into question", meaning: "〜に疑問を呈する、問題視する" },
+  { id: 920, word: "catch sight of", meaning: "〜をふと見つける、ちらっと見る" },
+  { id: 921, word: "chip in", meaning: "お金を出し合う、口出しする" },
+  { id: 922, word: "come of age", meaning: "成人する、成熟期に達する" },
+  { id: 923, word: "come to grips with", meaning: "（困難な問題など）に取り組む、直面する" },
+  { id: 924, word: "compensate for", meaning: "〜の埋め合わせをする、補償する" },
+  { id: 925, word: "cop out", meaning: "（責任や困難から）逃げる、手を引く" },
+  { id: 926, word: "cry over spilt milk", meaning: "覆水盆に返らず、後の祭りを悔やむ" },
+  { id: 927, word: "cut to the chase", meaning: "核心に入る、要点を話す" },
+  { id: 928, word: "dawn on", meaning: "（真実などが）わかってくる、心に浮かぶ" },
+  { id: 929, word: "die down", meaning: "（勢いや音が）静まる、収まる" },
+  { id: 930, word: "dispose of", meaning: "〜を処分する、処理する" },
+  { id: 931, word: "draw the line", meaning: "一線を画す、限度を設ける" },
+  { id: 932, word: "drop a hint", meaning: "ヒントを与える、ほのめかす" },
+  { id: 933, word: "embark on", meaning: "〜に着手する、乗り出す" },
+  { id: 934, word: "face the music", meaning: "（自分のしたことの）現実直面して罰を受ける、責任をとる" },
+  { id: 935, word: "fall back on", meaning: "〜をいざという時の頼みにする、頼る" },
+  { id: 936, word: "flesh out", meaning: "（計画などに）肉付けする、具体化する" },
+  { id: 937, word: "foot the bill", meaning: "（勘定を）支払う、全額負担する" },
+  { id: 938, word: "get out of hand", meaning: "手に負えなくなる、コントロールできなくなる" },
+  { id: 939, word: "give rise to", meaning: "〜を引き起こす、発生させる" },
+  { id: 940, word: "go hand in hand", meaning: "密接に伴う、表裏一体である" },
+  { id: 941, word: "grease the wheels", meaning: "賄賂を贈る、円滑に進める" },
+  { id: 942, word: "hang in the balance", meaning: "予断を許さない、不安定な状態である" },
+  { id: 943, word: "have a finger in the pie", meaning: "関係している、手を突っ込んでいる" },
+  { id: 944, word: "hit the nail on the head", meaning: "核心を突く、図星を指す" },
+  { id: 945, word: "hold water", meaning: "（理屈などが）辻褄が合う、理にかなう" },
+  { id: 946, word: "in accordance with", meaning: "〜に従って、合致して" },
+  { id: 947, word: "in lieu of", meaning: "〜の代わりに" },
+  { id: 948, word: "in the dark", meaning: "事情を知らないで、闇夜に" },
+  { id: 949, word: "iron out", meaning: "（障害や相違点を）調整して解決する" },
+  { id: 950, word: "jump to conclusions", meaning: "早計な結論を出す、決めつける" },
+  { id: 951, word: "keep up appearances", meaning: "体面を保つ、取り繕う" },
+  { id: 952, word: "knock off", meaning: "（仕事などを）やめる、中止する、控除する" },
+  { id: 953, word: "lay off", meaning: "（一時的に）解雇する、やめる" },
+  { id: 954, word: "leave much to be desired", meaning: "遺憾な点が多い、改善の余地が大いにある" },
+  { id: 955, word: "live up to", meaning: "（期待などに）応える、恥じない行動をする" },
+  { id: 956, word: "look down one's nose at", meaning: "〜を見下す、軽蔑する" },
+  { id: 957, word: "make both ends meet", meaning: "収支を合わせる、やり繰りして暮らす" },
+  { id: 958, word: "make light of", meaning: "軽く見る、軽視する" },
+  { id: 959, word: "meet the criteria", meaning: "基準を満たす、条件にかなう" },
+  { id: 960, word: "muck up", meaning: "台無しにする、しくじる" },
+  { id: 961, word: "narrow down", meaning: "絞り込む、狭める" },
+  { id: 962, word: "nudge out", meaning: "僅差で勝つ、押し出す" },
+  { id: 963, word: "off the cuff", meaning: "即興で、準備なしで" },
+  { id: 964, word: "on the verge of", meaning: "〜の寸前で、まさに〜しようとして" },
+  { id: 965, word: "out of the blue", meaning: "突然に、思いがけなく" },
+  { id: 966, word: "overt act", meaning: "明白な行為、実行行為" },
+  { id: 967, word: "pan out", meaning: "（結果が）うまくいく、成功する" },
+  { id: 968, word: "pass the buck", meaning: "責任を転嫁する、人に押し付ける" },
+  { id: 969, word: "pay through the nose", meaning: "法外な金を払わされる" },
+  { id: 970, word: "phase out", meaning: "段階的に廃止する、縮小する" },
+  { id: 971, word: "piece together", meaning: "（証拠などを）つなぎ合わせる、総合する" },
+  { id: 972, word: "play devil's advocate", meaning: "あえて反対の立場をとる、議論を活発にする" },
+  { id: 973, word: "pull one's weight", meaning: "自分の割り当ての仕事をきちんとする、貢献する" },
+  { id: 974, word: "put a damper on", meaning: "水を差す、気勢を削ぐ" },
+  { id: 975, word: "put up with", meaning: "我慢する、耐える" },
+  { id: 976, word: "rain cats and dogs", meaning: "土砂降りに降る" },
+  { id: 977, word: "read between the lines", meaning: "行間を読む、言外の意をくみ取る" },
+  { id: 978, word: "red tape", meaning: "お役所仕事、形式的な煩雑な手続き" },
+  { id: 979, word: "ring a bell", meaning: "ピンとくる、聞き覚えがある" },
+  { id: 980, word: "rub salt into the wound", meaning: "傷口に塩を塗る、痛みに追い打ちをかける" },
+  { id: 981, word: "save face", meaning: "面目を保つ、体面を保つ" },
+  { id: 982, word: "see eye to eye", meaning: "意見が完全に一致する" },
+  { id: 983, word: "set store by", meaning: "〜を重視する、価値を認める" },
+  { id: 984, word: "shake off", meaning: "（悪癖や病気、追手などを）振り払う、断ち切る" },
+  { id: 985, word: "show one's true colors", meaning: "本性を表す、正体を現す" },
+  { id: 986, word: "sit on the fence", meaning: "日和見をする、態度を決めかねる" },
+  { id: 987, word: "spell out", meaning: "詳しく説明する、一文字ずつ綴る" },
+  { id: 988, word: "stand to reason", meaning: "道理にかなう、当然である" },
+  { id: 989, word: "step into the shoes of", meaning: "〜のあとを継ぐ、役割を引き継ぐ" },
+  { id: 990, word: "strike a balance", meaning: "バランスを取る、調和させる" },
+  { id: 991, word: "take into account", meaning: "考慮に入れる、斟酌する" },
+  { id: 992, word: "take the bull by the horns", meaning: "困難に真っ正面から立ち向かう" },
+  { id: 993, word: "throw in the towel", meaning: "降参する、敗北を認める" },
+  { id: 994, word: "toe the line", meaning: "規則に従う、従順に従う" },
+  { id: 995, word: "turn a blind eye to", meaning: "〜に目をつぶる、見逃す" },
+  { id: 996, word: "under the weather", meaning: "体調がすぐれない、気分が悪い" },
+  { id: 997, word: "up in the air", meaning: "未決定で、宙に浮いた状態で" },
+  { id: 998, word: "water down", meaning: "（内容を）和らげる、骨抜きにする" },
+  { id: 999, word: "weather the storm", meaning: "（困難や危機を）切り抜ける、乗り切る" },
+  { id: 1000, word: "wreak havoc on", meaning: "〜に大混乱をもたらす、めちゃくちゃにする" }
 ];
-
-let selectedLevel = null;
-let currentWords = [];
-let questionDeck = [];
-let lastTargetWord = null;
-let lastSpokenMeaning = null;
-let consecutiveCount = 0;
-let lastTypeIsCorrect = null;
-let currentQuestion = null;
-let isAnswerable = false;
-let audioCtx = null;
-
-const mapBtns = document.querySelectorAll('.diff-btn');
-const goBtn = document.getElementById('go-btn');
-const wordText = document.getElementById('word-text');
-const phoneticText = document.getElementById('phonetic-text');
-const meaningText = document.getElementById('meaning-text');
-const statusText = document.getElementById('status-text');
-const maruBtn = document.getElementById('btn-maru');
-const batsuBtn = document.getElementById('btn-batsu');
-
-function setButtonsEnabled(enabled) {
-  isAnswerable = enabled;
-  maruBtn.disabled = !enabled;
-  batsuBtn.disabled = !enabled;
-}
-
-function shuffle(array) {
-  let arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function selectDifficulty(diff, btn) {
-  selectedLevel = diff;
-  mapBtns.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  goBtn.classList.add('ready');
-
-  let lvl = 1;
-  if (diff === 'level1') lvl = 1;
-  else if (diff === 'level2') lvl = 2;
-  else if (diff === 'level3') lvl = 3;
-  else if (diff === 'level4') lvl = 4;
-
-  currentWords = allWords.filter(w => w.level === lvl);
-  questionDeck = shuffle(currentWords);
-  lastTargetWord = null;
-  lastSpokenMeaning = null;
-  consecutiveCount = 0;
-  lastTypeIsCorrect = null;
-}
-
-function playSound(type) {
-  try {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    const now = audioCtx.currentTime;
-
-    if (type === 'correct') {
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880.00, now);
-      osc.frequency.setValueAtTime(1174.66, now + 0.12);
-      gain.gain.setValueAtTime(1.0, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-      osc.start(now);
-      osc.stop(now + 0.6);
-    } else {
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(180, now);
-      osc.frequency.setValueAtTime(140, now + 0.15);
-      gain.gain.setValueAtTime(1.0, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-      osc.start(now);
-      osc.stop(now + 0.6);
-    }
-  } catch(e) {}
-}
-
-function startGame() {
-  if (!selectedLevel || currentWords.length === 0) return;
-  document.getElementById('start-screen').style.display = 'none';
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  nextQuestion();
-}
-
-function returnToStart() {
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-  setButtonsEnabled(false);
-  document.getElementById('start-screen').style.display = 'flex';
-}
-
-function nextQuestion() {
-  setButtonsEnabled(true); 
-  statusText.innerText = "👉 〇 か ✕ を おしてね！";
-
-  if (questionDeck.length === 0) {
-    questionDeck = shuffle(currentWords);
-  }
-
-  const mustBeTrue = (consecutiveCount >= 3 && !lastTypeIsCorrect);
-  const mustBeFalse = (consecutiveCount >= 3 && lastTypeIsCorrect);
-
-  let excluded = new Set();
-  if (lastTargetWord) excluded.add(lastTargetWord);
-  if (mustBeTrue && lastSpokenMeaning) excluded.add(lastSpokenMeaning);
-
-  let candidates = [];
-  for (let i = 0; i < questionDeck.length; i++) {
-    if (!excluded.has(questionDeck[i].word)) {
-      candidates.push(i);
-    }
-  }
-  if (candidates.length === 0) {
-    for (let i = 0; i < questionDeck.length; i++) {
-      if (questionDeck[i].word !== lastTargetWord) {
-        candidates.push(i);
-      }
-    }
-  }
-  if (candidates.length === 0) candidates = [0];
-  
-  const chosenIdx = candidates[Math.floor(Math.random() * candidates.length)];
-  const targetWordObj = questionDeck.splice(chosenIdx, 1)[0];
-
-  let isCorrectPair;
-  if (mustBeTrue) {
-    isCorrectPair = (targetWordObj.meaning !== lastSpokenMeaning);
-  } else if (mustBeFalse) {
-    isCorrectPair = false;
-  } else if (targetWordObj.meaning === lastSpokenMeaning) {
-    isCorrectPair = false;
-  } else {
-    isCorrectPair = Math.random() < 0.5;
-  }
-
-  if (lastTypeIsCorrect === isCorrectPair) {
-    consecutiveCount++;
-  } else {
-    lastTypeIsCorrect = isCorrectPair;
-    consecutiveCount = 1;
-  }
-
-  let meaningContent;
-  if (isCorrectPair) {
-    meaningContent = targetWordObj;
-  } else {
-    let available = currentWords.filter(w => w.word !== targetWordObj.word && w.meaning !== lastSpokenMeaning);
-    if (available.length === 0) {
-      available = currentWords.filter(w => w.word !== targetWordObj.word);
-    }
-    meaningContent = available[Math.floor(Math.random() * available.length)];
-  }
-
-  lastTargetWord = targetWordObj.word;
-  lastSpokenMeaning = meaningContent.meaning;
-
-  currentQuestion = {
-    target: targetWordObj,
-    isCorrect: isCorrectPair,
-    meaning: meaningContent.meaning
-  };
-
-  wordText.innerText = targetWordObj.word;
-  phoneticText.innerText = targetWordObj.phonetic;
-  meaningText.innerText = meaningContent.meaning;
-
-  speakEnglish(targetWordObj.word);
-}
-
-function speakEnglish(text) {
-  if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel(); 
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'en-US';
-  utter.rate = 0.9;
-  window.speechSynthesis.speak(utter);
-}
-
-function checkAnswer(userChoice) {
-  if (!isAnswerable) return;
-  setButtonsEnabled(false); 
-
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel(); 
-  }
-
-  const isUserRight = (userChoice === currentQuestion.isCorrect);
-  if (isUserRight) {
-    statusText.innerText = "⭕ せいかい！ (Correct!)";
-    playSound('correct');
-  } else {
-    statusText.innerText = "❌ ざんねん！ (Wrong!)";
-    playSound('wrong');
-  }
-  setTimeout(nextQuestion, 800); 
-}
-</script>
-</body>
-</html>
