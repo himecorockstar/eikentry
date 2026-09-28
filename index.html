@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>himekorock1000 - 英検1級 〇✕クイズバトル</title>
+    <title>Eiken Grade 1 - Instant Memorization Battle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @keyframes shake {
@@ -16,40 +16,130 @@
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4">
 
-    <div class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 text-center">
-        <h1 class="text-xl font-bold text-sky-400 mb-1 tracking-wider">himekorock1000 〇✕クイズ</h1>
-        <div id="counter" class="text-xs text-slate-400 mb-4">英検1級 難関単語・熟語1000選 | スコア: <span id="score" class="text-emerald-400 font-bold">0</span></div>
+    <!-- MENU / COVER SCREEN -->
+    <div id="cover-screen" class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 text-center relative overflow-hidden ring-1 ring-slate-800">
+        <!-- Budo Company logo top-right -->
+        <div class="absolute top-4 right-4 flex items-center gap-1.5 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-700/60 shadow-md">
+            <img src="budousen.jpg" alt="Budo Company" class="w-4 h-4 rounded object-cover" onerror="this.style.display='none'">
+            <span class="text-[9px] font-bold text-indigo-300 tracking-wider">budocompany</span>
+        </div>
+
+        <h1 class="text-xl font-bold text-sky-400 mb-1 tracking-wide mt-2">Eiken Grade 1</h1>
+        <h2 class="text-lg font-bold text-sky-300 mb-3 tracking-wide">Instant Memorization Battle</h2>
         
-        <!-- メインのクイズカードパネル -->
-        <div class="bg-slate-900/80 border border-slate-700 rounded-xl p-6 mb-6 shadow-inner relative overflow-hidden">
-            <!-- フィードバック表示（ピンポン・ブーッ） -->
-            <div id="feedback-overlay" class="absolute inset-0 bg-slate-900/95 flex items-center justify-center text-3xl font-extrabold hidden z-10 transition-all"></div>
+        <!-- Portrait Image (Centered, Circular Frame with himekoro120.jpg) -->
+        <div class="my-3 relative flex flex-col items-center">
+            <div class="w-28 h-28 rounded-full overflow-hidden border-2 border-sky-400/80 shadow-2xl ring-4 ring-sky-500/20 mb-1">
+                <img src="himekoro120.jpg" alt="Himeko" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/150x150/1e293b/38bdf8?text=Himeko'">
+            </div>
+            <span class="text-xs font-medium text-slate-300 tracking-wider">himekoro</span>
+        </div>
 
-            <div class="text-xs text-sky-400 font-semibold mb-2">この単語の意味は正しいですか？</div>
-            <div id="word-display" class="text-3xl font-extrabold mb-3 tracking-wide text-white">-</div>
-            <div class="text-xs text-slate-400 mb-1">【提示されている意味】</div>
-            <div id="meaning-display" class="text-lg text-slate-200 font-medium mb-4 min-h-[3.5rem] flex items-center justify-center">-</div>
-            
-            <button onclick="speakWord()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-4 py-2 rounded-lg font-bold transition flex items-center justify-center mx-auto gap-1 shadow">
-                🔊 発音を聞く
+        <!-- Cumulative Record Summary -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3 mb-4 text-xs flex justify-around items-center shadow-inner">
+            <div>
+                <span class="text-slate-400 block text-[10px]">Total Score</span>
+                <span id="total-score" class="text-emerald-400 font-extrabold text-base">0</span>
+            </div>
+            <div class="h-6 w-px bg-slate-800"></div>
+            <div>
+                <span class="text-slate-400 block text-[10px]">Total Time</span>
+                <span id="total-time" class="text-sky-400 font-extrabold text-base">0s</span>
+            </div>
+            <div class="h-6 w-px bg-slate-800"></div>
+            <div>
+                <button onclick="clearStats()" class="bg-rose-950/60 hover:bg-rose-900 text-rose-300 text-[10px] px-2.5 py-1 rounded-lg font-bold border border-rose-800/50 transition">Clear Data</button>
+            </div>
+        </div>
+
+        <!-- Level Selection Menu -->
+        <div class="space-y-2 mb-4">
+            <div class="text-xs font-semibold text-sky-400 mb-1 text-left px-1">Select Difficulty Level:</div>
+            <button onclick="startGame(1)" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold py-2.5 px-4 rounded-xl text-sm flex justify-between items-center transition shadow">
+                <span>Level 1 (Words 1 - 250)</span>
+                <span class="text-xs text-emerald-400 bg-slate-900 px-2 py-0.5 rounded-md" id="stat-1">Score: 0</span>
+            </button>
+            <button onclick="startGame(2)" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold py-2.5 px-4 rounded-xl text-sm flex justify-between items-center transition shadow">
+                <span>Level 2 (Words 251 - 500)</span>
+                <span class="text-xs text-emerald-400 bg-slate-900 px-2 py-0.5 rounded-md" id="stat-2">Score: 0</span>
+            </button>
+            <button onclick="startGame(3)" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold py-2.5 px-4 rounded-xl text-sm flex justify-between items-center transition shadow">
+                <span>Level 3 (Words 501 - 750)</span>
+                <span class="text-xs text-emerald-400 bg-slate-900 px-2 py-0.5 rounded-md" id="stat-3">Score: 0</span>
+            </button>
+            <button onclick="startGame(4)" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold py-2.5 px-4 rounded-xl text-sm flex justify-between items-center transition shadow">
+                <span>Level 4 (Words 751 - 1000)</span>
+                <span class="text-xs text-emerald-400 bg-slate-900 px-2 py-0.5 rounded-md" id="stat-4">Score: 0</span>
             </button>
         </div>
 
-        <!-- 〇✕ ボタンエリア -->
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="answer(true)" class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white py-4 rounded-xl text-2xl font-black shadow-lg shadow-emerald-900/30 transition">
-                〇 正しい
+        <!-- Description Box -->
+        <div class="bg-slate-900/95 border border-slate-800 rounded-2xl p-3 text-left text-[11px] text-slate-300 space-y-2 leading-relaxed shadow-inner">
+            <p><strong class="text-sky-400">How to Play:</strong> Judge whether the displayed Japanese meaning matches the spoken English word using <strong>✓ Correct</strong> or <strong>✕ Incorrect</strong>.</p>
+            <p class="text-[10px] text-slate-400 italic pt-1 border-t border-slate-800/80">Designed specially for Himeko by Budousen Senior.</p>
+        </div>
+    </div>
+
+    <!-- QUIZ SCREEN (Hidden initially) -->
+    <div id="quiz-screen" class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 text-center hidden relative ring-1 ring-slate-800">
+        <div class="flex justify-between items-center mb-3">
+            <button onclick="backToCover()" class="text-xs text-slate-400 hover:text-white bg-slate-800 px-3 py-1.5 rounded-lg transition font-bold">← Menu</button>
+            <div class="flex items-center gap-1.5 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-700/60 shadow-md">
+                <img src="budousen.jpg" alt="Budo Company" class="w-4 h-4 rounded object-cover" onerror="this.style.display='none'">
+                <span class="text-[9px] font-bold text-indigo-300">budocompany</span>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-start mb-2 px-1">
+            <h2 id="level-title" class="text-xs font-bold text-sky-400 tracking-wider">Level X</h2>
+            
+            <!-- Timer & Clear Timer Button Area -->
+            <div class="flex flex-col items-end gap-1">
+                <div class="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 text-xs font-mono text-amber-400 shadow">
+                    ⏱ <span id="timer-display">00:00</span>
+                </div>
+                <button onclick="resetCurrentTimer()" class="bg-rose-950/80 hover:bg-rose-900 text-rose-300 text-[9px] px-2.5 py-1 rounded border border-rose-800/50 transition font-bold shadow">
+                    Reset Timer
+                </button>
+            </div>
+        </div>
+        
+        <div id="counter" class="text-xs text-slate-400 mb-4">Score in this session: <span id="session-score" class="text-emerald-400 font-bold">0</span></div>
+        
+        <!-- Main Quiz Card Panel -->
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 mb-6 shadow-inner relative overflow-hidden">
+            <!-- Feedback Overlay (Ping-pong / Boo) -->
+            <div id="feedback-overlay" class="absolute inset-0 bg-slate-950/95 flex items-center justify-center text-3xl font-extrabold hidden z-10 transition-all"></div>
+
+            <div class="text-xs text-sky-400 font-semibold mb-1">Does this Japanese meaning match the spoken word?</div>
+            <div class="text-[11px] text-slate-400 mb-2">[Audio Spoken English Word]</div>
+            
+            <!-- Spoken English Word Spelling Display -->
+            <div id="word-display" class="text-3xl font-extrabold mb-3 tracking-wide text-white">-</div>
+            
+            <div class="text-xs text-slate-400 mb-1">[Displayed Japanese Meaning]</div>
+            <div id="meaning-display" class="text-base text-slate-200 font-medium mb-4 min-h-[3.5rem] flex items-center justify-center leading-snug">-</div>
+            
+            <button onclick="speakWord()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-4 py-2 rounded-xl font-bold transition flex items-center justify-center mx-auto gap-1.5 shadow">
+                🔊 Listen Pronunciation
             </button>
-            <button onclick="answer(false)" class="bg-rose-600 hover:bg-rose-500 active:scale-95 text-white py-4 rounded-xl text-2xl font-black shadow-lg shadow-rose-900/30 transition">
-                ✕ 違う
+        </div>
+
+        <!-- ◯ ✕ Button Area -->
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="answer(true)" class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white py-4 rounded-2xl text-xl font-black shadow-lg shadow-emerald-900/30 transition">
+                ✓ Correct
+            </button>
+            <button onclick="answer(false)" class="bg-rose-600 hover:bg-rose-500 active:scale-95 text-white py-4 rounded-2xl text-xl font-black shadow-lg shadow-rose-900/30 transition">
+                ✕ Incorrect
             </button>
         </div>
     </div>
 
     <script>
-        // 英検1級 超難関単語900語＋難関熟語100選（全1000語データ完全内蔵版）
+        // Eiken Grade 1 1000 Words & Idioms Complete Data
         const himekorock1000 = [
             { id: 1, word: "abate", meaning: "(勢い・苦痛などが)和らぐ、衰える" },
             { id: 2, word: "abdicate", meaning: "退位する、(権利・責任を)放棄する" },
@@ -1053,10 +1143,62 @@
             { id: 1000, word: "zenith", meaning: "頂点、絶頂" }
         ];
 
+        let currentLevel = 1;
+        let currentPool = [];
         let currentIndex = 0;
-        let score = 0;
+        let sessionScore = 0;
         let isCorrectMeaning = true;
         let answered = false;
+        let timerInterval = null;
+        let secondsElapsed = 0;
+
+        function getSavedStats() {
+            let stats = localStorage.getItem('himeko_eiken_stats_v3');
+            if (!stats) {
+                stats = { scores: {1:0, 2:0, 3:0, 4:0}, times: {1:0, 2:0, 3:0, 4:0} };
+                localStorage.setItem('himeko_eiken_stats_v3', JSON.stringify(stats));
+            } else {
+                stats = JSON.parse(stats);
+            }
+            return stats;
+        }
+
+        function saveStats(level, scoreInc, timeInc) {
+            let stats = getSavedStats();
+            stats.scores[level] = (stats.scores[level] || 0) + scoreInc;
+            stats.times[level] = (stats.times[level] || 0) + timeInc;
+            localStorage.setItem('himeko_eiken_stats_v3', JSON.stringify(stats));
+            updateMenuStats();
+        }
+
+        function updateMenuStats() {
+            let stats = getSavedStats();
+            let totalS = 0;
+            let totalT = 0;
+            for (let i = 1; i <= 4; i++) {
+                let s = stats.scores[i] || 0;
+                let t = stats.times[i] || 0;
+                totalS += s;
+                totalT += t;
+                document.getElementById(`stat-${i}`).innerText = `Score: ${s}`;
+            }
+            document.getElementById('total-score').innerText = totalS;
+            document.getElementById('total-time').innerText = formatTime(totalT);
+        }
+
+        function clearStats() {
+            if(confirm("Are you sure you want to reset all accumulated scores and times?")) {
+                localStorage.removeItem('himeko_eiken_stats_v3');
+                updateMenuStats();
+            }
+        }
+
+        function formatTime(totalSecs) {
+            let m = Math.floor(totalSecs / 60);
+            let s = totalSecs % 60;
+            if (m > 0) return `${m}m ${s}s`;
+            return `${s}s`;
+        }
 
         let audioUnlocked = false;
         function unlockAudio() {
@@ -1067,15 +1209,60 @@
             }
         }
 
-        function nextQuestion() {
+        function startGame(level) {
             unlockAudio();
+            currentLevel = level;
+            sessionScore = 0;
+            secondsElapsed = 0;
+            
+            let startIdx = (level - 1) * 250;
+            let endIdx = level * 250;
+            currentPool = himekorock1000.slice(startIdx, endIdx);
+
+            document.getElementById('cover-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('level-title').innerText = `Level ${level} (Words ${startIdx+1} - ${endIdx})`;
+            document.getElementById('session-score').innerText = sessionScore;
+
+            if(timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                let m = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+                let s = String(secondsElapsed % 60).padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${m}:${s}`;
+            }, 1000);
+
+            nextQuestion();
+        }
+
+        function backToCover() {
+            if(timerInterval) clearInterval(timerInterval);
+            saveStats(currentLevel, 0, secondsElapsed);
+
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('cover-screen').classList.remove('hidden');
+            updateMenuStats();
+        }
+
+        function resetCurrentTimer() {
+            if(confirm("Do you want to reset the timer for this level?")) {
+                let stats = getSavedStats();
+                stats.times[currentLevel] = 0;
+                localStorage.setItem('himeko_eiken_stats_v3', JSON.stringify(stats));
+                secondsElapsed = 0;
+                document.getElementById('timer-display').innerText = "00:00";
+                updateMenuStats();
+            }
+        }
+
+        function nextQuestion() {
             answered = false;
             const overlay = document.getElementById('feedback-overlay');
             overlay.classList.add('hidden');
             overlay.innerText = "";
 
-            currentIndex = Math.floor(Math.random() * himekorock1000.length);
-            const currentItem = himekorock1000[currentIndex];
+            currentIndex = Math.floor(Math.random() * currentPool.length);
+            const currentItem = currentPool[currentIndex];
 
             isCorrectMeaning = Math.random() < 0.5;
             let displayMeaning = currentItem.meaning;
@@ -1083,14 +1270,16 @@
             if (!isCorrectMeaning) {
                 let randomIdx;
                 do {
-                    randomIdx = Math.floor(Math.random() * himekorock1000.length);
+                    randomIdx = Math.floor(Math.random() * currentPool.length);
                 } while (randomIdx === currentIndex);
-                displayMeaning = himekorock1000[randomIdx].meaning;
+                displayMeaning = currentPool[randomIdx].meaning;
             }
 
+            // 英単語スペルを大きく表示（音声と完全一致）
             document.getElementById('word-display').innerText = currentItem.word;
+            // 意味は日本語で表示
             document.getElementById('meaning-display').innerText = displayMeaning;
-            document.getElementById('counter').innerHTML = `英検1級 難関単語・熟語1000選 | スコア: <span id="score" class="text-emerald-400 font-bold">${score}</span>`;
+            document.getElementById('session-score').innerText = sessionScore;
 
             speakWord();
         }
@@ -1103,19 +1292,20 @@
             overlay.classList.remove('hidden');
 
             if (userSaysYes === isCorrectMeaning) {
-                score++;
-                overlay.innerText = "⭕ ピンポン！";
+                sessionScore++;
+                saveStats(currentLevel, 1, 0);
+                overlay.innerText = "✓ 正解！";
                 overlay.className = "absolute inset-0 bg-emerald-950/95 flex items-center justify-center text-4xl font-extrabold text-emerald-400 z-10 animate-pulse";
                 playSoundEffect(true);
             } else {
-                overlay.innerText = "❌ ブーッ！";
+                overlay.innerText = "✕ 不正解！";
                 overlay.className = "absolute inset-0 bg-rose-950/95 flex items-center justify-center text-4xl font-extrabold text-rose-400 z-10 animate-shake";
                 playSoundEffect(false);
             }
 
             setTimeout(() => {
                 nextQuestion();
-            }, 1100);
+            }, 900);
         }
 
         function playSoundEffect(isSuccess) {
@@ -1130,34 +1320,33 @@
                     osc.frequency.setValueAtTime(587.33, ctx.currentTime);
                     osc.frequency.setValueAtTime(880, ctx.currentTime + 0.15);
                     gain.gain.setValueAtTime(0.3, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
                     osc.start();
-                    osc.stop(ctx.currentTime + 0.4);
+                    osc.stop(ctx.currentTime + 0.35);
                 } else {
                     osc.type = 'sawtooth';
                     osc.frequency.setValueAtTime(130.81, ctx.currentTime);
                     osc.frequency.setValueAtTime(110.0, ctx.currentTime + 0.15);
                     gain.gain.setValueAtTime(0.4, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
                     osc.start();
-                    osc.stop(ctx.currentTime + 0.5);
+                    osc.stop(ctx.currentTime + 0.4);
                 }
             } catch(e) {}
         }
 
         function speakWord() {
             unlockAudio();
-            const text = himekorock1000[currentIndex].word;
+            const text = currentPool[currentIndex].word;
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'en-US';
             window.speechSynthesis.speak(utterance);
         }
 
         window.onload = function() {
-            nextQuestion();
+            updateMenuStats();
         };
     </script>
 </body>
 </html>
 ```eof
-
